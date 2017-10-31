@@ -1,0 +1,9 @@
+{
+    "new_greeting": [ "Hi {{ UserName }}, Welcome to Operation Code! I'm a bot designed to help answer questions and get you on your way in our community.", 
+                        "Please take a moment to review our Code of Conduct: https://op.co.de/code-of-conduct Our goal here at Operation Code is to get veterans and their families started on the path to a career in programming. We do that through providing you with scholarships, mentoring, career development opportunities, conference tickets, and more!", 
+                        "You're currently in Slack, a chat application that serves as the hub of Operation Code.",
+                        "If you're currently visiting us via your browser, Slack provides a stand alone program to make staying in touch even more convenient. You can download it here: https://slack.com/downloads",
+                        "Below you'll see a list of topics. You can click on each topic to get more info. If you want to see the topics again just reply to me with any message.",
+                        "Want to make your first change to a program right now? Click on the 'OpCode Challenge' button to get instructions on how to make a change to this very bot!" 
+                    ]
+}
