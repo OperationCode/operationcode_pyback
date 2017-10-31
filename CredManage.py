@@ -9,7 +9,7 @@ import json
     1. Exception I/O handling (missing file, file in use, incorrect file name).
     2. Automatically add the new credential file (if not already in .gitignore). 
     3. Prevent user from saving credentials to "credsFake.json"  This is reserved for example
-    
+
 '''
 class CredentialManager:
     default_creds = 'credentials.json' # default cred file name
@@ -31,10 +31,11 @@ class CredentialManager:
   
 if __name__ == '__main__':
 
-    '''credentials = {'access_secret': '392n39d93',
-           'access_token': 'sdf424f',
-           'consumer_key': 'sdf3223',
-           'consumer_secret': 'dsf2344'}  '''
+    '''credentials = {
+            'client_id': '392n39d93',
+            'client_secret': 'sdf424f',
+            'token': 'sdf3223'
+            }  '''
            
     # CredentialManager().write_creds_dict(credentials)
     # CredentialManager().get_creds_dict()
