@@ -7,6 +7,9 @@ import json
     
     Desired:
     1. Exception I/O handling (missing file, file in use, incorrect file name).
+    2. Automatically add the new credential file (if not already in .gitignore). 
+    3. Prevent user from saving credentials to "credsFake.json"  This is reserved for example
+    
 '''
 class CredentialManager:
     default_creds = 'credentials.json' # default cred file name
