@@ -11,7 +11,7 @@ import json
     3. Prevent user from saving credentials to "credsFake.json"  This is reserved for example
 
 '''
-class CredentialManager:
+class CredManager:
     default_creds = 'credentials.json' # default cred file name
         
     def get_creds_dict(self, cred_file_name=None): # if other credential file name we load that file

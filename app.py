@@ -13,33 +13,29 @@ slack = pyBot.client
 app = Flask(__name__)
 
 
+
+'''
+Helper functiont o handle slack events
+input: event_type: str  
+input: slack_event: dict   json response from slack
+output: Response object with 200: okay, or 500 no event handler error
+'''
 def _event_handler(event_type, slack_event):
-    """
-    A helper function that routes events from Slack to our Bot
-    by event type and subtype.
-
-    Parameters
-    ----------
-    event_type : str
-        type of event recieved from Slack
-    slack_event : dict
-        JSON response from a Slack reaction event
-
-    Returns
-    ----------
-    obj
-        Response object with 200 - ok or 500 - No Event Handler error
-
-    """
-    team_id = slack_event["team_id"]
-    # ================ Team Join Events =============== #
-    # When the user first joins a team, the type of event will be team_join
+    
+    team_id = slack_event["team_id"]  
+    
+    # event when member first joins channel
+    
     if event_type == "team_join":
+        print('new join for opcode')
+        print(slack_event)
+        '''
         user_id = slack_event["event"]["user"]["id"]
         # Send the onboarding message
         pyBot.onboarding_message(team_id, user_id)
+        '''
         return make_response("Welcome Message Sent", 200,)
-
+        
 
     
 @app.route("/install", methods=["GET"])
