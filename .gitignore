@@ -3,6 +3,8 @@
 credentials.json
 creds.py
 
+# remove pycharm ide files
+.idea/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
