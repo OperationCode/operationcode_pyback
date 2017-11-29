@@ -13,13 +13,14 @@ import json
 '''
 class CredManager:
     default_creds = 'credentials.json' # default cred file name
-        
+    
     def get_creds_dict(self, cred_file_name=None): # if other credential file name we load that file
         if cred_file_name is None:
             cred_file_name = self.default_creds  
         
-        with open(cred_file_name, 'r') as creds:
+        with open(cred_file_name) as creds:
             return json.load(creds)
+            
            
 
     def write_creds_dict(self, cred_dict, cred_file_name=None):

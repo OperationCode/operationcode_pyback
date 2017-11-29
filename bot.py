@@ -1,13 +1,12 @@
-# -*- coding: utf-8 -*-
-"""
-Python Slack Bot class for use with the pythOnBoarding app
-"""
-import os
-import message
+'''
+Main bot routing
+
+
+'''
+
+from message import PrivateMessage
 from slackclient import SlackClient
-
-
-import CredManager
+from CredManager import CredManager
 
 
 
@@ -17,14 +16,15 @@ authed_teams = {'T03GSNF5H' : None}  # location to store the Oauth token during 
 #   team_id: 'T03GSNF5H'
 
 class Bot(object):
-    """ Instanciates a Bot object to handle Slack onboarding interactions."""
+    ''' Instances a Bot object to handle Slack onboarding interactions.'''
     def __init__(self, cred_call_name=None):
         super(Bot, self).__init__()
         self.name = 'OP Code Greet Bot'
         self.emoji = ':robot_face:'
         
         # access cred manager
-        self.oauth = CredManager().get_creds_dict(cred_file_name=cred_call_name)        
+        self.oauth = CredManager().get_creds_dict(cred_file_name=cred_call_name)      
+        
         self.oauth['scope'] = 'bot'   # most limited permissions-
         
         
@@ -58,13 +58,12 @@ class Bot(object):
         # update client witht his team id token
         self.client = SlackClient(authed_teams[team_id]["bot_token"])
     
-    """
+    '''
     Open a DM
     input- user_id: str
     output (dm channel) - dm_id: str
-    """
+    '''
     def open_dm(self, user_id):
-
         new_dm = self.client.api_call("im.open",
                                       user=user_id)
         dm_id = new_dm["channel"]["id"]
@@ -82,18 +81,14 @@ class Bot(object):
         message_obj = PrivateMessage('team_join', replace_dict)
         
         self.messages[user_id] = message_obj
-
         message_obj.channel = self.open_dm(user_id)
         
         post_message = self.client.api_call("chat.postMessage",
                                             channel=message_obj.channel,
                                             username=self.name,
                                             icon_emoji=self.emoji,
-                                            text=message_obj.text,
-                                            text=message_obj.text,
+                                            text=message_obj.text                                            
                                             )
         timestamp = post_message["ts"]
 
         message_obj.timestamp = timestamp
-  
-    

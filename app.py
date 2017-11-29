@@ -4,15 +4,10 @@ A routing layer for the onboarding bot tutorial built using
 [Slack's Events API](https://api.slack.com/events-api) in Python
 """
 import json
-import bot
+from bot import Bot
 from flask import Flask, request, make_response, render_template
 
-pyBot = bot.Bot()
-slack = pyBot.client
-
 app = Flask(__name__)
-
-
 
 '''
 Helper functiont o handle slack events
@@ -21,9 +16,7 @@ input: slack_event: dict   json response from slack
 output: Response object with 200: okay, or 500 no event handler error
 '''
 def _event_handler(event_type, slack_event):
-    
-    team_id = slack_event["team_id"]  
-    
+    team_id = slack_event["team_id"]
     # event when member first joins channel
     
     if event_type == "team_join":
@@ -80,6 +73,8 @@ def hears():
     # sends back.
     #       For more info: https://api.slack.com/events/url_verification
     if "challenge" in slack_event:
+        print('challenge')
+        print(slack_event)
         return make_response(slack_event["challenge"], 200, {"content_type":
                                                              "application/json"
                                                              })
@@ -88,6 +83,8 @@ def hears():
     # We can verify the request is coming from Slack by checking that the
     # verification token in the request matches our app's settings
     if pyBot.verification != slack_event.get("token"):
+
+        print('bad verification token')
         message = "Invalid Slack verification token: %s \npyBot has: \
                    %s\n\n" % (slack_event["token"], pyBot.verification)
         # By adding "X-Slack-No-Retry" : 1 to our response headers, we turn off
@@ -97,6 +94,8 @@ def hears():
     # ====== Process Incoming Events from Slack ======= #
     # If the incoming request is an Event we've subcribed to
     if "event" in slack_event:
+        print('event')
+        print(slack_event)
         event_type = slack_event["event"]["type"]
         # Then handle the event by event_type and have your bot respond
         return _event_handler(event_type, slack_event)
@@ -107,4 +106,6 @@ def hears():
 
 
 if __name__ == '__main__':
+    pyBot = Bot(cred_call_name='cred2.json')
+    slack = pyBot.client
     app.run(debug=True)
