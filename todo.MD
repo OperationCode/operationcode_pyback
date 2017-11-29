@@ -1,8 +1,10 @@
 
+
 ## Authentication:
+
 1. Transition to use the slack python framework
 2. Incorporate OAuth permissions instead of inputting from the bot api 
- 
+
 ## Messages:
 1. Build logging method to only track the greet messages (logging.greet)
 2. Better template that incorporates whatever #oc-projects would like
