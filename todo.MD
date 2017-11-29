@@ -13,4 +13,5 @@
 1. Currently only running locally, discussion on how to continually run it where hosted.
 
 ## Unit Tests:
-1. I really want to add some unit tests, for this some of the things were really frustrating to deal with and I'd like to make sure I have the right functionality. 
+1. Implement test framework 
+2. Mock up API calls
