@@ -1,6 +1,7 @@
 # Credentials #
 ###############
 credentials.json
+creds.py
 
 
 # Byte-compiled / optimized / DLL files
