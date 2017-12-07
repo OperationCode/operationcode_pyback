@@ -1,11 +1,13 @@
-import websocket
 import json
-import requests
-from urllib3 import disable_warnings, exceptions  # allow to disable InsecureRequestWarning, not sure if needed
-from urllib.parse import quote  # replace special characters with web safe ones. ???
 import logging
-from .log_manager import setup_logging
+from urllib.parse import quote  # replace special characters with web safe ones. ???
+
+import requests
+import websocket
+from urllib3 import disable_warnings, exceptions  # allow to disable InsecureRequestWarning, not sure if needed
+
 from .creds import TOKEN  # locally saved file "creds.py" this is added to .gitignore
+from .log_manager import setup_logging
 
 logger = logging.getLogger(__name__)
 
@@ -14,8 +16,9 @@ disable_warnings(exceptions.InsecureRequestWarning)
 
 MESSAGE = 'Hi there {real_name}, welcome to Operation Code!'
 UNFURL = False
-# https://test-op-code.slack.com/services/B86CT5GQH?added=1
 
+
+# https://test-op-code.slack.com/services/B86CT5GQH?added=1
 
 
 def build_message(token=None,
@@ -37,7 +40,7 @@ def build_message(token=None,
 
 def parse_new_member(json_message,
                      message=None
-                    ):
+                     ):
     user_request_url = ('https://slack.com/api/im.open?token='
                         f'{TOKEN}'
                         f'&user={json_message["user"]["id"]}'
@@ -56,7 +59,6 @@ def parse_new_member(json_message,
     logging.info(response_posted)
 
 
-
 # Connects to Slack and initiates socket handshake
 def start_rtm():
     get_response = requests.get(f'https://slack.com/api/rtm.start?token={TOKEN}',
@@ -69,6 +71,7 @@ def start_rtm():
         logging.debug('Good auth response')
         return response_url
     logging.debug('Bad Auth')
+
 
 def on_message(ws, message):
     # logger.info(message)
@@ -83,7 +86,8 @@ def on_message(ws, message):
         parse_new_member(json_message,
                          message=custom_message
                          )
-    # logging.info('Equality of type: {}'.format(json_message['type'] == "team_join"))
+        # logging.info('Equality of type: {}'.format(json_message['type'] == "team_join"))
+
 
 def on_error(ws, error):
     logger.error(f'SOME ERROR HAS HAPPENED: {error}')
@@ -92,8 +96,10 @@ def on_error(ws, error):
 def on_close(ws):
     logger.info('Connection Closed')
 
+
 def on_open(ws):
     logger.debug('Connection Started - Auto Greeting new joiners to the network')
+
 
 def run_bot():
     setup_logging()
@@ -105,6 +111,7 @@ def run_bot():
                                         )
     # ws.on_open
     web_socket.run_forever()
+
 
 if __name__ == '__main__':
     run_bot()
