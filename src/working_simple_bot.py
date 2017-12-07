@@ -4,8 +4,8 @@ import requests
 from urllib3 import disable_warnings, exceptions  # allow to disable InsecureRequestWarning, not sure if needed
 from urllib.parse import quote  # replace special characters with web safe ones. ???
 import logging
-from log_manager import setup_logging
-from creds import TOKEN  # locally saved file "creds.py" this is added to .gitignore
+from .log_manager import setup_logging
+from .creds import TOKEN  # locally saved file "creds.py" this is added to .gitignore
 
 logger = logging.getLogger(__name__)
 
