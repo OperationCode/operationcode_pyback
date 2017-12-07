@@ -4,13 +4,12 @@ Main bot routing
 
 '''
 
-from message import PrivateMessage
 from slackclient import SlackClient
-from CredManager import CredManager
 
+from API_method.CredManager import CredManager
+from API_method.message import PrivateMessage
 
-
-authed_teams = {'T03GSNF5H' : None}  # location to store the Oauth token during a session. 
+authed_teams = {'T03GSNF5H' : None}  # location to store the Oauth token during a session.
 
 # 	user_id: 'U4K0GHV54',
 #   team_id: 'T03GSNF5H'
