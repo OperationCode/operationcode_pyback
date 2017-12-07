@@ -44,10 +44,10 @@ Due to the [PEP 404](https://www.python.org/dev/peps/pep-0404/) announcement sup
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/OperationCode/operation_code_pybot. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct. If you wish to assist, join the \#new-team-rewrite channel to gain API credentials. 
+Bug reports and pull requests are welcome on [Github](https://github.com/OperationCode/operation_code_pybot). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct. If you wish to assist, join the [\#new-team-rewrite](https://operation-code.slack.com/messages/C7NJLCCMB/) rewrite to learn how to contribute. 
 
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+This package is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 

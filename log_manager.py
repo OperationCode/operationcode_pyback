@@ -5,7 +5,7 @@ import logging.config
 
 # https://fangpenlin.com/posts/2012/08/26/good-logging-practice-in-python/
 def setup_logging(
-    default_path='logging.json',
+    default_path='log_config.json',
     default_level=logging.INFO,
     env_key='LOG_CFG'
     ):
