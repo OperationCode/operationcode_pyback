@@ -1,6 +1,5 @@
-from src.working_simple_bot import main
-
+from src.working_simple_bot import run_bot
 
 
 if __name__ == '__main__':
-    main()
+    run_bot()
