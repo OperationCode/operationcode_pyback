@@ -95,8 +95,7 @@ def on_close(ws):
 def on_open(ws):
     logger.debug('Connection Started - Auto Greeting new joiners to the network')
 
-
-if __name__ == '__main__':
+def run_bot():
     setup_logging()
     url_response = start_rtm()
     web_socket = websocket.WebSocketApp(url_response,
@@ -106,3 +105,6 @@ if __name__ == '__main__':
                                         )
     # ws.on_open
     web_socket.run_forever()
+
+if __name__ == '__main__':
+    run_bot()
