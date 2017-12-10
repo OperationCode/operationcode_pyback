@@ -8,13 +8,14 @@ from urllib3 import disable_warnings, exceptions  # allow to disable InsecureReq
 
 from .creds import TOKEN  # locally saved file "creds.py" this is added to .gitignore
 from .log_manager import setup_logging
+from .message import new_join
 
 logger = logging.getLogger(__name__)
 
 # Suppress InsecureRequestWarning
 disable_warnings(exceptions.InsecureRequestWarning)
 
-MESSAGE = 'Hi there {real_name}, welcome to Operation Code!'
+
 UNFURL = False
 
 
@@ -55,8 +56,9 @@ def parse_new_member(json_message,
                                   message=message,
                                   channel_id=channel_id
                                   )
-    response_posted = requests.post(built_message)
-    logging.info(response_posted)
+    # response_posted = requests.post(built_message)
+    # logging.info(response_posted)
+    logging.info(built_message)
 
 
 # Connects to Slack and initiates socket handshake
@@ -73,7 +75,7 @@ def start_rtm():
     logging.debug('Bad Auth')
 
 
-def on_message(ws, message):
+def on_message(_, message):
     # logger.info(message)
     json_message = json.loads(message)
     logger.info(json_message)
@@ -82,22 +84,22 @@ def on_message(ws, message):
     if json_message['type'] == "team_join":
         user_name = json_message['user']['real_name']
         logging.info('team_join message')
-        custom_message = MESSAGE.format(real_name=user_name)
+        custom_message = new_join.format(real_name=user_name)
         parse_new_member(json_message,
                          message=custom_message
                          )
         # logging.info('Equality of type: {}'.format(json_message['type'] == "team_join"))
 
 
-def on_error(ws, error):
+def on_error(_, error):
     logger.error(f'SOME ERROR HAS HAPPENED: {error}')
 
 
-def on_close(ws):
+def on_close(_):
     logger.info('Connection Closed')
 
 
-def on_open(ws):
+def on_open(_):
     logger.debug('Connection Started - Auto Greeting new joiners to the network')
 
 
