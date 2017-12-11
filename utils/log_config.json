@@ -24,6 +24,15 @@
           "backupCount": 20,
           "encoding": "utf8"
       },
+      "new_member_handler": {
+          "class": "logging.handlers.RotatingFileHandler",
+          "level": "INFO",
+          "formatter": "simple",
+          "filename": "member.log",
+          "maxBytes": 10485760,
+          "backupCount": 20,
+          "encoding": "utf8"
+      },
 
       "error_file_handler": {
           "class": "logging.handlers.RotatingFileHandler",
@@ -34,19 +43,23 @@
           "backupCount": 20,
           "encoding": "utf8"
       }
-
   },
 
   "loggers": {
       "my_module": {
-          "level": "ERROR",
-          "handlers": ["console"],
+          "level": "INFO",
+          "handlers": ["info_file_handler"],
+          "propagate": "no"
+      },
+      "my_module.new_member": {
+          "level": "INFO",
+          "handlers": ["new_member_handler"],
           "propagate": "no"
       }
   },
 
   "root": {
       "level": "INFO",
-      "handlers": ["console", "info_file_handler", "error_file_handler"]
+      "handlers": ["console", "info_file_handler", "new_member_handler", "error_file_handler"]
   }
 }
