@@ -33,7 +33,7 @@ def event_handler(event_dict):
         new_event_logger.info('New member event recieved')
         new_member(event_dict)
     if event_dict['type'] == 'message' and 'user' in event_dict.keys():
-        pass
+        logger.info('Message event')
 
 
 def new_member(event_dict):
