@@ -22,6 +22,7 @@ MESSAGE = (
     "All active Operation Code Projects are located on our source control repository. "
     "Our projects can be viewed on <https://github.com/OperationCode/START_HERE|Github.>")
 
+PROXY = PROXY if PROXY else None
 slack_client = SlackClient(TOKEN, proxies=PROXY)
 
 
