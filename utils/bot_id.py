@@ -1,7 +1,7 @@
 import os
 
 from slackclient import SlackClient
-from API_method.creds import TOKEN
+from archived.creds import TOKEN
 
 BOT_NAME = 'testopcode'
 
