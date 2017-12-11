@@ -1,6 +1,7 @@
 from testfixtures import LogCapture
 import unittest
 import mock
+import logging
 
 from src import app
 from .test_data import *
@@ -60,9 +61,9 @@ class UserNameTestCase(unittest.TestCase):
 
 @mock.patch('src.app.user_name_from_id', return_value='bob')
 @mock.patch('src.app.build_message', return_value=MESSAGE)
-@mock.patch('src.app.slack_client')
 class NewMemberTestCase(unittest.TestCase):
 
+    @mock.patch('src.app.slack_client.api_call', return_value={'ok': 'true', 'info': 'stuff goes here'})
     def test_event_logged(self, mock_client, mock_builder, mock_username_from_id):
         """
         Asserts messages are being logged properly when new_member is called
@@ -73,9 +74,11 @@ class NewMemberTestCase(unittest.TestCase):
                 ('src.app.new_member', 'INFO', 'Recieved json event: {}'.format(NEW_MEMBER)),
                 ('root', 'INFO', 'team_join message'),
                 ('src.app.new_member', 'INFO', 'Built message: {}'.format(NEW_MEMBER)),
-                ('src.app.new_member', 'INFO', 'New Member Slack response: {}'.format(NEW_MEMBER))
+                ('src.app.new_member', 'INFO',
+                 'New Member Slack response: {}'.format({'ok': 'true', 'info': 'stuff goes here'}))
             )
 
+    @mock.patch('src.app.slack_client')
     def test_slack_client_called_with_correct_params(self, mock_client, mock_builder, mock_unfi):
         """
         Asserts new_member calls the client api with correct params.
@@ -84,3 +87,25 @@ class NewMemberTestCase(unittest.TestCase):
         mock_client.api_call.assert_called_with('chat.postMessage',
                                                 channel=NEW_MEMBER['user']['id'],
                                                 text=MESSAGE, as_user=True)
+
+    #
+    @mock.patch('src.app.slack_client.api_call', return_value={'ok': 'false', 'info': 'stuff goes here'})
+    def test_slack_client_returns_error(self, mock_builder, mock_unfi, mock_client):
+        """
+        Asserts an ERROR is logged when messaging a new member fails
+        """
+        with LogCapture(level=logging.ERROR) as capture:
+            app.new_member(USER_INFO_HAS_REAL_NAME)
+            capture.check(
+                ('src.app.new_member', 'ERROR',
+                 "FAILED -- Message to new member returned error: {'ok': 'false', 'info': 'stuff goes here'}"))
+
+
+class BuildMessageTestCase(unittest.TestCase):
+
+    def test_build_message(self):
+        """
+        Asserts build_message function correctly formats message.
+        """
+        message = app.build_message(MESSAGE, real_name='Bob')
+        self.assertEquals(message, MESSAGE.format(real_name='Bob'))

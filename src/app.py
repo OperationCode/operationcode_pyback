@@ -7,7 +7,6 @@ from archived.creds import TOKEN
 logger = logging.getLogger(__name__)
 new_event_logger = logging.getLogger(f'{__name__}.new_member')
 
-
 # constants
 MESSAGE = (
     "Hi {real_name},\n\n Welcome to Operation Code! I'm a bot designed to help answer questions and get you on your way in our community.\n\n"
@@ -33,7 +32,6 @@ def event_handler(event_dict):
         new_event_logger.info('New member event recieved')
         new_member(event_dict)
     if event_dict['type'] == 'message' and 'user' in event_dict.keys():
-
         # Will need to be removed.  Currently for testing
         logger.info('Message event')
 
@@ -49,12 +47,15 @@ def new_member(event_dict):
                                    real_name=user_name_from_id(user_id))
 
     new_event_logger.info('Built message: {}'.format(event_dict))
-    slack_client.api_call('chat.postMessage',
-                          channel=user_id,
-                          text=custom_message,
-                          as_user=True)
+    response = slack_client.api_call('chat.postMessage',
+                                     channel=user_id,
+                                     text=custom_message,
+                                     as_user=True)
 
-    new_event_logger.info('New Member Slack response: {}'.format(event_dict))
+    if response['ok'] == 'true':
+        new_event_logger.info('New Member Slack response: {}'.format(response))
+    else:
+        new_event_logger.error('FAILED -- Message to new member returned error: {}'.format(response))
 
 
 def parse_slack_output(slack_rtm_output):
