@@ -4,7 +4,7 @@ import time
 
 from slackclient import SlackClient
 
-from API_method.creds import TOKEN
+from archived.creds import TOKEN
 
 logger = logging.getLogger(__name__)
 from utils.log_manager import setup_logging
