@@ -6,7 +6,7 @@ from archived.creds import TOKEN
 
 logger = logging.getLogger(__name__)
 new_event_logger = logging.getLogger(f'{__name__}.new_member')
-
+all_event_logger = logging.getLogger(f'{__name__}.all_events')
 
 # constants
 MESSAGE = (
@@ -29,9 +29,13 @@ def build_message(message_template, **kwargs):
 
 
 def event_handler(event_dict):
+    all_event_logger.info(event_dict)
     if event_dict['type'] == 'team_join':
         new_event_logger.info('New member event recieved')
-        new_member(event_dict)
+
+        # new_member(event_dict)
+
+    # can be used for development to trigger the event instead of the team_join
     if event_dict['type'] == 'message' and 'user' in event_dict.keys():
         pass
 
