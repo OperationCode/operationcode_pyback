@@ -6,10 +6,11 @@ import requests
 import websocket
 from urllib3 import disable_warnings, exceptions  # allow to disable InsecureRequestWarning, not sure if needed
 
-from .creds import TOKEN  # locally saved file "creds.py" this is added to .gitignore
-from .log_manager import setup_logging
-from .message import new_join
+from src.creds import TOKEN  # locally saved file "creds.py" this is added to .gitignore
+from src.message import new_join
+from utils.log_manager import setup_logging
 
+# any file can get instance of logger.
 logger = logging.getLogger(__name__)
 
 # Suppress InsecureRequestWarning
@@ -56,8 +57,8 @@ def parse_new_member(json_message,
                                   message=message,
                                   channel_id=channel_id
                                   )
-    # response_posted = requests.post(built_message)
-    # logging.info(response_posted)
+    response_posted = requests.post(built_message)
+    logging.info(response_posted)
     logging.info(built_message)
 
 
@@ -84,7 +85,7 @@ def on_message(_, message):
     if json_message['type'] == "team_join":
         user_name = json_message['user']['real_name']
         logging.info('team_join message')
-        custom_message = new_join.format(real_name=user_name)
+        custom_message = new_join['text'].format(real_name=user_name)
         parse_new_member(json_message,
                          message=custom_message
                          )
