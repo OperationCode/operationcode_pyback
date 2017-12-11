@@ -2,7 +2,8 @@ import logging
 import time
 from slackclient import SlackClient
 from utils.log_manager import setup_logging
-from src.creds import TOKEN, PROXY
+# from src.creds import TOKEN, PROXY
+from decouple import config
 import traceback
 
 logger = logging.getLogger(__name__)
@@ -23,6 +24,9 @@ MESSAGE = (
     "All active Operation Code Projects are located on our source control repository. "
     "Our projects can be viewed on <https://github.com/OperationCode/START_HERE|Github.>")
 
+
+PROXY = config('PROXY')
+TOKEN = config('TOKEN')
 PROXY = PROXY if PROXY else None
 slack_client = SlackClient(TOKEN, proxies=PROXY)
 

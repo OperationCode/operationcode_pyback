@@ -25,7 +25,14 @@ class EventHandlerTestCase(unittest.TestCase):
         """
         with LogCapture() as capture:
             app.event_handler(MESSAGE_EVENT)
-            capture.check(('src.app', 'INFO', 'Message event'))
+            capture.check(
+                ('src.app.all_events',
+                 'INFO',
+                 "{'type': 'message', 'channel': 'C8DA69KM4', 'user': 'U8DG4B3EK', 'text': "
+                 "'.', 'ts': '1513003671.000412', 'source_team': 'T8CJ90MQV', 'team': "
+                 "'T8CJ90MQV'}"),
+                ('src.app', 'INFO', 'Message event')
+            )
 
 
 @mock.patch('src.app.slack_client')
@@ -83,7 +90,9 @@ class NewMemberTestCase(unittest.TestCase):
         """
         Asserts new_member calls the client api with correct params.
         """
-        app.new_member(NEW_MEMBER)
+        with LogCapture() as capture:
+            app.new_member(NEW_MEMBER)
+
         mock_client.api_call.assert_called_with('chat.postMessage',
                                                 channel=NEW_MEMBER['user']['id'],
                                                 text=MESSAGE, as_user=True)
