@@ -33,6 +33,8 @@ def event_handler(event_dict):
         new_event_logger.info('New member event recieved')
         new_member(event_dict)
     if event_dict['type'] == 'message' and 'user' in event_dict.keys():
+
+        # Will need to be removed.  Currently for testing
         logger.info('Message event')
 
 
