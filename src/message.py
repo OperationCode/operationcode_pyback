@@ -1,4 +1,6 @@
 # https://api.slack.com/docs/messages/builder
+# can use this to eventually store all messages in a dictionary format.
+
 new_join = {
      "text": (
             "Hi {{ real_name }},\n\n Welcome to Operation Code! I'm a bot designed to help answer questions and get you on your way in our community.\n\n"
