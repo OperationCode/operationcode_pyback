@@ -25,6 +25,8 @@ MESSAGE = (
 
 PROXY = config('PROXY')
 TOKEN = config('TOKEN')
+COMMUNITY_CHANNEL = config('OPCODE_COMMUNITY_ID')
+
 PROXY = PROXY if PROXY else None
 slack_client = SlackClient(TOKEN, proxies=PROXY)
 
@@ -59,14 +61,19 @@ def new_member(event_dict):
     # user_id = event_dict['user']
     logging.info('team_join message')
 
-    custom_message = build_message(MESSAGE,
-                                   real_name=user_name_from_id(user_id))
+    real_name = user_name_from_id(user_id)
+
+    custom_message = build_message(MESSAGE, real_name=real_name)
 
     new_event_logger.info('Built message: {}'.format(custom_message))
     response = slack_client.api_call('chat.postMessage',
                                      channel=user_id,
                                      text=custom_message,
                                      as_user=True)
+
+    # Notify #community
+    # slack_client.api_call('chat.postMessage', channel=COMMUNITY_CHANNEL,
+    #                       text=f"New Member -- <@{user_id}>.  Automated greeting sent.")
 
     if response['ok']:
         new_event_logger.info('New Member Slack response: {}'.format(response))
@@ -114,7 +121,7 @@ def run_bot(delay=1):
                 time.sleep(delay)
             except Exception as e:
                 logger.error(f'Some exception occured: {e}')
-                logger.error(f'traceback: {traceback.format_exc(e)}')
+                logger.error(f'traceback: {traceback.print_exc()}')
                 slack_client.rtm_connect()
     else:
         print("Connection failed.  Invalid Slack token or bot ID")
