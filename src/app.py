@@ -115,7 +115,7 @@ def run_bot(delay=1):
                 time.sleep(delay)
             except Exception as e:
                 logger.error(f'Some exception occured: {e}')
-                logger.error(f'traceback: {traceback.format_exc(e)}')
+                logger.error(f'traceback: {traceback.print_exc()}')
                 slack_client.rtm_connect()
     else:
         print("Connection failed.  Invalid Slack token or bot ID")
