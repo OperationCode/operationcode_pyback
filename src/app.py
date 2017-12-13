@@ -24,7 +24,7 @@ MESSAGE = (
     "Our projects can be viewed on <https://github.com/OperationCode/START_HERE|Github.>")
 
 PROXY = config('PROXY')
-TOKEN = config('TOKEN')
+TOKEN = config('PERSONAL_APP_TOKEN')
 COMMUNITY_CHANNEL = config('OPCODE_COMMUNITY_ID')
 
 PROXY = PROXY if PROXY else None
