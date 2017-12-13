@@ -4,6 +4,8 @@ import json
 from src import app as bot
 from pprint import pprint
 
+from utils.log_manager import setup_logging
+
 app = Flask(__name__)
 
 VERIFICATION_TOKEN = config('APP_VERIFICATION_TOKEN')
@@ -26,4 +28,5 @@ def challenge():
 
 
 if __name__ == '__main__':
+    setup_logging()
     app.run(debug=True)

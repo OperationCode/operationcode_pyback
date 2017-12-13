@@ -23,6 +23,51 @@ MESSAGE = (
     "All active Operation Code Projects are located on our source control repository. "
     "Our projects can be viewed on <https://github.com/OperationCode/START_HERE|Github.>")
 
+MESSAGE_JSON = {
+    "text": "Hi {real_name},\n\n Welcome to Operation Code! I'm a bot designed to help answer questions and get you "
+            "on your way in our community.\n\nPlease take a moment to review our "
+            "<https://op.co.de/code-of-conduct|Code of Conduct.>\n\nOur goal here at Operation Code is to get "
+            "veterans and their families started on the path to a career in programming. We do that through providing "
+            "you with scholarships, mentoring, career development opportunities, conference tickets, "
+            "and more!\n\nYou're currently in Slack, a chat application that serves as the hub of Operation Code. If "
+            "you're currently visiting us via your browser, Slack provides a stand alone program to make staying in "
+            "touch even more convenient. You can download it <https://slack.com/downloads|here.>\n\nWant to make your "
+            "first change to a program right now? All active Operation Code Projects are located on our source "
+            "control repository. Our projects can be viewed on <https://github.com/OperationCode/START_HERE|Github.>",
+    "attachments": [
+        {
+            "text": "",
+            "fallback": "",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+            "actions": [
+                {
+                    "name": "CoC",
+                    "text": "Code of Conduct",
+                    "type": "button",
+                    "value": "Coc",
+                    "url": "https://op.co.de/code-of-conduct"
+                },
+                {
+                    "name": "slack",
+                    "text": "Download Slack",
+                    "type": "button",
+                    "value": "slack",
+                    "url": "https://slack.com/downloads"
+
+                },
+                {
+                    "name": "repo",
+                    "text": "Op-Code Github",
+                    "type": "button",
+                    "value": "repo",
+                    "url": "https://github.com/OperationCode/START_HERE"
+                }
+            ]
+        }
+    ]
+}
+
 PROXY = config('PROXY')
 TOKEN = config('PERSONAL_APP_TOKEN')
 COMMUNITY_CHANNEL = config('OPCODE_COMMUNITY_ID')
@@ -63,13 +108,16 @@ def new_member(event_dict):
 
     real_name = user_name_from_id(user_id)
 
-    custom_message = build_message(MESSAGE, real_name=real_name)
+    custom_message = MESSAGE.format(real_name=real_name)
+    MESSAGE_JSON['text'] = custom_message
 
     new_event_logger.info('Built message: {}'.format(custom_message))
-    response = slack_client.api_call('chat.postMessage',
+    response = slack_client.api_call('chat.postEphemeral',
                                      channel=user_id,
-                                     text=custom_message,
-                                     as_user=True)
+                                     user=user_id,
+                                     as_user=True,
+                                     username="New Bot Name",
+                                     **MESSAGE_JSON)
 
     # Notify #community
     # slack_client.api_call('chat.postMessage', channel=COMMUNITY_CHANNEL,
