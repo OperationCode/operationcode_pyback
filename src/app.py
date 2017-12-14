@@ -4,9 +4,11 @@ from slackclient import SlackClient
 from utils.log_manager import setup_logging
 from decouple import config
 import traceback
+from pprint import pprint
+
 
 from src.help_menu import HELP_MENU_RESPONSES
-from src.messages import HELP_MENU, MESSAGE, needs_greet_button, greeted_response_attachments
+from src.messages import HELP_MENU, MESSAGE, needs_greet_button, greeted_response_attachments, SUGGESTION_MODAL
 
 logger = logging.getLogger(__name__)
 new_event_logger = logging.getLogger(f'{__name__}.new_member')
@@ -19,9 +21,10 @@ PROXY = config('PROXY')
 # COMMUNITY_CHANNEL = config('PERSONAL_PRIVATE_CHANNEL')
 
 TOKEN = config('OPCODE_APP_TOKEN')
-COMMUNITY_CHANNEL = config('OPCODE_REWRITE_CHANNEL')
-PROJECTS_CHANNEL = config('OPCODE_OC_PROJECTS_CHANNEL')
+# COMMUNITY_CHANNEL = config('OPCODE_REWRITE_CHANNEL')
+# PROJECTS_CHANNEL = config('OPCODE_OC_PROJECTS_CHANNEL')
 # COMMUNITY_CHANNEL = config('OPCODE_COMMUNITY_ID')
+COMMUNITY_CHANNEL = config('OPCODE_BOT_TESTING_CHANNEL')
 
 PROXY = PROXY if PROXY else None
 slack_client = SlackClient(TOKEN, proxies=PROXY)
@@ -39,9 +42,9 @@ def event_handler(event_dict: dict) -> None:
     :param event_dict:
     """
     # all_event_logger.info(event_dict)
-    if event_dict['type'] == 'team_join':
-        new_event_logger.info('New member event recieved')
-        new_member(event_dict)
+    # if event_dict['type'] == 'team_join':
+    #     new_event_logger.info('New member event recieved')
+    #     new_member(event_dict)
 
     """ Trigger for testing team_join event """
     if event_dict['type'] == 'message' and 'user' in event_dict.keys() and event_dict['text'] == 'testgreet':
@@ -55,12 +58,21 @@ def help_menu_interaction(data: dict) -> None:
     displayed message
     :param data:
     """
-    params = {'text': '  \n\n\n' + HELP_MENU_RESPONSES[data['actions'][0]['value']],
-              'channel': data['channel']['id'],
-              'ts': data['message_ts'],
-              'as_user': True
-              }
-    slack_client.api_call('chat.update', **params)
+
+    response = data['actions'][0]['value']
+
+    if response == 'suggestion':
+        trigger_id = data['trigger_id']
+        res = slack_client.api_call('dialog.open', trigger_id=trigger_id, dialog=SUGGESTION_MODAL)
+        pprint(res)
+
+    else:
+        params = {'text': '  \n\n\n' + HELP_MENU_RESPONSES[data['actions'][0]['value']],
+                  'channel': data['channel']['id'],
+                  'ts': data['message_ts'],
+                  'as_user': True
+                  }
+        slack_client.api_call('chat.update', **params)
 
 
 def greeted_interaction(data: dict) -> dict:
@@ -91,6 +103,13 @@ def greeted_interaction(data: dict) -> dict:
         res = slack_client.api_call("chat.update", **params)
 
 
+def suggestion_submission(data):
+    suggestion = data['submission']['suggestion']
+    user_id = data['user']['id']
+    message = f"<@{user_id}> just submitted a suggestion for a help topic:\n{suggestion}"
+    res = slack_client.api_call('chat.postMessage', channel=COMMUNITY_CHANNEL, text=message)
+
+
 def new_member(event_dict: dict) -> None:
     new_event_logger.info('Recieved json event: {}'.format(event_dict))
 
@@ -102,15 +121,15 @@ def new_member(event_dict: dict) -> None:
     custom_message = MESSAGE.format(real_name=real_name)
 
     new_event_logger.info('Built message: {}'.format(custom_message))
-    response = slack_client.api_call('chat.postMessage',
-                                     channel=user_id,
-                                     # channel=COMMUNITY_CHANNEL, #  testing option
-                                     # as_user=True,  # Currently not working.  DM comes from my account
-                                     text=custom_message)
+    # response = slack_client.api_call('chat.postMessage',
+    #                                  # channel=user_id,
+    #                                  channel=COMMUNITY_CHANNEL, #  testing option
+    #                                  # as_user=True,  # Currently not working.  DM comes from my account
+    #                                  text=custom_message)
 
     r2 = slack_client.api_call('chat.postMessage',
-                               channel=user_id,
-                               # channel=COMMUNITY_CHANNEL, #  testing option
+                               # channel=user_id,
+                               channel=COMMUNITY_CHANNEL, #  testing option
                                # as_user=True,
                                **HELP_MENU)
 
@@ -118,11 +137,11 @@ def new_member(event_dict: dict) -> None:
     text = f":tada: <@{user_id}> has joined the Slack team :tada:"
     slack_client.api_call('chat.postMessage', channel=COMMUNITY_CHANNEL,
                           text=text, attachments=needs_greet_button())
-
-    if response['ok']:
-        new_event_logger.info('New Member Slack response: Response 1: {} \nResponse2: {}'.format(response, r2))
-    else:
-        new_event_logger.error('FAILED -- Message to new member returned error: {}'.format(response))
+    #
+    # if response['ok']:
+    #     new_event_logger.info('New Member Slack response: Response 1: {} \nResponse2: {}'.format(response, r2))
+    # else:
+    #     new_event_logger.error('FAILED -- Message to new member returned error: {}'.format(response))
 
 
 def parse_slack_output(slack_rtm_output: list) -> None:
@@ -157,10 +176,10 @@ def join_channels():
     """
     response = slack_client.api_call('channels.join', name='general')
     print(response)
-
-
 # set the defalt to a 1 second delay
-def run_bot(delay: int=1) -> None:
+
+
+def run_bot(delay: int = 1) -> None:
     """
     Runs the bot using the Slack Real Time Messaging API.
     **Doesn't provide events or interactive functionality

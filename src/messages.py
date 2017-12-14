@@ -8,10 +8,12 @@ MESSAGE = (
     "You can download it <https://slack.com/downloads|here.>\n\n"
     "Want to make your first change to a program right now? "
     "All active Operation Code Projects are located on our source control repository. "
-    "Our projects can be viewed on <https://github.com/OperationCode/START_HERE|Github.>")
+    "Our projects can be viewed on <https://github.com/OperationCode/START_HERE|Github.>\n\n"
+    "Click any of the buttons below to receive more information on the topic.\n\n"
+    "If you'd like to see something that isn't here let us know!")
 
 HELP_MENU = {
-    "text": "Click any of the buttons below to receive more information on the topic.",
+    "text": "",
     "attachments": [
         {
             "text": "",
@@ -53,8 +55,38 @@ HELP_MENU = {
                     "type": "button",
                     "value": "ruby_help",
                 },
+
+            ]
+        },
+        {
+            "text": "",
+            "fallback": "",
+            "color": "#3AA3E3",
+            "callback_id": "greeting_buttons",
+            "attachment_type": "default",
+            "actions": [
+                {
+                    "name": "suggestion",
+                    "text": "Are we missing something? Click!",
+                    "type": "button",
+                    "value": "suggestion",
+                },
             ]
         }
+    ]
+}
+
+SUGGESTION_MODAL = {
+    "callback_id": "suggestion_modal",
+    "title": "Help topic suggestion",
+    "submit_label": "Suggestion",
+    "elements": [
+        {
+            "type": "text",
+            "label": "Suggestion",
+            "name": "suggestion",
+            "placeholder": "Underwater Basket Weaving"
+        },
     ]
 }
 

@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from flask import Flask, request, make_response
 from decouple import config
 import json
@@ -8,8 +10,6 @@ from utils.log_manager import setup_logging
 app = Flask(__name__)
 
 VERIFICATION_TOKEN = config('OPCODE_VERIFICATION_TOKEN')
-
-
 # VERIFICATION_TOKEN = config('APP_VERIFICATION_TOKEN')
 
 
@@ -25,11 +25,15 @@ def interaction():
         print("Bad request")
         return make_response("", 403)
     callback = data['callback_id']
+    pprint(data['user'])
 
     if callback == 'greeting_buttons':
         bot.help_menu_interaction(data)
     elif callback == 'greeted':
         bot.greeted_interaction(data)
+    elif callback == 'suggestion_modal':
+        pprint(data)
+        bot.suggestion_submission(data)
     return make_response('', 200)
 
 
