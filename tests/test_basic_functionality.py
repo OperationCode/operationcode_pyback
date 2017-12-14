@@ -4,6 +4,7 @@ import mock
 import logging
 
 from src import app
+from src.messages import HELP_MENU
 from .test_data import *
 
 
@@ -72,33 +73,33 @@ class UserNameTestCase(unittest.TestCase):
 @mock.patch('src.app.build_message', return_value=MESSAGE)
 class NewMemberTestCase(unittest.TestCase):
 
-
     @mock.patch('src.app.slack_client.api_call', return_value={'ok': True, 'info': 'stuff goes here'})
     def test_event_logged(self, mock_client, mock_builder, mock_username_from_id):
         """
         Asserts messages are being logged properly when new_member is called
         """
         with LogCapture() as capture:
+            message = MESSAGE.format(real_name="bob")
             app.new_member(NEW_MEMBER)
             capture.check(
                 ('src.app.new_member', 'INFO', 'Recieved json event: {}'.format(NEW_MEMBER)),
                 ('root', 'INFO', 'team_join message'),
-                ('src.app.new_member', 'INFO', 'Built message: {}'.format(MESSAGE)),
+                ('src.app.new_member', 'INFO', 'Built message: {}'.format(message)),
                 ('src.app.new_member', 'INFO',
-                 'New Member Slack response: {}'.format({'ok': True, 'info': 'stuff goes here'}))
+                 'New Member Slack response: Response 1: {res} \nResponse2: {res}'.format(
+                     res={'ok': True, 'info': 'stuff goes here'}))
             )
 
     @mock.patch('src.app.slack_client')
     def test_slack_client_called_with_correct_params(self, mock_client, mock_builder, mock_unfi):
         """
-        Asserts new_member calls the client api with correct params.
+        Asserts new_member calls the client api with correct params for help menu.
         """
         with LogCapture() as capture:
             app.new_member(NEW_MEMBER)
-
-        mock_client.api_call.assert_called_with('chat.postMessage',
-                                                channel=NEW_MEMBER['user']['id'],
-                                                text=MESSAGE, as_user=True)
+        mock_client.api_call.assert_any_call('chat.postMessage',
+                                             channel=NEW_MEMBER['user']['id'],
+                                             **HELP_MENU)
 
     #
     @mock.patch('src.app.slack_client.api_call', return_value={'ok': False, 'info': 'stuff goes here'})

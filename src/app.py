@@ -19,10 +19,9 @@ PROXY = config('PROXY')
 # COMMUNITY_CHANNEL = config('PERSONAL_PRIVATE_CHANNEL')
 
 TOKEN = config('OPCODE_APP_TOKEN')
-# TOKEN = config('TOKEN')
-# COMMUNITY_CHANNEL = config('OPCODE_COMMUNITY_ID')
 COMMUNITY_CHANNEL = config('OPCODE_REWRITE_CHANNEL')
 PROJECTS_CHANNEL = config('OPCODE_OC_PROJECTS_CHANNEL')
+# COMMUNITY_CHANNEL = config('OPCODE_COMMUNITY_ID')
 
 PROXY = PROXY if PROXY else None
 slack_client = SlackClient(TOKEN, proxies=PROXY)
@@ -40,9 +39,9 @@ def event_handler(event_dict: dict) -> None:
     :param event_dict:
     """
     # all_event_logger.info(event_dict)
-    # if event_dict['type'] == 'team_join':
-    #     new_event_logger.info('New member event recieved')
-    #     new_member(event_dict)
+    if event_dict['type'] == 'team_join':
+        new_event_logger.info('New member event recieved')
+        new_member(event_dict)
 
     """ Trigger for testing team_join event """
     if event_dict['type'] == 'message' and 'user' in event_dict.keys() and event_dict['text'] == 'testgreet':
@@ -106,7 +105,7 @@ def new_member(event_dict: dict) -> None:
     response = slack_client.api_call('chat.postMessage',
                                      channel=user_id,
                                      # channel=COMMUNITY_CHANNEL, #  testing option
-                                     # as_user=True,
+                                     # as_user=True,  # Currently not working.  DM comes from my account
                                      text=custom_message)
 
     r2 = slack_client.api_call('chat.postMessage',
@@ -116,9 +115,9 @@ def new_member(event_dict: dict) -> None:
                                **HELP_MENU)
 
     # Notify #community
-    # text = f":tada: <@{user_id}> has joined the Slack team :tada:"
-    # slack_client.api_call('chat.postMessage', channel=COMMUNITY_CHANNEL,
-    #                       text=text, attachments=needs_greet_button())
+    text = f":tada: <@{user_id}> has joined the Slack team :tada:"
+    slack_client.api_call('chat.postMessage', channel=COMMUNITY_CHANNEL,
+                          text=text, attachments=needs_greet_button())
 
     if response['ok']:
         new_event_logger.info('New Member Slack response: Response 1: {} \nResponse2: {}'.format(response, r2))
@@ -161,12 +160,11 @@ def join_channels():
 
 
 # set the defalt to a 1 second delay
-def run_bot(delay: int=1):
+def run_bot(delay: int=1) -> None:
     """
     Runs the bot using the Slack Real Time Messaging API.
     **Doesn't provide events or interactive functionality
     :param delay:
-    :return:
     """
     setup_logging()
     if slack_client.rtm_connect():
