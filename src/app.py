@@ -1,105 +1,84 @@
 import logging
 import time
+from pprint import pprint
 from slackclient import SlackClient
 from utils.log_manager import setup_logging
-# from src.creds import TOKEN, PROXY
 from decouple import config
 import traceback
+
+from src.help_menu import HELP_MENU_RESPONSES
+from src.messages import HELP_MENU, MESSAGE, needs_greet_button, greeted_response_attachments
 
 logger = logging.getLogger(__name__)
 new_event_logger = logging.getLogger(f'{__name__}.new_member')
 all_event_logger = logging.getLogger(f'{__name__}.all_events')
 
 # constants
-MESSAGE = (
-    "Hi {real_name},\n\n Welcome to Operation Code! I'm a bot designed to help answer questions and get you on your way in our community.\n\n"
-    "Please take a moment to review our <https://op.co.de/code-of-conduct|Code of Conduct.>\n\n"
-    "Our goal here at Operation Code is to get veterans and their families started on the path to a career in programming. "
-    "We do that through providing you with scholarships, mentoring, career development opportunities, conference tickets, and more!\n\n"
-    "You're currently in Slack, a chat application that serves as the hub of Operation Code. "
-    "If you're currently visiting us via your browser, Slack provides a stand alone program to make staying in touch even more convenient. "
-    "You can download it <https://slack.com/downloads|here.>\n\n"
-    "Want to make your first change to a program right now? "
-    "All active Operation Code Projects are located on our source control repository. "
-    "Our projects can be viewed on <https://github.com/OperationCode/START_HERE|Github.>")
-
-MESSAGE_JSON = {
-    "text": "Hi {real_name},\n\n Welcome to Operation Code! I'm a bot designed to help answer questions and get you "
-            "on your way in our community.\n\nPlease take a moment to review our "
-            "<https://op.co.de/code-of-conduct|Code of Conduct.>\n\nOur goal here at Operation Code is to get "
-            "veterans and their families started on the path to a career in programming. We do that through providing "
-            "you with scholarships, mentoring, career development opportunities, conference tickets, "
-            "and more!\n\nYou're currently in Slack, a chat application that serves as the hub of Operation Code. If "
-            "you're currently visiting us via your browser, Slack provides a stand alone program to make staying in "
-            "touch even more convenient. You can download it <https://slack.com/downloads|here.>\n\nWant to make your "
-            "first change to a program right now? All active Operation Code Projects are located on our source "
-            "control repository. Our projects can be viewed on <https://github.com/OperationCode/START_HERE|Github.>",
-    "attachments": [
-        {
-            "text": "",
-            "fallback": "",
-            "color": "#3AA3E3",
-            "attachment_type": "default",
-            "actions": [
-                {
-                    "name": "CoC",
-                    "text": "Code of Conduct",
-                    "type": "button",
-                    "value": "Coc",
-                    "url": "https://op.co.de/code-of-conduct"
-                },
-                {
-                    "name": "slack",
-                    "text": "Download Slack",
-                    "type": "button",
-                    "value": "slack",
-                    "url": "https://slack.com/downloads"
-
-                },
-                {
-                    "name": "repo",
-                    "text": "Op-Code Github",
-                    "type": "button",
-                    "value": "repo",
-                    "url": "https://github.com/OperationCode/START_HERE"
-                }
-            ]
-        }
-    ]
-}
-
 PROXY = config('PROXY')
+
 TOKEN = config('PERSONAL_APP_TOKEN')
-COMMUNITY_CHANNEL = config('OPCODE_COMMUNITY_ID')
+COMMUNITY_CHANNEL = config('PERSONAL_PRIVATE_CHANNEL')
+
+# TOKEN = config('OPCODE_APP_TOKEN')
+# COMMUNITY_CHANNEL = config('OPCODE_COMMUNITY_ID')
 
 PROXY = PROXY if PROXY else None
 slack_client = SlackClient(TOKEN, proxies=PROXY)
 
 
-def build_message(message_template, **kwargs):
+def build_message(message_template: str, **kwargs: dict) -> str:
     return message_template.format(**kwargs)
 
 
-def event_handler(event_dict):
+def event_handler(event_dict: dict) -> None:
     # all_event_logger.info(event_dict)
-    if event_dict['type'] == 'team_join':
-        new_event_logger.info('New member event recieved')
-        new_member(event_dict)
+    # if event_dict['type'] == 'team_join':
+    #     new_event_logger.info('New member event recieved')
+    #     new_member(event_dict)
 
-    if event_dict['type'] == 'presence_change':
-        # all_event_logger.info('User {} changed state to {}'.format(user_name_from_id(event_dict['user']), event_dict['presence']))
-        pass
-    # can be used for development to trigger the event instead of the team_join
-    if event_dict['type'] == 'message' and 'user' in event_dict.keys():
-        pass
-        # Will need to be removed.  Currently for testing
-        # logger.info('Message event')
-    if event_dict['type'] == 'message' and 'user' in event_dict.keys() and event_dict['text'] == 'test4611':
+    """ Trigger for testing team_join event """
+    if event_dict['type'] == 'message' and 'user' in event_dict.keys() and event_dict['text'] == 'testgreet':
         event_dict['user'] = {'id': event_dict['user']}
         new_member(event_dict)
 
 
-def new_member(event_dict):
+def help_menu_interaction(data: dict) -> None:
+    params = {'text': '  \n\n\n' + HELP_MENU_RESPONSES[data['actions'][0]['value']],
+              'channel': data['channel']['id'],
+              'ts': data['message_ts'],
+              'as_user': True
+              }
+    slack_client.api_call('chat.update', **params)
+
+
+def greeted_interaction(data: dict) -> dict:
+    """
+    Handles the interactive message sent to the #community channel
+    when a new member joins
+    """
+    if data['actions'][0]['value'] == 'greeted':
+        clicker = data['user']['id']
+        params = {'text': data['original_message']['text'],
+                  "attachments": greeted_response_attachments(clicker),
+                  'channel': data['channel']['id'],
+                  'ts': data['message_ts'],
+                  'as_user': True
+                  }
+        res = slack_client.api_call("chat.update", **params)
+        # TODO Do something with this return value
+        return res
+    elif data['actions'][0]['value'] == 'reset_greet':
+        params = {'text': data['original_message']['text'],
+                  "attachments": needs_greet_button(),
+                  'channel': data['channel']['id'],
+                  'ts': data['message_ts'],
+                  'as_user': True
+                  }
+        res = slack_client.api_call("chat.update", **params)
+
+
+# TODO return something to flask app
+def new_member(event_dict: dict) -> None:
     new_event_logger.info('Recieved json event: {}'.format(event_dict))
 
     user_id = event_dict['user']['id']
@@ -109,19 +88,22 @@ def new_member(event_dict):
     real_name = user_name_from_id(user_id)
 
     custom_message = MESSAGE.format(real_name=real_name)
-    MESSAGE_JSON['text'] = custom_message
 
     new_event_logger.info('Built message: {}'.format(custom_message))
-    response = slack_client.api_call('chat.postEphemeral',
+    response = slack_client.api_call('chat.postMessage',
                                      channel=user_id,
-                                     user=user_id,
                                      as_user=True,
-                                     username="New Bot Name",
-                                     **MESSAGE_JSON)
+                                     text=custom_message)
+
+    r2 = slack_client.api_call('chat.postMessage',
+                               channel=user_id,
+                               as_user=True,
+                               **HELP_MENU)
 
     # Notify #community
-    # slack_client.api_call('chat.postMessage', channel=COMMUNITY_CHANNEL,
-    #                       text=f"New Member -- <@{user_id}>.  Automated greeting sent.")
+    text = f":tada: <@{user_id}> has joined the Slack team :tada:"
+    slack_client.api_call('chat.postMessage', channel=COMMUNITY_CHANNEL,
+                          text=text, attachments=needs_greet_button())
 
     if response['ok']:
         new_event_logger.info('New Member Slack response: {}'.format(response))
@@ -129,19 +111,22 @@ def new_member(event_dict):
         new_event_logger.error('FAILED -- Message to new member returned error: {}'.format(response))
 
 
-def parse_slack_output(slack_rtm_output):
+def parse_slack_output(slack_rtm_output: list) -> None:
     """
-    The Slack Real Time Messaging API is an events firehose.
-    This parsing function returns None unless a message
-    is directed at the Bot, based on its ID.
+    Method for parsing slack events when using the RTM API instead
+    of the Events/App APIs
     """
     for output in slack_rtm_output:
         # process a single item in list at a time
         event_handler(output)
 
 
-def user_name_from_id(user_id):
-    # get detailed user info
+def user_name_from_id(user_id: str) -> str:
+    """
+    Queries the Slack workspace for the users real name
+    to personalize messages.  Prioritizes real_name -> name -> 'New Member'
+    :param user_id:
+    """
     response = slack_client.api_call('users.info', user=user_id)
 
     if response['user']['real_name']:
@@ -158,7 +143,7 @@ def join_channels():
 
 
 # set the defalt to a 1 second delay
-def run_bot(delay=1):
+def run_bot(delay: int = 1):
     setup_logging()
     if slack_client.rtm_connect():
         print(f"StarterBot connected and running with a {delay} second delay")

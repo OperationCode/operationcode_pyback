@@ -1,32 +1,68 @@
-from flask import Flask, request, Response
+from flask import Flask, request, make_response
 from decouple import config
 import json
-from src import app as bot
 from pprint import pprint
 
+from src import app as bot
 from utils.log_manager import setup_logging
 
 app = Flask(__name__)
 
+# VERIFICATION_TOKEN = config('OPCODE_VERIFICATION_TOKEN')
 VERIFICATION_TOKEN = config('APP_VERIFICATION_TOKEN')
 
 
-@app.route('/', methods=['POST'])
+@app.route("/user_interaction", methods=['POST'])
+def interaction():
+    """
+    Receives requests from Slack's interactive messages
+    """
+
+    data = json.loads(request.form['payload'])
+    if data['token'] != VERIFICATION_TOKEN:
+        print("Bad request")
+        return make_response("", 403)
+    callback = data['callback_id']
+
+    if callback == 'greeting_buttons':
+        bot.help_menu_interaction(data)
+    elif callback == 'greeted':
+        bot.greeted_interaction(data)
+    return make_response('', 200)
+
+
+@app.route('/options_load', methods=['POST'])
+def options_load():
+    """
+    Can provide dynamically created options for interactive messages.
+    Currently unused.
+    """
+    return make_response('', 404)
+
+
+@app.route('/event_endpoint', methods=['POST'])
 def challenge():
-    pprint(request.get_json())
+    """
+    Endpoint for all subscribed events
+    """
+    # pprint(request.get_json())
     payload = {}
     data = request.get_json()
     if data['token'] != VERIFICATION_TOKEN:
         print("Bad request")
-        return ''
+        return make_response("", 403)
     if data['type'] == 'url_verification':
         payload['challenge'] = data['challenge']
+        return make_response(json.dumps(payload), 200)
     else:
         bot.event_handler(data['event'])
-    print(payload)
-    return json.dumps(payload)
+        return make_response('', 200)
+
+
+def start_server():
+    setup_logging()
+    app.run(debug=True)
 
 
 if __name__ == '__main__':
-    setup_logging()
-    app.run(debug=True)
+    start_server()

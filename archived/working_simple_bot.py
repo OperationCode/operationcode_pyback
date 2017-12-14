@@ -6,8 +6,8 @@ import requests
 import websocket
 from urllib3 import disable_warnings, exceptions  # allow to disable InsecureRequestWarning, not sure if needed
 
-from src.creds import TOKEN  # locally saved file "creds.py" this is added to .gitignore
-from src.message import new_join
+# from src.creds import TOKEN  # locally saved file "creds.py" this is added to .gitignore
+from archived.message import new_join
 from utils.log_manager import setup_logging
 
 # any file can get instance of logger.
