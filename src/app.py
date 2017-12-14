@@ -1,6 +1,5 @@
 import logging
 import time
-from pprint import pprint
 from slackclient import SlackClient
 from utils.log_manager import setup_logging
 from decouple import config
@@ -16,21 +15,30 @@ all_event_logger = logging.getLogger(f'{__name__}.all_events')
 # constants
 PROXY = config('PROXY')
 
-TOKEN = config('PERSONAL_APP_TOKEN')
-COMMUNITY_CHANNEL = config('PERSONAL_PRIVATE_CHANNEL')
+# TOKEN = config('PERSONAL_APP_TOKEN')
+# COMMUNITY_CHANNEL = config('PERSONAL_PRIVATE_CHANNEL')
 
-# TOKEN = config('OPCODE_APP_TOKEN')
+TOKEN = config('OPCODE_APP_TOKEN')
+# TOKEN = config('TOKEN')
 # COMMUNITY_CHANNEL = config('OPCODE_COMMUNITY_ID')
+COMMUNITY_CHANNEL = config('OPCODE_REWRITE_CHANNEL')
+PROJECTS_CHANNEL = config('OPCODE_OC_PROJECTS_CHANNEL')
 
 PROXY = PROXY if PROXY else None
 slack_client = SlackClient(TOKEN, proxies=PROXY)
 
+
+# TODO: Do something with all of the return values here
 
 def build_message(message_template: str, **kwargs: dict) -> str:
     return message_template.format(**kwargs)
 
 
 def event_handler(event_dict: dict) -> None:
+    """
+    Handles routing all of the received subscribed events to the correct method
+    :param event_dict:
+    """
     # all_event_logger.info(event_dict)
     # if event_dict['type'] == 'team_join':
     #     new_event_logger.info('New member event recieved')
@@ -43,6 +51,11 @@ def event_handler(event_dict: dict) -> None:
 
 
 def help_menu_interaction(data: dict) -> None:
+    """
+    Receives help menu selection from the user and dynamically updates
+    displayed message
+    :param data:
+    """
     params = {'text': '  \n\n\n' + HELP_MENU_RESPONSES[data['actions'][0]['value']],
               'channel': data['channel']['id'],
               'ts': data['message_ts'],
@@ -54,7 +67,10 @@ def help_menu_interaction(data: dict) -> None:
 def greeted_interaction(data: dict) -> dict:
     """
     Handles the interactive message sent to the #community channel
-    when a new member joins
+    when a new member joins.
+
+    Displays the user that claimed the greeting along with the option
+    to un-claim
     """
     if data['actions'][0]['value'] == 'greeted':
         clicker = data['user']['id']
@@ -65,7 +81,6 @@ def greeted_interaction(data: dict) -> dict:
                   'as_user': True
                   }
         res = slack_client.api_call("chat.update", **params)
-        # TODO Do something with this return value
         return res
     elif data['actions'][0]['value'] == 'reset_greet':
         params = {'text': data['original_message']['text'],
@@ -77,12 +92,10 @@ def greeted_interaction(data: dict) -> dict:
         res = slack_client.api_call("chat.update", **params)
 
 
-# TODO return something to flask app
 def new_member(event_dict: dict) -> None:
     new_event_logger.info('Recieved json event: {}'.format(event_dict))
 
     user_id = event_dict['user']['id']
-    # user_id = event_dict['user']
     logging.info('team_join message')
 
     real_name = user_name_from_id(user_id)
@@ -92,21 +105,23 @@ def new_member(event_dict: dict) -> None:
     new_event_logger.info('Built message: {}'.format(custom_message))
     response = slack_client.api_call('chat.postMessage',
                                      channel=user_id,
-                                     as_user=True,
+                                     # channel=COMMUNITY_CHANNEL, #  testing option
+                                     # as_user=True,
                                      text=custom_message)
 
     r2 = slack_client.api_call('chat.postMessage',
                                channel=user_id,
-                               as_user=True,
+                               # channel=COMMUNITY_CHANNEL, #  testing option
+                               # as_user=True,
                                **HELP_MENU)
 
     # Notify #community
-    text = f":tada: <@{user_id}> has joined the Slack team :tada:"
-    slack_client.api_call('chat.postMessage', channel=COMMUNITY_CHANNEL,
-                          text=text, attachments=needs_greet_button())
+    # text = f":tada: <@{user_id}> has joined the Slack team :tada:"
+    # slack_client.api_call('chat.postMessage', channel=COMMUNITY_CHANNEL,
+    #                       text=text, attachments=needs_greet_button())
 
     if response['ok']:
-        new_event_logger.info('New Member Slack response: {}'.format(response))
+        new_event_logger.info('New Member Slack response: Response 1: {} \nResponse2: {}'.format(response, r2))
     else:
         new_event_logger.error('FAILED -- Message to new member returned error: {}'.format(response))
 
@@ -138,12 +153,21 @@ def user_name_from_id(user_id: str) -> str:
 
 
 def join_channels():
+    """
+    Utility function for joining channels.  Move to utils?
+    """
     response = slack_client.api_call('channels.join', name='general')
     print(response)
 
 
 # set the defalt to a 1 second delay
-def run_bot(delay: int = 1):
+def run_bot(delay: int=1):
+    """
+    Runs the bot using the Slack Real Time Messaging API.
+    **Doesn't provide events or interactive functionality
+    :param delay:
+    :return:
+    """
     setup_logging()
     if slack_client.rtm_connect():
         print(f"StarterBot connected and running with a {delay} second delay")

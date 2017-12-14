@@ -1,15 +1,16 @@
 from flask import Flask, request, make_response
 from decouple import config
 import json
-from pprint import pprint
 
 from src import app as bot
 from utils.log_manager import setup_logging
 
 app = Flask(__name__)
 
-# VERIFICATION_TOKEN = config('OPCODE_VERIFICATION_TOKEN')
-VERIFICATION_TOKEN = config('APP_VERIFICATION_TOKEN')
+VERIFICATION_TOKEN = config('OPCODE_VERIFICATION_TOKEN')
+
+
+# VERIFICATION_TOKEN = config('APP_VERIFICATION_TOKEN')
 
 
 @app.route("/user_interaction", methods=['POST'])
@@ -20,6 +21,7 @@ def interaction():
 
     data = json.loads(request.form['payload'])
     if data['token'] != VERIFICATION_TOKEN:
+        # TODO Logger here
         print("Bad request")
         return make_response("", 403)
     callback = data['callback_id']
@@ -45,7 +47,6 @@ def challenge():
     """
     Endpoint for all subscribed events
     """
-    # pprint(request.get_json())
     payload = {}
     data = request.get_json()
     if data['token'] != VERIFICATION_TOKEN:
