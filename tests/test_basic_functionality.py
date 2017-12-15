@@ -4,7 +4,8 @@ import mock
 import logging
 
 from src import app
-from .test_data import *
+from src.messages import HELP_MENU, MESSAGE
+from .test_data import NEW_MEMBER, USER_INFO_HAS_REAL_NAME, USER_INFO_NO_NAME, USER_INFO_HAS_NAME
 
 
 class EventHandlerTestCase(unittest.TestCase):
@@ -18,14 +19,23 @@ class EventHandlerTestCase(unittest.TestCase):
         app.event_handler(NEW_MEMBER)
         mock_new_member.assert_called_with(NEW_MEMBER)
 
-    def test_event_handler_message_event_logs_event(self):
-        """
-        Asserts event handler correctly logs message events.
-        Will be removed eventually...
-        """
-        with LogCapture() as capture:
-            app.event_handler(MESSAGE_EVENT)
-            capture.check(('src.app', 'INFO', 'Message event'))
+    #   All events logging currently disabled
+    #
+    # def test_event_handler_message_event_logs_event(self):
+    #     """
+    #     Asserts event handler correctly logs message events.
+    #     Will be removed eventually...
+    #     """
+    #     with LogCapture() as capture:
+    #         app.event_handler(MESSAGE_EVENT)
+    #         capture.check(
+    #             ('src.app.all_events',
+    #              'INFO',
+    #              "{'type': 'message', 'channel': 'C8DA69KM4', 'user': 'U8DG4B3EK', 'text': "
+    #              "'.', 'ts': '1513003671.000412', 'source_team': 'T8CJ90MQV', 'team': "
+    #              "'T8CJ90MQV'}"),
+    #             ('src.app', 'INFO', 'Message event')
+    #         )
 
 
 @mock.patch('src.app.slack_client')
@@ -63,33 +73,37 @@ class UserNameTestCase(unittest.TestCase):
 @mock.patch('src.app.build_message', return_value=MESSAGE)
 class NewMemberTestCase(unittest.TestCase):
 
-    @mock.patch('src.app.slack_client.api_call', return_value={'ok': 'true', 'info': 'stuff goes here'})
+    @mock.patch('src.app.slack_client.api_call', return_value={'ok': True, 'info': 'stuff goes here'})
     def test_event_logged(self, mock_client, mock_builder, mock_username_from_id):
         """
         Asserts messages are being logged properly when new_member is called
         """
         with LogCapture() as capture:
+            message = MESSAGE.format(real_name="bob")
             app.new_member(NEW_MEMBER)
             capture.check(
                 ('src.app.new_member', 'INFO', 'Recieved json event: {}'.format(NEW_MEMBER)),
                 ('root', 'INFO', 'team_join message'),
-                ('src.app.new_member', 'INFO', 'Built message: {}'.format(NEW_MEMBER)),
+                ('src.app.new_member', 'INFO', 'Built message: {}'.format(message)),
                 ('src.app.new_member', 'INFO',
-                 'New Member Slack response: {}'.format({'ok': 'true', 'info': 'stuff goes here'}))
+                 'New Member Slack response: Response 1: {res} \nResponse2: {res}'.format(
+                     res={'ok': True, 'info': 'stuff goes here'}))
             )
 
     @mock.patch('src.app.slack_client')
     def test_slack_client_called_with_correct_params(self, mock_client, mock_builder, mock_unfi):
         """
-        Asserts new_member calls the client api with correct params.
+        Asserts new_member calls the client api with correct params for help menu.
         """
-        app.new_member(NEW_MEMBER)
-        mock_client.api_call.assert_called_with('chat.postMessage',
-                                                channel=NEW_MEMBER['user']['id'],
-                                                text=MESSAGE, as_user=True)
+        with LogCapture() as capture:
+            app.new_member(NEW_MEMBER)
+        mock_client.api_call.assert_any_call('chat.postMessage',
+                                             channel=NEW_MEMBER['user']['id'],
+                                             as_user=True,
+                                             **HELP_MENU)
 
     #
-    @mock.patch('src.app.slack_client.api_call', return_value={'ok': 'false', 'info': 'stuff goes here'})
+    @mock.patch('src.app.slack_client.api_call', return_value={'ok': False, 'info': 'stuff goes here'})
     def test_slack_client_returns_error(self, mock_builder, mock_unfi, mock_client):
         """
         Asserts an ERROR is logged when messaging a new member fails
@@ -98,14 +112,17 @@ class NewMemberTestCase(unittest.TestCase):
             app.new_member(USER_INFO_HAS_REAL_NAME)
             capture.check(
                 ('src.app.new_member', 'ERROR',
-                 "FAILED -- Message to new member returned error: {'ok': 'false', 'info': 'stuff goes here'}"))
+                 "FAILED -- Message to new member returned error: {res}\n{res}".format(
+                     res={'ok': False, 'info': 'stuff goes here'})))
 
 
 class BuildMessageTestCase(unittest.TestCase):
-
     def test_build_message(self):
         """
         Asserts build_message function correctly formats message.
         """
-        message = app.build_message(MESSAGE, real_name='Bob')
+        params = {
+            'real_name': 'Bob'
+        }
+        message = app.build_message(MESSAGE, **params)
         self.assertEquals(message, MESSAGE.format(real_name='Bob'))
