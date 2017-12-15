@@ -3,6 +3,7 @@
 credentials.json
 creds.py
 
+
 # remove pycharm ide files
 .idea/
 

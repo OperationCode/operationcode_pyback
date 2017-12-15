@@ -4,8 +4,8 @@ import mock
 import logging
 
 from src import app
-from src.messages import HELP_MENU
-from .test_data import *
+from src.messages import HELP_MENU, MESSAGE
+from .test_data import NEW_MEMBER, USER_INFO_HAS_REAL_NAME, USER_INFO_NO_NAME, USER_INFO_HAS_NAME
 
 
 class EventHandlerTestCase(unittest.TestCase):
@@ -99,6 +99,7 @@ class NewMemberTestCase(unittest.TestCase):
             app.new_member(NEW_MEMBER)
         mock_client.api_call.assert_any_call('chat.postMessage',
                                              channel=NEW_MEMBER['user']['id'],
+                                             as_user=True,
                                              **HELP_MENU)
 
     #
@@ -111,14 +112,17 @@ class NewMemberTestCase(unittest.TestCase):
             app.new_member(USER_INFO_HAS_REAL_NAME)
             capture.check(
                 ('src.app.new_member', 'ERROR',
-                 "FAILED -- Message to new member returned error: {'ok': False, 'info': 'stuff goes here'}"))
+                 "FAILED -- Message to new member returned error: {res}\n{res}".format(
+                     res={'ok': False, 'info': 'stuff goes here'})))
 
 
 class BuildMessageTestCase(unittest.TestCase):
-
     def test_build_message(self):
         """
         Asserts build_message function correctly formats message.
         """
-        message = app.build_message(MESSAGE, real_name='Bob')
+        params = {
+            'real_name': 'Bob'
+        }
+        message = app.build_message(MESSAGE, **params)
         self.assertEquals(message, MESSAGE.format(real_name='Bob'))

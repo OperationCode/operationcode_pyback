@@ -10,10 +10,11 @@ MESSAGE = (
     "All active Operation Code Projects are located on our source control repository. "
     "Our projects can be viewed on <https://github.com/OperationCode/START_HERE|Github.>\n\n"
     "Click any of the buttons below to receive more information on the topic.\n\n"
-    "If you'd like to see something that isn't here let us know!")
+    "If you'd like to see something that isn't here let us know!\n\n"
+    "------------------------------------------------------------------------------------------")
 
 HELP_MENU = {
-    "text": "",
+    "text": "Click a button below and info will show up here!",
     "attachments": [
         {
             "text": "",
@@ -79,13 +80,143 @@ HELP_MENU = {
 SUGGESTION_MODAL = {
     "callback_id": "suggestion_modal",
     "title": "Help topic suggestion",
-    "submit_label": "Suggestion",
+    "submit_label": "Submit",
     "elements": [
         {
             "type": "text",
             "label": "Suggestion",
             "name": "suggestion",
             "placeholder": "Underwater Basket Weaving"
+        },
+    ]
+}
+
+MENTOR_REQUEST_MODAL = {
+    "callback_id": "mentor_request",
+    "title": "Mentor Service Request",
+    "submit_label": "Submit",
+    "elements": [
+        {
+            "value": "test",
+            "type": "text",
+            "label": "Slack User Name",
+            "name": "Slack User",
+            "placeholder": ""
+        },
+        {
+            "value": "test@test.com",
+            "type": "text",
+            "subtype": "email",
+            "label": "Email",
+            "name": "Email",
+            "placeholder": ""
+        },
+        {
+
+            "type": "select",
+            "label": "Service Type",
+            "name": "service",
+            "placeholder": "Choose a service type",
+            "options": [
+                {
+                    "label": "General Guidance - Voice Chat",
+                    "value": "General Guidance - Voice Chat"
+                },
+                {
+                    "label": "General Guidance - Slack Chat",
+                    "value": "General Guidance - Slack Chat"
+                },
+                {
+                    "label": "Pair Programming",
+                    "value": "Pair Programming"
+                },
+                {
+                    "label": "Code Review",
+                    "value": "Code Review"
+                },
+                {
+                    "label": "Mock Interview",
+                    "value": "Mock Interview"
+                },
+                {
+                    "label": "Resume Review",
+                    "value": "Resume Review"
+                },
+
+            ]
+        },
+        {
+            "type": "select",
+            "label": "Mentor Skillset",
+            "name": "skillset",
+            "optional": "true",
+            "placeholder": "Choose a service type",
+            "options": [
+                {
+                    "label": "Web (Frontend Development)",
+                    "value": "Web (Frontend Development)",
+                },
+                {
+                    "label": "Web (Backend Development)",
+                    "value": "Web (Backend Development)",
+                },
+                {
+                    "label": "Mobile (Android)",
+                    "value": "Mobile (Android)",
+                },
+                {
+                    "label": "Mobile (iOS)",
+                    "value": "Mobile (iOS)",
+                },
+                {
+                    "label": "C / C++",
+                    "value": "C / C++",
+                },
+                {
+                    "label": "C# / .NET",
+                    "value": "C# / .NET",
+                },
+                {
+                    "label": "Data Science",
+                    "value": "Data Science",
+                },
+                {
+                    "label": "DevOps",
+                    "value": "DevOps",
+                },
+                {
+                    "label": "Design / UX",
+                    "value": "Design / UX"
+                },
+                {
+                    "label": "Java",
+                    "value": "Java",
+                },
+                {
+                    "label": "Javascript",
+                    "value": "Javascript",
+                },
+                {
+                    "label": "Python",
+                    "value": "Python",
+                },
+                {
+                    "label": "Ruby / Rails",
+                    "value": "Ruby / Rails",
+                },
+                {
+                    "label": "SQL",
+                    "value": "SQL",
+                },
+            ]
+        },
+        {
+            "type": "textarea",
+            "label": "Additional Details",
+            "name": "Additional Details",
+            "optional": "true",
+            "placeholder": "Please provide us with any more info that may help in us in assigning a mentor to this "
+                           "request. "
         },
     ]
 }

@@ -1,3 +1,4 @@
+import json
 import logging
 import time
 from slackclient import SlackClient
@@ -5,28 +6,34 @@ from utils.log_manager import setup_logging
 from decouple import config
 import traceback
 from pprint import pprint
-
+import requests
 
 from src.help_menu import HELP_MENU_RESPONSES
-from src.messages import HELP_MENU, MESSAGE, needs_greet_button, greeted_response_attachments, SUGGESTION_MODAL
+from src.messages import *
+
+# from src.airtable_handling import airtable
 
 logger = logging.getLogger(__name__)
 new_event_logger = logging.getLogger(f'{__name__}.new_member')
 all_event_logger = logging.getLogger(f'{__name__}.all_events')
 
 # constants
-PROXY = config('PROXY')
+PROXY = config('PROXY', default=None)
 
-# TOKEN = config('PERSONAL_APP_TOKEN')
-# COMMUNITY_CHANNEL = config('PERSONAL_PRIVATE_CHANNEL')
+TOKEN = config('PERSONAL_APP_TOKEN')
+COMMUNITY_CHANNEL = config('PERSONAL_PRIVATE_CHANNEL')
 
-TOKEN = config('OPCODE_APP_TOKEN')
+# TOKEN = config('OPCODE_APP_TOKEN')
 # COMMUNITY_CHANNEL = config('OPCODE_REWRITE_CHANNEL')
 # PROJECTS_CHANNEL = config('OPCODE_OC_PROJECTS_CHANNEL')
 # COMMUNITY_CHANNEL = config('OPCODE_COMMUNITY_ID')
-COMMUNITY_CHANNEL = config('OPCODE_BOT_TESTING_CHANNEL')
+# COMMUNITY_CHANNEL = config('OPCODE_BOT_TESTING_CHANNEL')
 
-PROXY = PROXY if PROXY else None
+"""Airtable configs"""
+AIRTABLE_BASE_KEY = config('PERSONAL_AIRTABLE_BASE_KEY')
+AIRTABLE_API_KEY = config('PERSONAL_AIRTABLE_TOKEN')
+AIRTABLE_TABLE_NAME = 'Mentor Request'
+
 slack_client = SlackClient(TOKEN, proxies=PROXY)
 
 
@@ -41,10 +48,10 @@ def event_handler(event_dict: dict) -> None:
     Handles routing all of the received subscribed events to the correct method
     :param event_dict:
     """
-    # all_event_logger.info(event_dict)
-    # if event_dict['type'] == 'team_join':
-    #     new_event_logger.info('New member event recieved')
-    #     new_member(event_dict)
+    all_event_logger.info(event_dict)
+    if event_dict['type'] == 'team_join':
+        new_event_logger.info('New member event recieved')
+        new_member(event_dict)
 
     """ Trigger for testing team_join event """
     if event_dict['type'] == 'message' and 'user' in event_dict.keys() and event_dict['text'] == 'testgreet':
@@ -64,10 +71,15 @@ def help_menu_interaction(data: dict) -> None:
     if response == 'suggestion':
         trigger_id = data['trigger_id']
         res = slack_client.api_call('dialog.open', trigger_id=trigger_id, dialog=SUGGESTION_MODAL)
-        pprint(res)
+
+    #  Disabled while airtable integration is still in development
+    # elif response == 'mentor':
+    #     trigger_id = data['trigger_id']
+    #     res = slack_client.api_call('dialog.open', trigger_id=trigger_id, dialog=MENTOR_REQUEST_MODAL)
+    #     pprint(res)
 
     else:
-        params = {'text': '  \n\n\n' + HELP_MENU_RESPONSES[data['actions'][0]['value']],
+        params = {'text': HELP_MENU_RESPONSES[data['actions'][0]['value']],
                   'channel': data['channel']['id'],
                   'ts': data['message_ts'],
                   'as_user': True
@@ -103,14 +115,60 @@ def greeted_interaction(data: dict) -> dict:
         res = slack_client.api_call("chat.update", **params)
 
 
-def suggestion_submission(data):
+def suggestion_submission(data: dict) -> None:
+    """
+    Receives the event when a user submits a suggestion for a new help topic and
+    posts it to the #community channel
+    :param data:
+    """
     suggestion = data['submission']['suggestion']
     user_id = data['user']['id']
-    message = f"<@{user_id}> just submitted a suggestion for a help topic:\n{suggestion}"
+    message = f":exclamation:<@{user_id}> just submitted a suggestion for a help topic:exclamation:\n-- {suggestion}"
     res = slack_client.api_call('chat.postMessage', channel=COMMUNITY_CHANNEL, text=message)
 
 
+def mentor_submission(data):
+    """
+    Parses the mentor request dialog form and pushes the data to Airtable.
+    :param data:
+    :return:
+    """
+
+    # Temporary hack.  Change this to getting the record ID's from the table itself
+    services_records = {
+        'General Guidance - Slack Chat': 'recBxmDasLXwmVB78',
+        'General Guidance - Voice Chat': 'recDyu4PMbPl7Ti58',
+        'Pair Programming': 'recHCFAO9uNSy1WDs',
+        'Code Review': 'recUK55xJXOfAaYNb',
+        'Resume Review': 'recXZzUduWfaxWvSF',
+        'Mock Interview': 'recdY4XLeN1CPz1l8'
+    }
+
+    form = data['submission']
+    params = {
+        'fields': {
+            'Slack User': form['Slack User'],
+            'Email': form['Email'],
+            'Service': [services_records[form['service']]],
+            'Skillsets': [form['skillset']],
+            'Additional Details': form['Additional Details']
+        }
+    }
+
+    headers = {
+        'authorization': "Bearer " + AIRTABLE_API_KEY
+    }
+    res = requests.post(f"https://api.airtable.com/v0/{AIRTABLE_BASE_KEY}/{AIRTABLE_TABLE_NAME}", json=params,
+                        headers=headers)
+
+
 def new_member(event_dict: dict) -> None:
+    """
+    Invoked when a new user joins and a team_join event is received.
+    DMs the new user with the welcome message and help menu as well as pings
+    the #community channel with a new member notification
+    :param event_dict:
+    """
     new_event_logger.info('Recieved json event: {}'.format(event_dict))
 
     user_id = event_dict['user']['id']
@@ -121,27 +179,27 @@ def new_member(event_dict: dict) -> None:
     custom_message = MESSAGE.format(real_name=real_name)
 
     new_event_logger.info('Built message: {}'.format(custom_message))
-    # response = slack_client.api_call('chat.postMessage',
-    #                                  # channel=user_id,
-    #                                  channel=COMMUNITY_CHANNEL, #  testing option
-    #                                  # as_user=True,  # Currently not working.  DM comes from my account
-    #                                  text=custom_message)
+    response = slack_client.api_call('chat.postMessage',
+                                     channel=user_id,
+                                     # channel=COMMUNITY_CHANNEL, #  testing option
+                                     as_user=True,  # Currently not working.  DM comes from my account
+                                     text=custom_message)
 
     r2 = slack_client.api_call('chat.postMessage',
-                               # channel=user_id,
-                               channel=COMMUNITY_CHANNEL, #  testing option
-                               # as_user=True,
+                               channel=user_id,
+                               # channel=COMMUNITY_CHANNEL,  # testing option
+                               as_user=True,
                                **HELP_MENU)
 
     # Notify #community
     text = f":tada: <@{user_id}> has joined the Slack team :tada:"
     slack_client.api_call('chat.postMessage', channel=COMMUNITY_CHANNEL,
                           text=text, attachments=needs_greet_button())
-    #
-    # if response['ok']:
-    #     new_event_logger.info('New Member Slack response: Response 1: {} \nResponse2: {}'.format(response, r2))
-    # else:
-    #     new_event_logger.error('FAILED -- Message to new member returned error: {}'.format(response))
+
+    if response['ok'] and r2['ok']:
+        new_event_logger.info('New Member Slack response: Response 1: {} \nResponse2: {}'.format(response, r2))
+    else:
+        new_event_logger.error('FAILED -- Message to new member returned error: {}\n{}'.format(response, r2))
 
 
 def parse_slack_output(slack_rtm_output: list) -> None:
@@ -176,7 +234,6 @@ def join_channels():
     """
     response = slack_client.api_call('channels.join', name='general')
     print(response)
-# set the defalt to a 1 second delay
 
 
 def run_bot(delay: int = 1) -> None:

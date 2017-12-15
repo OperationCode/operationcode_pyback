@@ -9,8 +9,8 @@ from utils.log_manager import setup_logging
 
 app = Flask(__name__)
 
-VERIFICATION_TOKEN = config('OPCODE_VERIFICATION_TOKEN')
-# VERIFICATION_TOKEN = config('APP_VERIFICATION_TOKEN')
+# VERIFICATION_TOKEN = config('OPCODE_VERIFICATION_TOKEN')
+VERIFICATION_TOKEN = config('APP_VERIFICATION_TOKEN')
 
 
 @app.route("/user_interaction", methods=['POST'])
@@ -24,6 +24,7 @@ def interaction():
         # TODO Logger here
         print("Bad request")
         return make_response("", 403)
+
     callback = data['callback_id']
     pprint(data['user'])
 
@@ -34,6 +35,9 @@ def interaction():
     elif callback == 'suggestion_modal':
         pprint(data)
         bot.suggestion_submission(data)
+    elif callback == 'mentor_request':
+        # pprint(data)
+        bot.mentor_submission(data)
     return make_response('', 200)
 
 
@@ -53,6 +57,9 @@ def challenge():
     """
     payload = {}
     data = request.get_json()
+
+    pprint(data)
+
     if data['token'] != VERIFICATION_TOKEN:
         print("Bad request")
         return make_response("", 403)
