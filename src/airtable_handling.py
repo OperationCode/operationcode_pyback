@@ -1,22 +1,15 @@
-import json
 from pprint import pprint
 
 import requests
 from airtable import Airtable
-from decouple import config
 
-BASE_KEY = config('PERSONAL_AIRTABLE_BASE_KEY')
-API_KEY = config('PERSONAL_AIRTABLE_TOKEN')
-TABLE_NAME = 'Mentor Request'
-
+from keys import AIRTABLE_BASE_KEY, AIRTABLE_API_KEY
 
 
 def get_table(table):
-    airtable = Airtable(BASE_KEY, table, api_key=API_KEY)
+    airtable = Airtable(AIRTABLE_BASE_KEY, table, api_key=AIRTABLE_API_KEY)
     res = airtable.get_all()
     pprint(res)
-
-
 
 
 def test():
@@ -30,17 +23,16 @@ def test():
     }
 
     headers = {
-        'authorization': "Bearer " + API_KEY
+        'authorization': "Bearer " + AIRTABLE_API_KEY
     }
     res = requests.post("https://api.airtable.com/v0/app2p4KgQKx35WoCm/Mentor%20Request", json=params,
                         headers=headers)
-    print(res.content)
+    # print(res.content)
 
 
 if __name__ == '__main__':
     # test()
     get_table('Services')
-
 
 services_records = {
     'General Guidance - Slack Chat': 'recBxmDasLXwmVB78',

@@ -1,16 +1,13 @@
-from pprint import pprint
-
-from flask import Flask, request, make_response
-from decouple import config
 import json
 
+from flask import Flask, request, make_response
+
+from keys import VERIFICATION_TOKEN
 from src import app as bot
 from utils.log_manager import setup_logging
+# from pprint import pprint
 
 app = Flask(__name__)
-
-# VERIFICATION_TOKEN = config('OPCODE_VERIFICATION_TOKEN')
-VERIFICATION_TOKEN = config('APP_VERIFICATION_TOKEN')
 
 
 @app.route("/user_interaction", methods=['POST'])
@@ -26,14 +23,14 @@ def interaction():
         return make_response("", 403)
 
     callback = data['callback_id']
-    pprint(data['user'])
+    # pprint(data['user'])
 
     if callback == 'greeting_buttons':
         bot.help_menu_interaction(data)
     elif callback == 'greeted':
         bot.greeted_interaction(data)
     elif callback == 'suggestion_modal':
-        pprint(data)
+        # pprint(data)
         bot.suggestion_submission(data)
     elif callback == 'mentor_request':
         # pprint(data)
@@ -58,7 +55,7 @@ def challenge():
     payload = {}
     data = request.get_json()
 
-    pprint(data)
+    # pprint(data)
 
     if data['token'] != VERIFICATION_TOKEN:
         print("Bad request")

@@ -1,40 +1,18 @@
-import json
 import logging
 import time
-from slackclient import SlackClient
-from utils.log_manager import setup_logging
-from decouple import config
-import traceback
-from pprint import pprint
-import requests
 
+import requests
+from slackclient import SlackClient
+
+from keys import TOKEN, COMMUNITY_CHANNEL, AIRTABLE_API_KEY, AIRTABLE_BASE_KEY, AIRTABLE_TABLE_NAME
 from src.help_menu import HELP_MENU_RESPONSES
 from src.messages import *
-
-# from src.airtable_handling import airtable
+from utils.log_manager import setup_logging
 
 logger = logging.getLogger(__name__)
 new_event_logger = logging.getLogger(f'{__name__}.new_member')
-all_event_logger = logging.getLogger(f'{__name__}.all_events')
 
-# constants
-PROXY = config('PROXY', default=None)
-
-TOKEN = config('PERSONAL_APP_TOKEN')
-COMMUNITY_CHANNEL = config('PERSONAL_PRIVATE_CHANNEL')
-
-# TOKEN = config('OPCODE_APP_TOKEN')
-# COMMUNITY_CHANNEL = config('OPCODE_REWRITE_CHANNEL')
-# PROJECTS_CHANNEL = config('OPCODE_OC_PROJECTS_CHANNEL')
-# COMMUNITY_CHANNEL = config('OPCODE_COMMUNITY_ID')
-# COMMUNITY_CHANNEL = config('OPCODE_BOT_TESTING_CHANNEL')
-
-"""Airtable configs"""
-AIRTABLE_BASE_KEY = config('PERSONAL_AIRTABLE_BASE_KEY')
-AIRTABLE_API_KEY = config('PERSONAL_AIRTABLE_TOKEN')
-AIRTABLE_TABLE_NAME = 'Mentor Request'
-
-slack_client = SlackClient(TOKEN, proxies=PROXY)
+slack_client = SlackClient(TOKEN)
 
 
 # TODO: Do something with all of the return values here
@@ -48,7 +26,7 @@ def event_handler(event_dict: dict) -> None:
     Handles routing all of the received subscribed events to the correct method
     :param event_dict:
     """
-    all_event_logger.info(event_dict)
+
     if event_dict['type'] == 'team_join':
         new_event_logger.info('New member event recieved')
         new_member(event_dict)
@@ -70,9 +48,9 @@ def help_menu_interaction(data: dict) -> None:
 
     if response == 'suggestion':
         trigger_id = data['trigger_id']
-        res = slack_client.api_call('dialog.open', trigger_id=trigger_id, dialog=SUGGESTION_MODAL)
+        response = slack_client.api_call('dialog.open', trigger_id=trigger_id, dialog=SUGGESTION_MODAL)
 
-    #  Disabled while airtable integration is still in development
+    # Disabled while airtable integration is still in development
     # elif response == 'mentor':
     #     trigger_id = data['trigger_id']
     #     res = slack_client.api_call('dialog.open', trigger_id=trigger_id, dialog=MENTOR_REQUEST_MODAL)
@@ -252,7 +230,7 @@ def run_bot(delay: int = 1) -> None:
                 time.sleep(delay)
             except Exception as e:
                 logger.error(f'Some exception occured: {e}')
-                logger.error(f'traceback: {traceback.print_exc()}')
+                logger.exception(e)
                 slack_client.rtm_connect()
     else:
         print("Connection failed.  Invalid Slack token or bot ID")
