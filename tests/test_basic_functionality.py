@@ -3,7 +3,7 @@ import unittest
 import mock
 import logging
 
-from src import app
+from src import builders
 from src.messages import HELP_MENU, MESSAGE
 from tests.test_data import NEW_MEMBER, USER_INFO_HAS_REAL_NAME, USER_INFO_NO_NAME, USER_INFO_HAS_NAME
 
@@ -16,7 +16,7 @@ class EventHandlerTestCase(unittest.TestCase):
         Asserts event_handler correctly passes the event to the new_member function
         when event type is 'team_join'
         """
-        app.event_handler(NEW_MEMBER)
+        builders.event_handler(NEW_MEMBER)
         mock_new_member.assert_called_with(NEW_MEMBER)
 
     #   All events logging currently disabled
@@ -47,7 +47,7 @@ class UserNameTestCase(unittest.TestCase):
         when it is present.
         """
         mock_client.api_call.return_value = USER_INFO_HAS_REAL_NAME
-        real_name = app.user_name_from_id(USER_INFO_HAS_REAL_NAME['user']['id'])
+        real_name = builders.user_name_from_id(USER_INFO_HAS_REAL_NAME['user']['id'])
         self.assertEquals(real_name, 'Episod')
 
     def test_user_name_from_id_real_name_blank_returns_name(self, mock_client):
@@ -56,7 +56,7 @@ class UserNameTestCase(unittest.TestCase):
         when their real name is absent but the username is present
         """
         mock_client.api_call.return_value = USER_INFO_HAS_NAME
-        name = app.user_name_from_id(USER_INFO_HAS_NAME['user']['id'])
+        name = builders.user_name_from_id(USER_INFO_HAS_NAME['user']['id'])
         self.assertEquals(name, 'Spengler')
 
     def test_user_name_from_id_no_name_return_new_member(self, mock_client):
@@ -65,7 +65,7 @@ class UserNameTestCase(unittest.TestCase):
         when both real name and name are absent
         """
         mock_client.api_call.return_value = USER_INFO_NO_NAME
-        name = app.user_name_from_id(USER_INFO_NO_NAME['user']['id'])
+        name = builders.user_name_from_id(USER_INFO_NO_NAME['user']['id'])
         self.assertEquals(name, 'New Member')
 
 # TODO Not currently using build_message

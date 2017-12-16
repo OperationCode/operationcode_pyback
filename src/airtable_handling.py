@@ -1,9 +1,7 @@
-from pprint import pprint
-
 import requests
 from airtable import Airtable
 
-from keys import AIRTABLE_BASE_KEY, AIRTABLE_API_KEY
+from utils.keys import AIRTABLE_BASE_KEY, AIRTABLE_API_KEY
 
 
 def get_table(table):
@@ -26,7 +24,8 @@ def test():
     headers = {
         'authorization': "Bearer " + AIRTABLE_API_KEY
     }
-    res = requests.post("https://api.airtable.com/v0/app2p4KgQKx35WoCm/Mentor%20Request", json=params,
+    res = requests.post("https://api.airtable.com/v0/app2p4KgQKx35WoCm/Mentor%20Request",
+                        json=params,
                         headers=headers)
     # print(res.content)
 
