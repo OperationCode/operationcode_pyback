@@ -7,9 +7,10 @@ from keys import AIRTABLE_BASE_KEY, AIRTABLE_API_KEY
 
 
 def get_table(table):
-    airtable = Airtable(AIRTABLE_BASE_KEY, table, api_key=AIRTABLE_API_KEY)
-    res = airtable.get_all()
-    pprint(res)
+
+    air_table = Airtable(AIRTABLE_BASE_KEY, table, api_key=AIRTABLE_API_KEY)
+    res = air_table.get_all()
+    return res
 
 
 def test():
