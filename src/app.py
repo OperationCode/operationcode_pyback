@@ -15,6 +15,9 @@ new_event_logger = logging.getLogger(f'{__name__}.new_member')
 slack_client = SlackClient(TOKEN)
 
 
+# TODO: Do something with all of the return values here
+def build_message(message_template: str, **kwargs: dict) -> str:
+    return message_template.format(**kwargs)
 
 
 def event_handler(event_dict: dict) -> None:
