@@ -231,7 +231,7 @@ def greeted_response_attachments(clicker: str) -> list:
             "attachment_type": "default",
             "actions": [{
                 "name": "reset_greet",
-                "text": f"<Reset {clicker}'s claim",
+                "text": f"Reset claim",
                 "type": "button",
                 "style": "danger",
                 "value": "reset_greet",
