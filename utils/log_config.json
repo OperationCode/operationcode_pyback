@@ -33,16 +33,6 @@
           "backupCount": 20,
           "encoding": "utf8"
       },
-      "all_events_handler": {
-          "class": "logging.handlers.RotatingFileHandler",
-          "level": "INFO",
-          "formatter": "simple",
-          "filename": "events.log",
-          "maxBytes": 10485760,
-          "backupCount": 20,
-          "encoding": "utf8"
-      },
-
       "error_file_handler": {
           "class": "logging.handlers.RotatingFileHandler",
           "level": "ERROR",
@@ -64,16 +54,11 @@
           "level": "INFO",
           "handlers": ["new_member_handler"],
           "propagate": "no"
-      },
-      "my_module.all_events": {
-          "level": "INFO",
-          "handlers": ["all_events_handler"],
-          "propagate": "no"
       }
   },
 
   "root": {
       "level": "INFO",
-      "handlers": ["console", "info_file_handler", "new_member_handler", "all_events_handler", "error_file_handler"]
+      "handlers": ["console", "info_file_handler", "new_member_handler", "error_file_handler"]
   }
 }
