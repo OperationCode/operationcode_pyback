@@ -1,7 +1,3 @@
-from slackclient import SlackClient
-
-# possible circular reference?
-from src.builders import slack_client
 
 
 def build_message(message_template: str, **kwargs: dict) -> str:

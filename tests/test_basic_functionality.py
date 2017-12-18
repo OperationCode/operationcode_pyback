@@ -1,11 +1,12 @@
 from testfixtures import LogCapture
 import unittest
 import mock
-import logging
+
 
 from src import builders
 from src.messages import HELP_MENU, MESSAGE
 from tests.test_data import NEW_MEMBER, USER_INFO_HAS_REAL_NAME, USER_INFO_NO_NAME, USER_INFO_HAS_NAME
+
 
 
 class EventHandlerTestCase(unittest.TestCase):

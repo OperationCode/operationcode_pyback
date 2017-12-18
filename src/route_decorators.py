@@ -9,14 +9,14 @@ new_event_logger = logging.getLogger(f'{__name__}.new_member')
 
 
 def validate_response(json_key, expected_value):
-    def decorator(funct):
-        @wraps(funct)
+    def decorator(func):
+        @wraps(func)
         def wrapper(*args, **kwargs):
             data = json.loads(request.form['payload'])[json_key]
             if data is not expected_value:
                 return redirect(url_for('HTTP403'))
 
-            return funct(data, *args, **kwargs)
+            return func(data, *args, **kwargs)
 
         return wrapper
 
