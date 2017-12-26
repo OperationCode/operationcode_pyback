@@ -8,7 +8,7 @@ new_event_logger = logging.getLogger(f'{__name__}.new_member')
 
 def combined_route_director(json_data: dict, required_key: str) -> None:
     """
-        Recieved json response data from slack api and uses route dictionary {string: method}
+        Receved json response data from slack api and uses route dictionary {string: method}
         to direct to the correct method.
         :param json_data: dict
         :param required_key: str
