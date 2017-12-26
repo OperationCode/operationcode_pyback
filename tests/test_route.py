@@ -1,9 +1,8 @@
 import unittest
+
 import mock
+
 from src.routing_interface import combined_route_director
-
-
-
 
 
 class ValidateDecorator(unittest.TestCase):
@@ -51,5 +50,3 @@ class ValidateDecorator(unittest.TestCase):
         mock_dict = {'event': 'team_join'}
         combined_route_director(mock_dict, 'event')
         mock_func_call.assert_called_with(mock_dict)
-
-
