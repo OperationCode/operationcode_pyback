@@ -81,3 +81,9 @@ CHANNELS = {
         }, u'is_im': True, u'id': u'D0X6385P1', u'has_pins': False
     },
 }
+# not my tokens
+CHALLENGE = {
+
+    "challenge": "3eZbrw1aBm2rZgRNFdxV2595E9CY3gmdALWMmHkvFXO7tYXAYM8P",
+    "type": "url_verification"
+}
