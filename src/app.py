@@ -4,10 +4,14 @@ from flask import Flask, request, make_response, redirect, url_for
 
 from src.route_decorators import validate_response, url_verification
 from src.routing_interface import combined_route_director
+from utils.config import get_instance_folder_path
 from utils import setup_logging
 from utils.keys import VERIFICATION_TOKEN
 
+
 app = Flask(__name__,
+            instance_path=get_instance_folder_path(),
+            instance_relative_config=True,
             template_folder='/static/templates')
 
 
@@ -24,9 +28,9 @@ def token_id_route():
     return make_response('', 200)
 
 
-@validate_response('token', VERIFICATION_TOKEN)
-@url_verification
 @app.route('/event_endpoint', methods=['POST'])
+@url_verification
+@validate_response('token', VERIFICATION_TOKEN)
 def events_route():
     """
     Any event based response will get routed here.
