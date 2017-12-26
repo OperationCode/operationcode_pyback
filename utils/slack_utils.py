@@ -1,3 +1,8 @@
+from slackclient import SlackClient
+
+from utils.keys import VERIFICATION_TOKEN
+
+client = SlackClient(VERIFICATION_TOKEN)
 
 
 def build_message(message_template: str, **kwargs: dict) -> str:
@@ -12,7 +17,7 @@ def join_channels():
     """
     Utility function for joining channels.  Move to utils?
     """
-    slack_client.api_call('channels.join', name='general')
+    client.api_call('channels.join', name='general')
 
 
 def make_base_params(data, text_value, ):
@@ -29,7 +34,7 @@ def user_name_from_id(user_id: str) -> str:
     to personalize messages.  Prioritizes real_name -> name -> 'New Member'
     :param user_id:
     """
-    response = slack_client.api_call('users.info', user=user_id)
+    response = client.api_call('users.info', user=user_id)
 
     if response['user']['real_name']:
         return response['user']['real_name'].title()
@@ -40,7 +45,7 @@ def user_name_from_id(user_id: str) -> str:
 
 
 def list_channels():
-    channels_call = slack_client.api_call("channels.list")
+    channels_call = client.api_call("channels.list")
     return channels_call['channels'] if channels_call.get('ok') else None
 
 
@@ -62,7 +67,7 @@ def print_channels():
 
 
 def send_message(channel_id, message):
-    slack_client.api_call(
+    client.api_call(
         "chat.postMessage",
         channel=channel_id,
         text=message,
@@ -72,7 +77,7 @@ def send_message(channel_id, message):
 
 
 def get_bot_id(bot_name):
-    api_call = slack_client.api_call('users.list')
+    api_call = client.api_call('users.list')
     if api_call.get('ok'):
         # retrieve all users so we can find our bot
         users = api_call.get('members')
@@ -84,9 +89,8 @@ def get_bot_id(bot_name):
 
 
 if __name__ == '__main__':
-
     from decouple import config
 
     TOKEN = config('OPCODE_APP_TOKEN')
-    slack_client = SlackClient(TOKEN)
+    client = SlackClient(TOKEN)
     print_channels()
