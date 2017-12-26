@@ -4,8 +4,8 @@ import unittest
 
 from mock import patch
 
+from keys import VERIFICATION_TOKEN
 from src.app import app
-from utils.keys import VERIFICATION_TOKEN
 from tests.test_data import CHALLENGE
 
 

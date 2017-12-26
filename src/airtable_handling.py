@@ -1,7 +1,7 @@
 import requests
 from airtable import Airtable
 
-from utils.keys import AIRTABLE_BASE_KEY, AIRTABLE_API_KEY
+from keys import AIRTABLE_BASE_KEY, AIRTABLE_API_KEY
 
 
 def get_table(table):

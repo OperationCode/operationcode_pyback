@@ -3,10 +3,10 @@ import logging
 from requests import Response, post
 from slackclient import SlackClient
 
+from keys import *
 from src.help_menu import HELP_MENU_RESPONSES
 from src.messages import *
 from utils import get_response_type, make_base_params, user_name_from_id
-from utils.keys import *
 
 logger = logging.getLogger(__name__)
 new_event_logger = logging.getLogger(f'{__name__}.new_member')

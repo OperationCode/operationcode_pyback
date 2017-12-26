@@ -1,6 +1,6 @@
 from slackclient import SlackClient
 
-from utils.keys import VERIFICATION_TOKEN
+from keys import VERIFICATION_TOKEN
 
 client = SlackClient(VERIFICATION_TOKEN)
 

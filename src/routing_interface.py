@@ -25,7 +25,7 @@ def combined_route_director(json_data: dict, required_key: str) -> None:
     if json_data[required_key] in route_dict.keys():
         route_dict.get(json_data[required_key])(json_data)
 
-    # test_route_handler(json_data)
+    test_route_handler(json_data)
 
 
 def test_route_handler(json_data):
