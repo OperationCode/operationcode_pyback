@@ -6,7 +6,7 @@ from mock import patch
 
 from keys import VERIFICATION_TOKEN
 from src.app import app
-from tests.test_data import CHALLENGE
+from tests.test_data import CHALLENGE, NEW_MEMBER
 
 
 class RequestVerification(unittest.TestCase):
@@ -20,8 +20,10 @@ class RequestVerification(unittest.TestCase):
 
     @patch('src.app.combined_route_director')
     def test_good_slack_token(self, mock):
-        data = json.dumps(dict(token=VERIFICATION_TOKEN, type='event'))
-        response = self.app.post('/event_endpoint', data=data,
+        data = NEW_MEMBER
+        data['token'] = VERIFICATION_TOKEN
+        json_data = json.dumps(data)
+        response = self.app.post('/event_endpoint', data=json_data,
                                  content_type='application/json',
                                  follow_redirects=True)
         self.assertTrue(mock.called)
@@ -29,8 +31,10 @@ class RequestVerification(unittest.TestCase):
 
     @patch('src.app.combined_route_director')
     def test_bad_slack_token(self, mock):
-        data = json.dumps(dict(token='bad token'))
-        response = self.app.post('/event_endpoint', data=data,
+        data = NEW_MEMBER
+        data['token'] = 'bad token'
+        json_data = json.dumps(data)
+        response = self.app.post('/event_endpoint', data=json_data,
                                  content_type='application/json',
                                  follow_redirects=True)
 
@@ -39,8 +43,10 @@ class RequestVerification(unittest.TestCase):
 
     @patch('src.app.combined_route_director')
     def test_empty_slack_value_token(self, mock):
-        data = json.dumps(dict(token=None))
-        response = self.app.post('/event_endpoint', data=data,
+        data = NEW_MEMBER
+        data['token'] = None
+        json_data = json.dumps(data)
+        response = self.app.post('/event_endpoint', data=json_data,
                                  content_type='application/json',
                                  follow_redirects=True)
 

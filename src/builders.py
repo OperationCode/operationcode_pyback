@@ -9,7 +9,7 @@ from src.messages import *
 from utils import get_response_type, make_base_params, user_name_from_id
 
 logger = logging.getLogger(__name__)
-new_event_logger = logging.getLogger(f'{__name__}.new_member')
+
 
 slack_client = SlackClient(TOKEN)
 
@@ -133,7 +133,7 @@ def new_member(event_dict: dict) -> None:
 
     user_id = event_dict['user']['id']
     custom_message = MESSAGE.format(real_name=user_name_from_id(user_id))
-    new_event_logger.info(f'Built message: {custom_message}')
+    logger.info(f'Built message: {custom_message}')
 
     text_response = slack_client.api_call('chat.postMessage',
                                           channel=user_id,
@@ -155,12 +155,12 @@ def new_member(event_dict: dict) -> None:
                                                attachments=needs_greet_button())
 
     if text_response['ok'] and button_response['ok'] and community_response['ok']:
-        new_event_logger.info(f'New Member Slack response-> '
+        logger.info(f'New Member Slack response-> '
                               f'text: {text_response} \n'
                               f'button: {button_response} \n'
                               f'community response: {community_response}')
     else:
-        new_event_logger.error('FAILED -- Message to new member returned '
+        logger.error('FAILED -- Message to new member returned '
                                f'error: {text_response} \n'
                                f'button: {button_response}\n'
                                f'community response: {community_response}')

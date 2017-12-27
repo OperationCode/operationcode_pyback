@@ -5,7 +5,7 @@ from functools import wraps
 from flask import make_response, redirect, request
 
 logger = logging.getLogger(__name__)
-new_event_logger = logging.getLogger(f'{__name__}.new_member')
+
 
 
 def validate_response(json_key, expected_value):

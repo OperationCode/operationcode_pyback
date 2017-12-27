@@ -3,10 +3,9 @@ import logging
 from src import builders as bot
 
 logger = logging.getLogger(__name__)
-new_event_logger = logging.getLogger(f'{__name__}.new_member')
 
 
-def combined_route_director(json_data: dict, required_key: str) -> None:
+def combined_route_director(json_data: dict, event=None, callback_id=None) -> None:
     """
         Receved json response data from slack api and uses route dictionary {string: method}
         to direct to the correct method.
@@ -22,15 +21,20 @@ def combined_route_director(json_data: dict, required_key: str) -> None:
         'team_join': bot.new_member
     }
 
-    if json_data[required_key] in route_dict.keys():
-        route_dict.get(json_data[required_key])(json_data)
+    # verify we have event response and we have a handler for it
+    if event and json_data[event]['type'] in route_dict.keys():
+        route_dict.get(json_data[event]['type'])(json_data)
 
-    # test_route_handler(json_data)
+    # verify we have callback_id response and have handler for it
+    if callback_id and json_data[callback_id] in route_dict.keys():
+        route_dict.get(json_data[callback_id])(json_data)
+
+    test_route_handler(json_data)
 
 
 def test_route_handler(json_data):
-    if json_data['type'] is 'message' and \
-                    'user' in json_data.keys() and \
-                    json_data['text'] is 'testgreet':
-        json_data['user'] = {'id': json_data['user']}
-        bot.new_member(json_data)
+    if 'event' in json_data.keys() and json_data['event']['type'] == 'message' and 'user' in json_data[
+            'event'].keys() and json_data['event']['text'] == 'test':
+        data = json_data['event']
+        data['user'] = {'id': data['user']}
+        bot.new_member(data)

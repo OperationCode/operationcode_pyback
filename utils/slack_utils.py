@@ -1,8 +1,8 @@
 from slackclient import SlackClient
 
-from keys import VERIFICATION_TOKEN
+from keys import TOKEN
 
-client = SlackClient(VERIFICATION_TOKEN)
+client = SlackClient(TOKEN)
 
 
 def build_message(message_template: str, **kwargs: dict) -> str:
@@ -30,7 +30,7 @@ def make_base_params(data, text_value, ):
 
 def user_name_from_id(user_id: str) -> str:
     """
-    Queries the Slack workspace for the users real name
+    Queries the Slack workspace for t   he users real name
     to personalize messages.  Prioritizes real_name -> name -> 'New Member'
     :param user_id:
     """

@@ -21,8 +21,8 @@ def token_id_route():
     Receives request from slack interactive messages.
     These are the messages that contain key: 'token_id'
     """
-    data = json.loads(request.form['payload'])
-    combined_route_director(data, 'callback')
+    data = request.get_json()
+    combined_route_director(data, callback_id='callback_id')
 
     return make_response('', 200)
 
@@ -37,7 +37,7 @@ def events_route():
     Lastly forwards event data to route director
     """
     response_data = request.get_json()
-    combined_route_director(response_data, 'event')
+    combined_route_director(response_data, event='event')
     return make_response('', 200)
 
 
