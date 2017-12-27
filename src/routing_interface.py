@@ -15,7 +15,7 @@ def combined_route_director(json_data: dict, event=None, callback_id=None) -> No
         """
     route_dict = {
         'greeting_buttons': bot.help_menu_interaction,
-        'greeted': bot.greeted_interaction,
+        'greeted_interaction': bot.greeted_interaction,
         'suggestion_modal': bot.suggestion_submission,
         'mentor_request': bot.mentor_submission,
         'team_join': bot.new_member

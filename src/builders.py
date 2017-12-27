@@ -53,7 +53,7 @@ def greeted_interaction(data: dict) -> dict:
     to un-claim
     """
     greet_type = get_response_type(data)
-
+    print(data)
     params = make_base_params(data, data['original_message']['text'])
 
     if greet_type is 'greeted':

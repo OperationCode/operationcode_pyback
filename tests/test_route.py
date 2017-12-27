@@ -24,9 +24,9 @@ class ValidateDecorator(unittest.TestCase):
         Asserts the input dictionary is routed to the correct builder function
         """
         data = CALLBACK_GENERIC
-        data['event'] = {'type':'team_join'}
-        combined_route_director(data, event='event')
-        self.assertTrue(mock_func_call.called)
+        data['callback_id'] = 'greeted_interaction'
+        combined_route_director(data, callback_id='callback_id')
+        mock_func_call.assert_called_with(data)
 
     @mock.patch('src.builders.suggestion_submission')
     def test_suggestion_modal_called(self, mock_func_call):
