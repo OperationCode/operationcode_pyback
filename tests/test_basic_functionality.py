@@ -5,8 +5,7 @@ from mock import patch
 
 logger = logging.getLogger(__name__)
 
-from utils.slack_utils import build_message, user_name_from_id
-from src.messages import MESSAGE
+from ocbot.external.route_slack import Slack, SlackBuilder
 from tests.test_data import USER_INFO_HAS_REAL_NAME, USER_INFO_NO_NAME, USER_INFO_HAS_NAME
 
 

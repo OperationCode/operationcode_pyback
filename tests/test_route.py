@@ -2,9 +2,8 @@ import unittest
 
 import mock
 
-from src.routing_interface import combined_route_director
+from ocbot.web.routing_interface import combined_route_director
 from tests.test_data import CALLBACK_GENERIC, NEW_MEMBER
-
 
 
 class ValidateDecorator(unittest.TestCase):

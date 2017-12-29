@@ -4,8 +4,8 @@ import unittest
 
 from mock import patch
 
-from keys import VERIFICATION_TOKEN
-from src.app import app
+from ocbot.keys import VERIFICATION_TOKEN
+from ocbot.web.app import app
 from tests.test_data import CHALLENGE, NEW_MEMBER
 
 
