@@ -1,12 +1,15 @@
+from ..external.route_slack import Slack, SlackBuilder
+
+from ocbot.keys import COMMUNITY_CHANNEL
 from .abc import RouteHandler
-from ocbot.ApiInterface.route_slack import Slack, SlackBuilder
-from keys import COMMUNITY_CHANNEL
+
 
 class SuggestionHandler(RouteHandler):
     """
         Receives the event when a user submits a suggestion for a new help topic and
         posts it to the #community channel
-        :param data:
+        :param event_dict:
+        :type dict
         """
     _message = (":exclamation:<@{user_id}>"
                 " just submitted a suggestion for a help topic:exclamation:\n-- "
@@ -19,7 +22,7 @@ class SuggestionHandler(RouteHandler):
 
     def api_calls(self):
         # slack api call for user_name
-        self.api_dict['real_name'] = Slack.user_name_from_id(self._user_id)
+        self.api_dict['real_name'] = Slack().user_name_from_id(self._user_id)
 
     # TODO have bot look through resources for this item
     # TODO to get additional items

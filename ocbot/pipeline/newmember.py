@@ -1,6 +1,6 @@
+from ..external.route_slack import SlackBuilder, Slack
+from ocbot.keys import COMMUNITY_CHANNEL
 from .abc import RouteHandler
-from ocbot.ApiInterface.route_slack import SlackBuilder, Slack
-from keys import COMMUNITY_CHANNEL
 from .utils import needs_greet_button
 
 
@@ -20,7 +20,7 @@ class NewMemberHandler(RouteHandler):
 
     def api_calls(self):
         # slack api call for user_name
-        self.api_dict['real_name'] = Slack.user_name_from_id(self.user_id)
+        self.api_dict['real_name'] = Slack().user_name_from_id(self.user_id)
 
     # TODO call database
     def database_calls(self):
@@ -109,7 +109,6 @@ external_buttons = {
         }
     ]
 }
-
 
 default_interest = [
     {

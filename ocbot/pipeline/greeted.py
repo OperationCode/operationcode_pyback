@@ -1,6 +1,7 @@
+from ocbot.external.route_slack import SlackBuilder
+
+from ocbot.keys import COMMUNITY_CHANNEL
 from .abc import RouteHandler
-from keys import COMMUNITY_CHANNEL
-from ocbot.ApiInterface.route_slack import SlackBuilder
 from .utils import needs_greet_button, get_response_type
 
 
@@ -8,8 +9,6 @@ class GreetedHandler(RouteHandler):
     """
         Handles the interactive message sent to the #community channel
         when a new member joins.
-
-
     """
 
     def __init__(self, *, event_dict):

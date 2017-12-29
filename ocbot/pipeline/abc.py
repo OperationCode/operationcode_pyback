@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from uuid import uuid4
 
-from ocbot.external.all_entrance import external_router
+from ocbot.external.all import external_router
 
 
 class RouteHandler(ABC):

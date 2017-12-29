@@ -1,7 +1,9 @@
+from typing import List
+
 from .abc import RouteHandler
 from .utils import get_response_type
-from ocbot.ApiInterface import route_slack
 
+from ocbot.external.route_slack import SlackBuilder
 
 
 class ActionMenuHandler(RouteHandler):
@@ -48,9 +50,9 @@ class ActionMenuHandler(RouteHandler):
 
     def build_responses(self):
         params = self.text_dict['dialog']
-        call = self.text_dict['call']
+        method = self.text_dict['call']
 
-        self.include_resp(getattr(SlackBuilder, call), self._user_id, **params)
+        self.include_resp(getattr(SlackBuilder(), method), self._user_id, **params)
 
     def make_base_params(self):
         text = HELP_MENU[self._click_type]
@@ -59,7 +61,6 @@ class ActionMenuHandler(RouteHandler):
                 'ts': self._event['message_ts'],
                 'as_user': True
                 }
-
 
 
 SUGGESTION_MODAL = {
@@ -206,7 +207,6 @@ MENTOR_REQUEST_MODAL = {
     ]
 }
 
-
 HELP_MENU = {
     "text": "Click a button below and info will show up here!",
     "attachments": [
@@ -270,6 +270,7 @@ HELP_MENU = {
         }
     ]
 }
+
 
 def greeted_response_attachments(clicker: str) -> List[dict]:
     return [

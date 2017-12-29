@@ -1,6 +1,7 @@
 from .abc import RouteHandler
 from ocbot.external.route_airtable import AirTableBuilder
 
+
 class MentorRequestHandler(RouteHandler):
     """
         Parses the mentor request dialog form and pushes the data to Airtable.
