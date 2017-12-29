@@ -1,6 +1,6 @@
 import logging
 
-from src import builders as bot
+from .app import builders as bot
 
 logger = logging.getLogger(__name__)
 

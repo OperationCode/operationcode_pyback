@@ -1,12 +1,10 @@
-import json
-
 from flask import Flask, request, make_response, redirect, url_for
+from .routing_interface import combined_route_director
 
-from keys import VERIFICATION_TOKEN
-from src.route_decorators import validate_response, url_verification
-from src.routing_interface import combined_route_director
-from utils import setup_logging
-from utils.file_config import get_instance_folder_path
+from ocbot.keys import VERIFICATION_TOKEN
+from ocbot.web.file_config import get_instance_folder_path
+from ocbot.web.route_decorators import validate_response, url_verification
+from ..log_manager import setup_logging
 
 app = Flask(__name__,
             instance_path=get_instance_folder_path(),
