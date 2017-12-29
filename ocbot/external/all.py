@@ -4,6 +4,7 @@ from .route_airtable import AirTable
 from .route_slack import Slack, SlackStart
 import sys
 
+
 # ResponseContainer = NamedTuple('ResponseContainer', [('call_class', str), ('call_method', str), ('response', dict)])
 
 def external_router(calls: List[ResponseContainer]):
@@ -12,5 +13,3 @@ def external_router(calls: List[ResponseContainer]):
         cls = getattr(sys.modules[__name__], call.route)()
         class_method = getattr(cls, call.method)
         yield class_method(call.payload)
-
-
