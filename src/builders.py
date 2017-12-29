@@ -41,6 +41,7 @@ def help_menu_interaction(data: dict) -> dict:
     else:
         params = make_base_params(data, HELP_MENU_RESPONSES[response_type])
         response = slack_client.api_call('chat.update', **params)
+
     return response
 
 
@@ -164,3 +165,6 @@ def new_member(event_dict: dict) -> None:
                                f'error: {text_response} \n'
                                f'button: {button_response}\n'
                                f'community response: {community_response}')
+
+
+

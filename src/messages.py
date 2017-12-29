@@ -1,3 +1,5 @@
+from typing import List
+
 MESSAGE = (
       "Hi {real_name},\n\n Welcome to Operation Code! I'm a bot designed to help answer questions and get you on your way in our community.\n\n"
     "Please take a moment to review our <https://op.co.de/code-of-conduct|Code of Conduct.>\n\n"
@@ -222,7 +224,7 @@ MENTOR_REQUEST_MODAL = {
 }
 
 
-def greeted_response_attachments(clicker: str) -> list:
+def greeted_response_attachments(clicker: str) -> List[dict]:
     return [
         {
             "text": f":100:<@{clicker}> has greeted the new user!:100:",
@@ -237,11 +239,11 @@ def greeted_response_attachments(clicker: str) -> list:
                 "style": "danger",
                 "value": "reset_greet",
             }]
-        },
+        }
     ]
 
 
-def needs_greet_button() -> list:
+def needs_greet_button() -> List[dict]:
     return [
         {
             'text': "",
