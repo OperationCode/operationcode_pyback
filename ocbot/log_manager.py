@@ -1,6 +1,6 @@
 import json
 import logging.config
-import os
+from os import path
 import decouple
 
 logger = logging.getLogger(__name__)
@@ -11,9 +11,9 @@ new_event_logger = logging.getLogger(f'{__name__}.new_member')
 def setup_logging(default_level=logging.INFO):
 
     logging_config = decouple.config('LOGGING_CONFIG', default='log_config.json')
-    file_path = os.path.join(os.path.dirname(__file__), logging_config)
+    file_path = path.join(path.dirname(__file__), logging_config)
 
-    if os.path.exists(file_path):
+    if path.exists(file_path):
         with open(file_path, 'rt') as f:
             config = json.load(f)
         logging.config.dictConfig(config)
