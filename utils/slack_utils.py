@@ -1,8 +1,26 @@
 from slackclient import SlackClient
-
+from typing import List
+from uuid import UUID
 from keys import TOKEN
+from src.GateWay import ResponseContainer
+import logging
 
 client = SlackClient(TOKEN)
+
+logger = logging.getLogger(__name__)
+
+
+def is_slack_success(response_list: List[ResponseContainer], event_key: UUID ) -> bool:
+
+        for item in response_list:
+            try:
+                client.api_call(item.call_method, **item.response)
+                yield True
+            except Exception as response:
+                logging.exception(response, UUID )
+                yield False
+
+
 
 
 def build_message(message_template: str, **kwargs: dict) -> str:
@@ -94,3 +112,5 @@ if __name__ == '__main__':
     TOKEN = config('OPCODE_APP_TOKEN')
     client = SlackClient(TOKEN)
     print_channels()
+
+
