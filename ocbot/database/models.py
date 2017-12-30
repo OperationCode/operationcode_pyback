@@ -45,4 +45,4 @@ class Interest(Base):
                          back_populates='interests')
 
     def __repr__(self):
-        return f'{self.id} | {self.name}'
+        return self.name
