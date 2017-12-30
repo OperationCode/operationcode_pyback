@@ -1,11 +1,11 @@
 from sqlalchemy import create_engine
-from ocbot.database.models import Base, User, Interest
+from ocbot.database.models import Base, User, Interest, UserGroup
 from sqlalchemy.orm import sessionmaker, Session
 
 
 class PyBotDatabase:
     def __init__(self, engine: str = 'sqlite:///memory'):
-        self.engine = create_engine(engine)
+        self.engine = create_engine(engine, echo=True)
 
     def remake_tables(self) -> None:
         """
@@ -85,12 +85,12 @@ class PyBotDatabase:
         user = session.query(User).filter_by(email=email)
         interests, kwargs = PyBotDatabase._slice_interests(kwargs)
 
-        num_records = user.update({**kwargs})
+        res = user.update({**kwargs})
         if interests:
             self._handle_interests(user.first(), session, interests)
 
         session.commit()
-        return bool(num_records)
+        return bool(res)
 
     @classmethod
     def _slice_interests(cls, kwargs: dict) -> tuple:
@@ -133,9 +133,28 @@ class PyBotDatabase:
             Returns true if a record was successfully deleted
         """
         session = sessionmaker(bind=self.engine)()
-        num_records = session.query(User).filter_by(email=email).delete()
+        res = session.query(User).filter_by(email=email).delete()
         session.commit()
-        return bool(num_records)
+        return bool(res)
+
+    def assign_usergroup(self, email: str, group: str) -> bool:
+        """
+        Parses the UserGroup value of the given string and assigns the user
+        to that group.
+        :param email:
+        :param group:
+        :return boolean:
+            Returns true if user is found and assigned to new UserGroup
+        """
+
+        session = sessionmaker(bind=self.engine)()
+        res = session.query(User).filter_by(email=email)
+        if not res.first() or group not in UserGroup.__members__:
+            return False
+
+        res.first().usergroup = UserGroup[group]
+        session.commit()
+        return True
 
 
 if __name__ == '__main__':
@@ -143,14 +162,21 @@ if __name__ == '__main__':
     Stuff for lazy testing.
     """
     db = PyBotDatabase()
+    db.remake_tables()
+    db._populate_interests()
+
     params = {
         'first_name': 'Bob',
         'last_name': 'Boberson',
-        'interests': ['fghfgh'],
+        'interests': ['Java'],
+        'email': 'fake@email.com',
     }
-    num = db.update_user('fake@email.com', **params)
-    # num = db.add_user(**params)
-    print(num)
+    db.add_user(**params)
+    # num = db.update_user('fake@email.com', **params)
+    # print(num)
 
     test_session = sessionmaker(bind=db.engine)()
-    print(test_session.query(User).filter_by(last_name='Boberson').first().interests)
+    print(test_session.query(User).filter_by(last_name='Boberson').first().usergroup)
+
+    db.assign_usergroup('asdad@email.com', 'sdfsdf')
+    print(test_session.query(User).filter_by(last_name='Boberson').first().usergroup)

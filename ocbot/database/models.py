@@ -1,6 +1,8 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, Table
 from sqlalchemy.orm import relationship
+from sqlalchemy_utils import ChoiceType
+import enum
 
 Base = declarative_base()
 
@@ -12,6 +14,13 @@ interest_associations = Table('interest_associations', Base.metadata,
                               )
 
 
+class UserGroup(enum.Enum):
+    Contributor = 0
+    Leadership = 1
+    Mentor = 2
+    Default = 3
+
+
 class User(Base):
     __tablename__ = 'users'
 
@@ -21,6 +30,7 @@ class User(Base):
     email = Column(String(50), nullable=False)
     interests = relationship('Interest', secondary=interest_associations,
                              back_populates='users')
+    usergroup = Column(ChoiceType(UserGroup, impl=Integer()), default=UserGroup.Default.value)
 
     def __repr__(self) -> str:
         return f'{self.id} | {self.first_name} | {self.last_name} | {self.email} | {self.interests}'
