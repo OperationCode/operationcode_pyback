@@ -9,8 +9,8 @@ Base = declarative_base()
 #  un-mapped Table construct serves as the association table between
 #  users and interests
 interest_associations = Table('interest_associations', Base.metadata,
-                              Column('user_id', ForeignKey('users.id'), primary_key=True),
-                              Column('interest_id', ForeignKey('interests.id'), primary_key=True),
+                              Column('user_id', Integer, ForeignKey('users.id')),
+                              Column('interest_id', Integer, ForeignKey('interests.id')),
                               )
 
 
@@ -41,8 +41,7 @@ class Interest(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    users = relationship('User',
-                         secondary=interest_associations,
+    users = relationship('User', secondary=interest_associations,
                          back_populates='interests')
 
     def __repr__(self):

@@ -5,12 +5,12 @@ from sqlalchemy.orm import sessionmaker, Session
 
 class PyBotDatabase:
     def __init__(self, engine: str = 'sqlite:///memory'):
-        self.engine = create_engine(engine, echo=True)
+        self.engine = create_engine(engine, echo=False)
+        self.Session = sessionmaker(bind=self.engine)
 
     def remake_tables(self) -> None:
         """
         Drops and recreates User and Interests tables
-        :return:
         """
         Base.metadata.drop_all(self.engine)
         Base.metadata.create_all(self.engine)
@@ -19,7 +19,7 @@ class PyBotDatabase:
         """
         Pre-populates the interests table
         """
-        session = sessionmaker(bind=self.engine)()
+        session = self.Session()
         interests = ["Javascript", "Ruby", "Java", "Python", "C#", "C", "Swift", ".NET", "HTML / CSS", "Mobile / IOS",
                      "Full-Stack Developer", "Data Science", "Back-End Developer", "Front-End Developer",
                      "Cyber Security", "I.T / SysAdmin", "Web Designer", "Web Developer", "Mobile / Android"]
@@ -36,9 +36,9 @@ class PyBotDatabase:
         :return
             Returns a list of the returned interests as strings
         """
-        session = sessionmaker(bind=self.engine)()
-        returned_interests = session.query(User).filter_by(**kwargs).first().interests
-        return [interest.name for interest in returned_interests]
+        session = self.Session()
+        interests = session.query(User).filter_by(**kwargs).first().interests
+        return [interest.name for interest in interests]
 
     def add_user(self, **kwargs: dict) -> None:
         """
@@ -54,20 +54,17 @@ class PyBotDatabase:
         The email argument is REQUIRED
         :param kwargs:
         """
-        session = sessionmaker(bind=self.engine)()
+        session = self.Session()
         interests, kwargs = PyBotDatabase._slice_interests(kwargs)
         new_user = User(**kwargs)
         res = session.add(new_user)
         if interests:
-            # user = session.query(User).filter_by(email=new_user.email)
             self._handle_interests(new_user, session, interests)
         session.commit()
         return res
 
     def update_user(self, email: str, **kwargs: dict) -> bool:
         """
-        TODO: Currently can only append new interests, not delete
-
         Updates a user with the given email in the users table
         Fields to be updated should be given in the form of a dict
         e.g.::
@@ -81,13 +78,18 @@ class PyBotDatabase:
         :return boolean:
             Returns true if a record was successfully updated
         """
-        session = sessionmaker(bind=self.engine)()
+
+        session = self.Session()
         user = session.query(User).filter_by(email=email)
         interests, kwargs = PyBotDatabase._slice_interests(kwargs)
 
-        res = user.update({**kwargs})
+        res = False
+
+        if kwargs:
+            res = user.update({**kwargs})
         if interests:
             self._handle_interests(user.first(), session, interests)
+            res = True
 
         session.commit()
         return bool(res)
@@ -101,29 +103,28 @@ class PyBotDatabase:
         If 'interests' key is absent the 0th index is returned None
 
         :param kwargs:
-        :return:
         """
+        interests = []
         if 'interests' in kwargs:
             interests = kwargs['interests']
-            new_kwargs = {key: val for key, val in kwargs.items() if key != 'interests'}
-            return interests, new_kwargs
-        return None, kwargs
+            kwargs = {key: val for key, val in kwargs.items() if key != 'interests'}
+        return interests, kwargs
 
     @staticmethod
-    def _handle_interests(user: User, session: Session, interests: list) -> None:
+    def _handle_interests(user: User, session: Session, interests: list) -> bool:
         """
-        Utility method for appending interests to User object
+        Utility method for assigning a list of interests to User object
 
         :param user:
         :param session:
         :param interests:
         """
+        interest_list = []
         for interest in interests:
-            interest_object = session.query(Interest).filter_by(name=interest).first()
+            interest_list.append(session.query(Interest).filter_by(name=interest).first())
 
-            #  Null check, simply skips undefined interests
-            if interest_object:
-                user.interests.append(interest_object)
+        user.interests = interest_list
+        return True
 
     def delete_user(self, email: str) -> bool:
         """
@@ -132,7 +133,7 @@ class PyBotDatabase:
         :return boolean:
             Returns true if a record was successfully deleted
         """
-        session = sessionmaker(bind=self.engine)()
+        session = self.Session()
         res = session.query(User).filter_by(email=email).delete()
         session.commit()
         return bool(res)
@@ -146,8 +147,7 @@ class PyBotDatabase:
         :return boolean:
             Returns true if user is found and assigned to new UserGroup
         """
-
-        session = sessionmaker(bind=self.engine)()
+        session = self.Session()
         res = session.query(User).filter_by(email=email)
         if not res.first() or group not in UserGroup.__members__:
             return False
@@ -168,15 +168,14 @@ if __name__ == '__main__':
     params = {
         'first_name': 'Bob',
         'last_name': 'Boberson',
-        'interests': ['Java'],
+        'interests': ['Java', 'Ruby'],
         'email': 'fake@email.com',
     }
     db.add_user(**params)
-    # num = db.update_user('fake@email.com', **params)
-    # print(num)
 
-    test_session = sessionmaker(bind=db.engine)()
-    print(test_session.query(User).filter_by(last_name='Boberson').first().usergroup)
+    search_kwargs = {'email': 'fake@email.com'}
+    print(db.get_user_interests(**search_kwargs))
 
-    db.assign_usergroup('asdad@email.com', 'sdfsdf')
-    print(test_session.query(User).filter_by(last_name='Boberson').first().usergroup)
+    new_kwargs = {'interests': ['Python']}
+    db.update_user('fake@email.com', **new_kwargs)
+    print(db.get_user_interests(**search_kwargs))
