@@ -55,11 +55,11 @@ class PyBotDatabase:
         :param kwargs:
         """
         session = self.Session()
-        interests, kwargs = PyBotDatabase._slice_interests(kwargs)
+        interests = kwargs.pop('interests', None)
         new_user = User(**kwargs)
         res = session.add(new_user)
         if interests:
-            self._handle_interests(new_user, session, interests)
+            new_user.interests = session.query(Interest).filter(Interest.name.in_(interests)).all()
         session.commit()
         return res
 
@@ -78,37 +78,20 @@ class PyBotDatabase:
         :return boolean:
             Returns true if a record was successfully updated
         """
-
         session = self.Session()
-        user = session.query(User).filter_by(email=email)
-        interests, kwargs = PyBotDatabase._slice_interests(kwargs)
+        user = session.query(User).filter_by(email=email).first()
+        interests = kwargs.pop('interests', None)
 
         res = False
-
         if kwargs:
             res = user.update({**kwargs})
-        if interests:
-            self._handle_interests(user.first(), session, interests)
+        if interests is not None:
+            #  queries the Interest table for all rows with names matching those in the list,
+            #  collects them into a new list of Interest objects, and assigns that list to the user
+            user.interests = session.query(Interest).filter(Interest.name.in_(interests)).all()
             res = True
-
         session.commit()
         return bool(res)
-
-    @classmethod
-    def _slice_interests(cls, kwargs: dict) -> tuple:
-        """
-        Utility method to check if the list of interests were supplied in the kwargs,
-        If 'interests' key is present method returns a tuple containing the list of interests as strings
-        and the remaining kwargs.
-        If 'interests' key is absent the 0th index is returned None
-
-        :param kwargs:
-        """
-        interests = []
-        if 'interests' in kwargs:
-            interests = kwargs['interests']
-            kwargs = {key: val for key, val in kwargs.items() if key != 'interests'}
-        return interests, kwargs
 
     @staticmethod
     def _handle_interests(user: User, session: Session, interests: list) -> bool:
@@ -119,10 +102,7 @@ class PyBotDatabase:
         :param session:
         :param interests:
         """
-        interest_list = []
-        for interest in interests:
-            interest_list.append(session.query(Interest).filter_by(name=interest).first())
-
+        interest_list = session.query(Interest).filter(Interest.name.in_(interests)).all()
         user.interests = interest_list
         return True
 
