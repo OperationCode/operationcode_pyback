@@ -13,3 +13,4 @@ def external_router(calls: List[ResponseContainer]):
         cls = getattr(sys.modules[__name__], call.route)()
         class_method = getattr(cls, call.method)
         yield class_method(call.payload)
+

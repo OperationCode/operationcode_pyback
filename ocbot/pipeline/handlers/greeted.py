@@ -2,7 +2,7 @@ from ocbot.external.route_slack import SlackBuilder
 
 from ocbot.keys import COMMUNITY_CHANNEL
 from .abc import RouteHandler
-from .utils import needs_greet_button, get_response_type
+from ocbot.pipeline.utils import needs_greet_button, get_response_type
 
 
 class GreetedHandler(RouteHandler):

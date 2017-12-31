@@ -1,4 +1,4 @@
-from ..external.route_slack import Slack, SlackBuilder
+from ocbot.external.route_slack import Slack, SlackBuilder
 
 from ocbot.keys import COMMUNITY_CHANNEL
 from .abc import RouteHandler

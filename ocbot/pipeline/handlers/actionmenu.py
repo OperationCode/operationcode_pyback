@@ -1,7 +1,7 @@
 from typing import List
 
 from .abc import RouteHandler
-from .utils import get_response_type
+from ocbot.pipeline.utils import get_response_type
 
 from ocbot.external.route_slack import SlackBuilder
 
