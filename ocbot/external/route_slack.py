@@ -3,6 +3,8 @@ from slackclient import SlackClient
 from .utils import verify_module_variable
 import logging
 from functools import partial
+from typing import List
+from uuid import UUID
 
 logger = logging.getLogger(__name__)
 
