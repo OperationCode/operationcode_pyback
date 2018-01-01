@@ -3,12 +3,14 @@ import unittest
 
 from mock import patch
 
+# from testfixtures import LogCapture
+
 logger = logging.getLogger(__name__)
 from ocbot.external.route_slack import Slack
 
-
-from tests.test_data import USER_INFO_HAS_REAL_NAME, USER_INFO_NO_NAME, USER_INFO_HAS_NAME
+from tests.test_data import USER_INFO_HAS_REAL_NAME
 from ocbot.keys import VERIFICATION_TOKEN, TOKEN
+from tests.test_data import USER_INFO_HAS_NAME, USER_INFO_NO_NAME, MESSAGE
 
 
 class SlackClientSetup(unittest.TestCase):
@@ -23,7 +25,7 @@ class SlackClientSetup(unittest.TestCase):
         # call setup function
         singleton = Slack(api_key=TOKEN, verification_token=VERIFICATION_TOKEN)
         # verify all values entered correctly
-        self.assertEqual(singleton._api_key, TOKEN )
+        self.assertEqual(singleton._api_key, TOKEN)
         self.assertEqual(singleton._verification_token, VERIFICATION_TOKEN)
         # test mock called.
         mock_client.assert_called_with(TOKEN)
@@ -39,43 +41,58 @@ class SlackTokenTests(unittest.TestCase):
         self.assertEqual(response['ok'], True)
 
 
+# TODO convert this to testing things within external.route_slack
+@patch('ocbot.external.route_slack.SlackClient.api_call')
+class UserNameTestCase(unittest.TestCase):
+    def setUp(self):
+        self.client = Slack(api_key=TOKEN, verification_token=VERIFICATION_TOKEN)
 
-# # TODO convert this to testing things within external.route_slack
-# @patch('utils.slack_utils.client')
-# class UserNameTestCase(unittest.TestCase):
-#     def test_user_name_from_id_has_real_name(self, mock_client):
-#         """
-#         Asserts the user_name_from_id method returns the user's real name
-#         when it is present.
-#         """
-#         mock_client.api_call.return_value = USER_INFO_HAS_REAL_NAME
-#         real_name = user_name_from_id(USER_INFO_HAS_REAL_NAME['user']['id'])
-#         self.assertEquals(real_name, 'Episod')
-#
-#     def test_user_name_from_id_real_name_blank_returns_name(self, mock_client):
-#         """
-#         Asserts the user_name_from_id method returns the user's name
-#         when their real name is absent but the username is present
-#         """
-#         mock_client.api_call.return_value = USER_INFO_HAS_NAME
-#         name = user_name_from_id(USER_INFO_HAS_NAME['user']['id'])
-#         self.assertEquals(name, 'Spengler')
-#
-#     def test_user_name_from_id_no_name_return_new_member(self, mock_client):
-#         """
-#         Asserts the user_name_from_id method defaults to returning New Member
-#         when both real name and name are absent
-#         """
-#         mock_client.api_call.return_value = USER_INFO_NO_NAME
-#         name = user_name_from_id(USER_INFO_NO_NAME['user']['id'])
-#         self.assertEquals(name, 'New Member')
-#
-#
+    def test_user_name_from_id_has_real_name(self, mock_client):
+        """
+        Asserts the user_name_from_id method returns the user's real name
+        when it is present.
+        """
+        mock_client.return_value = USER_INFO_HAS_REAL_NAME
+        real_name = self.client.user_name_from_id(USER_INFO_HAS_REAL_NAME['user']['id'])
+        self.assertEquals(real_name, 'Episod')
+
+    def test_user_name_from_id_real_name_blank_returns_name(self, mock_client):
+        """
+        Asserts the user_name_from_id method returns the user's name
+        when their real name is absent but the username is present
+        """
+        mock_client.return_value = USER_INFO_HAS_NAME
+        name = self.client.user_name_from_id(USER_INFO_HAS_NAME['user']['id'])
+        self.assertEquals(name, 'Spengler')
+
+    def test_user_name_from_id_no_name_return_new_member(self, mock_client):
+        """
+        Asserts the user_name_from_id method defaults to returning New Member
+        when both real name and name are absent
+        """
+        mock_client.return_value = USER_INFO_NO_NAME
+        name = self.client.user_name_from_id(USER_INFO_NO_NAME['user']['id'])
+        self.assertEquals(name, 'New Member')
+
+
+class BuildMessageTestCase(unittest.TestCase):
+    def setUp(self):
+        self.client = Slack(api_key=TOKEN, verification_token=VERIFICATION_TOKEN)
+
+    def test_build_message(self):
+        """
+        Asserts build_message function correctly formats message.
+        """
+        params = {
+            'real_name': 'Bob'
+        }
+        message = self.client.build_message(MESSAGE, **params)
+        self.assertEquals(message, MESSAGE.format(real_name='Bob'))
+
 # # TODO Not currently using build_message
 #
-# @patch('src.builders.user_name_from_id', return_value='bob')
+# @patch('ocbot.external.route_slack.Slack.user_name_from_id', return_value='bob')
 # class NewMemberTestCase(unittest.TestCase):
-#
 #     @patch('utils.slack_utils.client.api_call', return_value={'ok': True, 'info': 'stuff goes here'})
 #     def test_event_logged(self, mock_client, mock_username_from_id):
 #         """
@@ -117,15 +134,3 @@ class SlackTokenTests(unittest.TestCase):
 #                 ('src.app.new_member', 'ERROR',
 #                  "FAILED -- Message to new member returned error: {res}\n{res}".format(
 #                      res={'ok': False, 'info': 'stuff goes here'})))
-#
-#
-# class BuildMessageTestCase(unittest.TestCase):
-#     def test_build_message(self):
-#         """
-#         Asserts build_message function correctly formats message.
-#         """
-#         params = {
-#             'real_name': 'Bob'
-#         }
-#         message = build_message(MESSAGE, **params)
-#         self.assertEquals(message, MESSAGE.format(real_name='Bob'))

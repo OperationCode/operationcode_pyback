@@ -67,6 +67,7 @@ class Slack:
         :param user_id:
         """
         response = self._client.api_call('users.info', user=user_id)
+        print(f'response: {response}')
         try:
             if response['user']['real_name']:
                 return response['user']['real_name'].title()
@@ -126,10 +127,10 @@ class Slack:
         """
         return self.client.api_call('channels.join', name=channel)
 
-# def build_message(message_template: str, **kwargs: dict) -> str:
-#     return message_template.format(**kwargs)
-#
-#
+    def build_message(self, message_template: str, **kwargs: dict) -> str:
+        return message_template.format(**kwargs)
+
+
 # def get_response_type(response_data):
 #     return response_data['actions'][0]['value']
 #
