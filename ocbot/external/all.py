@@ -1,7 +1,7 @@
 from typing import List
 from .utils import ResponseContainer
 from .route_airtable import AirTable
-from .route_slack import Slack, SlackStart
+from .route_slack import Slack
 import sys
 
 
