@@ -25,18 +25,24 @@ AIRTABLE_TABLE_NAME = 'Mentor Request'
 #AIRTABLE_API_KEY = config('OPCODE_AIRTABLE_TOKEN')
 #AIRTABLE_TABLE_NAME = 'Mentor Request'
 
+"""
+database stuff
+
+
 # postgres config selections
 # PG_USERNAME = config('PERSONAL_PG_USERNAME')
 # PG_PASSWORD = config('PERSONAL_PG_PASSWORD')
 # PG_URL = config('PERSONAL_PG_URL')
-PG_USERNAME = config('PA_PG_TEST_USERNAME')
-PG_PASSWORD = config('PA_PG_TEST_PASSWORD')
-PG_URL = config('PA_PG_TEST_URL')
+PG_USERNAME = config('PA_PG_TEST_USERNAME', default=None)
+PG_PASSWORD = config('PA_PG_TEST_PASSWORD', default=None)
+PG_URL = config('PA_PG_TEST_URL', default=None)
 
 
 # PythonAnywhere SSH Configurations
-PA_SSH_USERNAME = config('PA_SSH_USERNAME')
-PA_SSH_PASSWORD = config('PA_SSH_PASSWORD')
-PA_SSH_URL = config('PA_SSH_URL')
-PA_SSH_REMOTE_BIND_ADDR = config('PA_PG_IP_ADDR', cast=str)
-PA_SSH_REMOTE_BIND_PORT = config('PA_PG_PORT', cast=int)
+PA_SSH_USERNAME = config('PA_SSH_USERNAME', default=None)
+PA_SSH_PASSWORD = config('PA_SSH_PASSWORD', default=None)
+PA_SSH_URL = config('PA_SSH_URL', default=None)
+PA_SSH_REMOTE_BIND_ADDR = config('PA_PG_IP_ADDR', cast=str, default=None)
+PA_SSH_REMOTE_BIND_PORT = config('PA_PG_PORT', cast=int, default=None)
+
+"""
