@@ -27,7 +27,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     first_name = Column(String(50))
     last_name = Column(String(50))
-    email = Column(String(50), nullable=False)
+    email = Column(String(50), nullable=False, unique=True)
     interests = relationship('Interest', secondary=interest_associations,
                              back_populates='users')
     usergroup = Column(ChoiceType(UserGroup, impl=Integer()), default=UserGroup.Default.value)
@@ -40,7 +40,7 @@ class Interest(Base):
     __tablename__ = 'interests'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    name = Column(String(50), nullable=False, unique=True)
     users = relationship('User', secondary=interest_associations,
                          back_populates='interests')
 
