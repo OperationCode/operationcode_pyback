@@ -25,7 +25,7 @@ from testing.common.database import (
 )
 
 __all__ = ['Postgresql', 'skipIfNotFound']
-#
+
 SEARCH_PATHS = (['/usr/local/pgsql', '/usr/local'] +
                 glob('C:\\Program Files\\PostgreSQL\\*\\') +
                 glob('C:\\Program Files (x86)\\PostgreSQL\\*\\') +
