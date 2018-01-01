@@ -9,12 +9,12 @@ from .handlers.newmember import NewMemberHandler
 logger = logging.getLogger(__name__)
 
 
-def combined_route_director(json_data: dict, event=None, callback_id=None) -> None:
+def RoutingHandler(json_data: dict, route_id=None) -> None:
     """
         Receved json response data from slack api and uses route dictionary {string: method}
         to direct to the correct method.
         :param json_data: dict
-        :param required_key: str
+        :param route_id: str
         :returns response: dict
         """
     route_dict = {
@@ -24,15 +24,11 @@ def combined_route_director(json_data: dict, event=None, callback_id=None) -> No
         'mentor_request': MentorRequestHandler,
         'team_join': NewMemberHandler
     }
-
-    # verify we have event response and we have a handler for it
-
-    if event and json_data[event]['type'] in route_dict.keys():
-        class_route = route_dict.get(json_data[event]['type'])
+    try:
+        class_route = route_dict.get(route_id)
         class_route(event_dict=json_data)
-    # verify we have callback_id response and have handler for it
-    if callback_id and json_data[callback_id] in route_dict.keys():
-        route_dict.get(json_data[callback_id])(event_dict=json_data)
+    except KeyError as error:
+        pass
 
     #test_route_handler(json_data)
 

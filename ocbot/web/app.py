@@ -1,5 +1,5 @@
 from flask import Flask, request, make_response, redirect, url_for
-from .routing_interface import combined_route_director
+from ocbot.pipeline.routing import RoutingHandler
 
 from ocbot.keys import VERIFICATION_TOKEN
 from ocbot.web.file_config import get_instance_folder_path
@@ -20,8 +20,8 @@ def token_id_route():
     These are the messages that contain key: 'token_id'
     """
     data = request.get_json()
-    combined_route_director(data, callback_id='callback_id')
-
+    route_id = data['callback_id']
+    RoutingHandler(data, route_id=route_id)
     return make_response('', 200)
 
 
@@ -35,7 +35,8 @@ def events_route():
     Lastly forwards event data to route director
     """
     response_data = request.get_json()
-    combined_route_director(response_data, event='event')
+    route_id = response_data['event']['type']
+    RoutingHandler(response_data, route_id = route_id)
     return make_response('', 200)
 
 
