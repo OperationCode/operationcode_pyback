@@ -18,7 +18,7 @@ class RequestVerification(unittest.TestCase):
     def tearDown(self):
         pass
 
-    @patch('src.app.combined_route_director')
+    @patch('ocbot.web.app.RoutingHandler')
     def test_good_slack_token(self, mock):
         data = NEW_MEMBER
         data['token'] = VERIFICATION_TOKEN
@@ -29,7 +29,7 @@ class RequestVerification(unittest.TestCase):
         self.assertTrue(mock.called)
         self.assertEqual(response.status_code, 200)
 
-    @patch('src.app.combined_route_director')
+    @patch('ocbot.web.app.RoutingHandler')
     def test_bad_slack_token(self, mock):
         data = NEW_MEMBER
         data['token'] = 'bad token'
@@ -41,7 +41,7 @@ class RequestVerification(unittest.TestCase):
         self.assertFalse(mock.called)
         self.assertEqual(response.status_code, 403)
 
-    @patch('src.app.combined_route_director')
+    @patch('ocbot.web.app.RoutingHandler')
     def test_empty_slack_value_token(self, mock):
         data = NEW_MEMBER
         data['token'] = None
@@ -55,7 +55,7 @@ class RequestVerification(unittest.TestCase):
 
         self.assertEqual(response.status_code, 403)
 
-    @patch('src.app.combined_route_director')
+    @patch('ocbot.web.app.RoutingHandler')
     def test_empty_token_slack_data(self, mock):
         response = self.app.post('/event_endpoint', data=None,
                                  content_type='application/json',
@@ -73,7 +73,7 @@ class ChallengeVerification(unittest.TestCase):
     def tearDown(self):
         pass
 
-    @patch('src.app.combined_route_director')
+    @patch('ocbot.web.app.RoutingHandler')
     def test_challenge_redirect(self, mock):
         '''
         :param mock: combined_route_director, don't want to call function
@@ -88,9 +88,8 @@ class ChallengeVerification(unittest.TestCase):
         self.assertFalse(mock.called)
         self.assertEqual(response.status_code, 200)
 
-
-    @patch('src.app.combined_route_director')
-    @patch('src.app.validate_response')
+    @patch('ocbot.web.app.RoutingHandler')
+    @patch('ocbot.web.app.validate_response')
     def test_url_verified_called(self, validate_deco, route_mock ):
         '''
         :param mock: combined_route_director, don't want to call function

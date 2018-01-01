@@ -2,12 +2,11 @@ import unittest
 
 import mock
 
-
-from ocbot.pipeline.routing import combined_route_director
-
+from ocbot.pipeline.routing import RoutingHandler
 from tests.test_data import CALLBACK_GENERIC, NEW_MEMBER
 
-# validates the correct route called
+
+# validates the correct route called for combined_route_director
 # validates called with correct data
 class ValidateRoutingCall(unittest.TestCase):
     @mock.patch('ocbot.pipeline.routing.ActionMenuHandler')
@@ -17,7 +16,7 @@ class ValidateRoutingCall(unittest.TestCase):
         """
         data = CALLBACK_GENERIC
         data['callback_id'] = 'greeting_buttons'
-        combined_route_director(data, callback_id='callback_id')
+        RoutingHandler(data, route_id='greeting_buttons')
         mock_func_call.assert_called_with(event_dict=data)
 
     @mock.patch('ocbot.pipeline.routing.GreetedHandler')
@@ -27,7 +26,7 @@ class ValidateRoutingCall(unittest.TestCase):
         """
         data = CALLBACK_GENERIC
         data['callback_id'] = 'greeted_interaction'
-        combined_route_director(data, callback_id='callback_id')
+        RoutingHandler(data, route_id='greeted_interaction')
         mock_func_call.assert_called_with(event_dict=data)
 
     @mock.patch('ocbot.pipeline.routing.SuggestionHandler')
@@ -37,7 +36,7 @@ class ValidateRoutingCall(unittest.TestCase):
         """
         data = CALLBACK_GENERIC
         data['callback_id'] = 'suggestion_modal'
-        combined_route_director(data, callback_id='callback_id')
+        RoutingHandler(data, route_id='suggestion_modal')
         mock_func_call.assert_called_with(event_dict=data)
 
     @mock.patch('ocbot.pipeline.routing.MentorRequestHandler')
@@ -47,7 +46,7 @@ class ValidateRoutingCall(unittest.TestCase):
         """
         data = CALLBACK_GENERIC
         data['callback_id'] = 'mentor_request'
-        combined_route_director(data, callback_id='callback_id')
+        RoutingHandler(data, route_id='mentor_request')
         mock_func_call.assert_called_with(event_dict=data)
 
     @mock.patch('ocbot.pipeline.routing.NewMemberHandler')
@@ -56,6 +55,6 @@ class ValidateRoutingCall(unittest.TestCase):
         Asserts the input dictionary is routed to the correct builder function
         """
         data = NEW_MEMBER
-        data['event'] = {'type':'team_join'}
-        combined_route_director(data, event='event')
+        data['event'] = {'type': 'team_join'}
+        RoutingHandler(data, route_id='team_join')
         mock_func_call.assert_called_with(event_dict=data)
