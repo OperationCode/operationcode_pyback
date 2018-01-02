@@ -41,8 +41,4 @@ class RouteHandler(ABC):
         self.response.append(method(*args, **kwargs))
 
     def final_response(self):
-        for item in self.response:
-            # call json handlers for each api
-            # is_slack_success(item, self.key)
-            external_router(item)
-            pass
+        external_router(self.response)

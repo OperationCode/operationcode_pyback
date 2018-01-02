@@ -4,6 +4,7 @@ from typing import List
 from uuid import UUID
 
 from slackclient import SlackClient
+from ..keys import VERIFICATION_TOKEN, TOKEN
 
 from ocbot.external.utils import ResponseContainer
 
@@ -40,10 +41,10 @@ class Slack:
     _verification_token = None
     _client = None
 
-    def __init__(self, *, api_key, verification_token):
+    def __init__(self, *, api_key=None, verification_token=None):
         self.__dict__ = self.__shared_state
-        self._api_key = api_key
-        self._verification_token = verification_token
+        self._api_key = api_key or TOKEN
+        self._verification_token = verification_token or VERIFICATION_TOKEN
         self._client = SlackClient(self._api_key)
         self.auth_test()
 
@@ -57,7 +58,9 @@ class Slack:
 
     def _default(self, method, payload):
         print(f'default found.... {method}, {payload}')
-        return self._client.api_call(method, **payload)
+        res = self._client.api_call(method, **payload)
+        print(res)
+        return res
 
     # TODO add exception handling for the cases
     def user_name_from_id(self, user_id: str) -> str:
@@ -129,7 +132,6 @@ class Slack:
 
     def build_message(self, message_template: str, **kwargs: dict) -> str:
         return message_template.format(**kwargs)
-
 
 # def get_response_type(response_data):
 #     return response_data['actions'][0]['value']

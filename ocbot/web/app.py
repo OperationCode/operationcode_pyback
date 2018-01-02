@@ -1,4 +1,6 @@
-from flask import Flask, request, make_response, redirect, url_for
+import threading
+
+from flask import Flask, request, make_response, redirect, url_for, render_template, json
 from ocbot.pipeline.routing import RoutingHandler
 
 from ocbot.keys import VERIFICATION_TOKEN
@@ -9,7 +11,7 @@ from ..log_manager import setup_logging
 app = Flask(__name__,
             instance_path=get_instance_folder_path(),
             instance_relative_config=True,
-            template_folder='/static/templates')
+            template_folder='static/templates')
 
 
 @validate_response('token', VERIFICATION_TOKEN)
@@ -19,9 +21,12 @@ def token_id_route():
     Receives request from slack interactive messages.
     These are the messages that contain key: 'token_id'
     """
-    data = request.get_json()
+    # data = request.get_json()
+    data = json.loads(request.form['payload'])
     route_id = data['callback_id']
-    RoutingHandler(data, route_id=route_id)
+    t = threading.Thread(target=RoutingHandler(data, route_id=route_id))
+    t.start()
+    # RoutingHandler(data, route_id=route_id)
     return make_response('', 200)
 
 
@@ -48,6 +53,9 @@ def options_route():
     """
     return redirect(url_for('HTTP404'))
 
+@app.route('/HTTP404')
+def HTTP404():
+    return render_template('HTTP404.html')
 
 def start_server():
     setup_logging()

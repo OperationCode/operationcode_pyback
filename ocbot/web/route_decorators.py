@@ -7,7 +7,6 @@ from flask import make_response, redirect, request
 logger = logging.getLogger(__name__)
 
 
-
 def validate_response(json_key, expected_value):
     def decorator(func):
         @wraps(func)

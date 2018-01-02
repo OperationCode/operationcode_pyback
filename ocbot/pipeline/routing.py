@@ -4,7 +4,7 @@ from .handlers.greeted import GreetedHandler
 from .handlers.suggestion import SuggestionHandler
 from .handlers.mentor_request import MentorRequestHandler
 from .handlers.newmember import NewMemberHandler
-
+from .handlers.testing_handlers import test_message_handler, DefaultHandler
 
 logger = logging.getLogger(__name__)
 
@@ -19,14 +19,16 @@ def RoutingHandler(json_data: dict, route_id=None) -> None:
         """
     route_dict = {
         'greeting_buttons': ActionMenuHandler,
-        'greeted_interaction': GreetedHandler,
+        'greeted': GreetedHandler,
         'suggestion_modal': SuggestionHandler,
         'mentor_request': MentorRequestHandler,
-        'team_join': NewMemberHandler
+        'team_join': NewMemberHandler,
     }
     try:
-        class_route = route_dict.get(route_id)
-        class_route(event_dict=json_data)
+        class_route = route_dict.get(route_id, DefaultHandler)
+        handler = class_route(event_dict=json_data)
+        handler.event_route()
+
     except KeyError as error:
         pass
 

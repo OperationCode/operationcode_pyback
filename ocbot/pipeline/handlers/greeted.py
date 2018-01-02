@@ -30,7 +30,7 @@ class GreetedHandler(RouteHandler):
 
         # adjust button type
         params['attachments'] = self.was_greeted() if click_type == 'greeted' else needs_greet_button()
-
+        # params['ts'] = self._event['message_ts']
         self.text_dict['message'] = params
 
     def build_responses(self):
@@ -59,6 +59,6 @@ class GreetedHandler(RouteHandler):
     def make_base_params(self):
         return {'text': self._event['original_message']['text'],
                 'channel': self._event['channel']['id'],
-                'ts': self._event['message_ts'],
+                'ts': self._event['original_message']['ts'],
                 'as_user': True
                 }
