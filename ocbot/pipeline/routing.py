@@ -25,7 +25,7 @@ def RoutingHandler(json_data: dict, route_id=None) -> None:
         'team_join': NewMemberHandler,
     }
     try:
-        class_route = route_dict.get(route_id, DefaultHandler)
+        class_route = route_dict.get(route_id, test_message_handler)
         handler = class_route(event_dict=json_data)
         handler.event_route()
 
