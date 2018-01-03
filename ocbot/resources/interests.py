@@ -1,5 +1,5 @@
 import yaml
-from collections import defaultdict, namedtuple
+from collections import defaultdict, namedtuple, Counter
 from typing import List, DefaultDict, Dict
 from fuzzywuzzy import process
 
@@ -13,14 +13,15 @@ def load_file(input_name: str)-> List[Dict]:
         except yaml.YAMLError as exc:
             print(exc)
 
-def unique_resources(input_list: List[Dict])-> List:
+def unique_resources(input_list: List[Dict])-> Counter:
     keys = ['category', 'language']
     final_list = []
     for single_dict in input_list:
         for item in keys:
             if single_dict[item]:
                 final_list.append(single_dict[item])
-    return list(set(final_list))
+
+    return Counter(final_list)
 
 def best_match(single_dict_item: dict)-> MatchGroup:
     """
@@ -59,22 +60,28 @@ def iter_membership(resource_dict_list: List[dict])->MatchGroup:
         yield best_match(resource_dict)
 
 
-def build_item_dict(yaml_list: List[Dict[str, str]])-> DefaultDict[str, MatchGroup]:
+def build_item_dict(yaml_list: List[Dict[str, str]], unique_list)-> DefaultDict[str, MatchGroup]:
     split = defaultdict(list)
 
     for match in iter_membership(yaml_list):
         split[match.resource_group].append(match)
 
     for key, values in split.items():
-        print("~~~~~~ BackEnd Database Value Best Match ~~~~~~~~")
-        print(key)
-        print("MATCHES")
         for item in values:
-            print(item)
+            if int(item.percent) < 60:
+                print(item)
+
+
+    # for key, values in split.items():
+    #     print("~~~~~~ BackEnd Database Value Best Match ~~~~~~~~")
+    #     print(key)
+    #     print("MATCHES")
+    #     for item in values:
+    #         print(item)
 
 
 if __name__ == '__main__':
     loaded_yaml = load_file('resources.yml')
     unique_list = unique_resources(loaded_yaml)
     print(unique_list)
-    build_item_dict(loaded_yaml)
+    build_item_dict(loaded_yaml, unique_list)
