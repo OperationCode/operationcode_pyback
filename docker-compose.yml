@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: secret
+    ports:
+      - '5432:5432'
+
+  app_test:
+    build: .
+    command: bash -c  "sleep 5 && find . -name "*.pyc" -delete && py.test tests/test_new_database.py"
+    depends_on:
+      - db
+#  web:
+#    build: .
+#    command: python3 run.py
+#    volumes:
+#      - .:/code
+#    ports:
+#      - "8000:8000"
+#    depends_on:
+#      - db
+#
