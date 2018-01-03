@@ -7060,7 +7060,7 @@
   paid: false
   notes:
 
-- name: Mobile Application Hacker's Handbook
+- name: "Mobile Application Hacker's Handbook"
   url: https://www.wiley.com/en-us/The+Mobile+Application+Hacker%27s+Handbook-p-9781118958506
   category: Books
   language:
@@ -7361,7 +7361,7 @@
   paid: false
   notes:
 
-- name: Elements of Programming Interviews - The Insiders' Guide
+- name: "Elements of Programming Interviews - The Insiders' Guide"
   url: https://www.amazon.com/Elements-Programming-Interviews-Insiders-Guide/dp/1479274836
   category: Books
   language:
