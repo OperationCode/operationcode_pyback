@@ -84,7 +84,7 @@
 - name: The Art of Unix Programming
   url: http://www.faqs.org/docs/artu/
   category: Books
-  language: *nix
+  language: "*nix"
   paid: false
   notes:
 
@@ -1712,7 +1712,7 @@
   paid: false
   notes: news
 
-- name: >_VYSEC
+- name: VYSEC
   url: http://vincentyiu.london/wordpress/
   category: Information Security
   language:
@@ -1817,7 +1817,7 @@
   paid: false
   notes: news
 
-- name: { Better } Hacker
+- name: "{ Better } Hacker"
   url: http://www.betterhacker.com/
   category: Information Security
   language:
@@ -4666,12 +4666,12 @@
   paid: false
   notes:
 
-- name: PoC||GTFO
+- name: "PoC||GTFO"
   url: https://www.alchemistowl.org/pocorgtfo/
   category: Podcasts
   language: Information Security
   paid: false
-  notes: "first they ignore you, then they threaten to sue you, then they deny the vulnerability, then you p0wn them" -- with apologies to Mahatma Gandhi
+  notes: '"first they ignore you, then they threaten to sue you, then they deny the vulnerability, then you p0wn them" -- with apologies to Mahatma Gandhi'
 
 - name: Go Remote Jobs
   url: https://goremotejobs.com/
@@ -7072,7 +7072,7 @@
   category: Front End Dev
   language: Javascript
   paid: false
-  notes: Just for future reference, when you're drinking bag-in-box wine and have a bit too much time on your hands: don't buy domain names. I did that, and it kind of ballooned into this huge Christmas calendar adventure. Oh well.
+  notes: "Just for future reference, when you're drinking bag-in-box wine and have a bit too much time on your hands: don't buy domain names. I did that, and it kind of ballooned into this huge Christmas calendar adventure. Oh well."
 
 - name: Vue.js 2 The complete guide
   url: https://www.udemy.com/vuejs-2-the-complete-guide/
@@ -7137,7 +7137,7 @@
   paid: true
   notes: Information Security
 
-- name: Applied Cryptography: Protocols, Algorithms, and Source Code in C
+- name: 'Applied Cryptography: Protocols, Algorithms, and Source Code in C'
   url: https://www.amazon.com/Applied-Cryptography-Protocols-Algorithms-Source/dp/0471117099
   category: Books
   language: C
@@ -7151,7 +7151,7 @@
   paid: true
   notes: Information Security
 
-- name: Lorrie Faith Cranor: What's wrong with your pa$$w0rd?
+- name: "Lorrie Faith Cranor: What's wrong with your pa$$w0rd?"
   url: https://www.youtube.com/watch?v=0SkdP36wiAU
   category: Information Security
   language:
@@ -7165,7 +7165,7 @@
   paid: false
   notes:
 
-- name: GRR Rapid Response: remote live forensics for incident response
+- name: "GRR Rapid Response: remote live forensics for incident response"
   url: https://github.com/google/grr
   category: Information Security
   language:
