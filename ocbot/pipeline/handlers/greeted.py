@@ -1,8 +1,9 @@
+from typing import List
+
 from ocbot.external.route_slack import SlackBuilder
 
-from ocbot.keys import COMMUNITY_CHANNEL
 from .abc import RouteHandler
-from ocbot.pipeline.utils import needs_greet_button, get_response_type
+from ocbot.pipeline.utils import get_response_type
 
 
 class GreetedHandler(RouteHandler):
@@ -29,16 +30,19 @@ class GreetedHandler(RouteHandler):
         params = self.make_base_params()
 
         # adjust button type
-        params['attachments'] = self.was_greeted() if click_type == 'greeted' else needs_greet_button()
-        # params['ts'] = self._event['message_ts']
+        if click_type == 'greeted':
+            params['attachments'] = self.was_greeted_response_attachments()
+        else:
+            params['attachments'] = self.not_greeted_attachments()
+
         self.text_dict['message'] = params
 
     def build_responses(self):
         params = self.text_dict['message']
 
-        self.include_resp(SlackBuilder.update, COMMUNITY_CHANNEL, text=params, ts=params['ts'])
+        self.include_resp(SlackBuilder.update, **params)
 
-    def was_greeted(self):
+    def was_greeted_response_attachments(self) -> List[dict]:
         return [
             {
                 "text": f":100:<@{self._user_id}> has greeted the new user!:100:",
@@ -56,9 +60,31 @@ class GreetedHandler(RouteHandler):
             }
         ]
 
+    @staticmethod
+    def not_greeted_attachments() -> List[dict]:
+        return [
+            {
+                'text': "",
+                "fallback": "Someone should greet them!",
+                "color": "#3AA3E3",
+                "callback_id": "greeted",
+                "attachment_type": "default",
+                "actions": [
+                    {
+                        "name": "greeted",
+                        "text": "I will greet them!",
+                        "type": "button",
+                        "style": "primary",
+                        "value": "greeted",
+                    },
+                ]
+            }
+        ]
+
     def make_base_params(self):
-        return {'text': self._event['original_message']['text'],
-                'channel': self._event['channel']['id'],
-                'ts': self._event['message_ts'],
-                'as_user': True
-                }
+        return {
+            'text': self._event['original_message']['text'],
+            'channel': self._event['channel']['id'],
+            'ts': self._event['message_ts'],
+            'as_user': True
+        }

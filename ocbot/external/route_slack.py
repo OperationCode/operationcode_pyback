@@ -27,11 +27,10 @@ class SlackBuilder:
                                               **message_payload))
 
     @staticmethod
-    def update(channel, **message_payload):
+    def update(**message_payload):
         return ResponseContainer(route='Slack',
                                  method='chat.update',
-                                 payload=dict(channel=channel,
-                                              **message_payload))
+                                 payload=dict(**message_payload))
 
 
 class Slack:
@@ -98,17 +97,11 @@ class Slack:
                 yield logging.exception(response, UUID)
 
     def print_channels(self):
-        channels = self.api_call("channels.list")
+        channels = self._client.api_call("channels.list")
         if channels.get('ok'):
 
-            for channel in channels:
+            for channel in channels['channels']:
                 print(channel['name'] + " (" + channel['id'] + ")")
-                # detailed_info = channel_info(channel['id'])
-                # if detailed_info:
-                #     if detailed_info['members']:
-                #         print([x for x in detailed_info['members']])
-                # print('Latest text from ' + channel['name'] + ":")
-                # print(detailed_info['latest']['text'])
             print('-----')
         else:
             print("Unable to authenticate.")
@@ -151,3 +144,4 @@ class Slack:
 #         username='test-bot',
 #         icon_emoji=':robot_face:'
 #     )
+
