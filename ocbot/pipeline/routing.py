@@ -18,11 +18,12 @@ def RoutingHandler(json_data: dict, route_id=None) -> None:
         :returns response: dict
         """
     route_dict = {
-        'greeting_buttons': ActionMenuHandler,
+        'resource_buttons': ActionMenuHandler,
+        'suggestion': ActionMenuHandler,
         'greeted': GreetedHandler,
-        'suggestion_modal': SuggestionHandler,
         'mentor_request': MentorRequestHandler,
         'team_join': NewMemberHandler,
+        'suggestion_modal': SuggestionHandler
     }
     try:
         class_route = route_dict.get(route_id, test_message_handler)

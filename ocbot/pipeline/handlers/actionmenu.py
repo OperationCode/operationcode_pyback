@@ -31,51 +31,59 @@ class ActionMenuHandler(RouteHandler):
         pass
 
     def build_templates(self):
-        trigger_id = self._event['trigger_id']
+        self.trigger_id = self._event['trigger_id']
 
         # suggestion
-        if self._click_type == 'suggestion':
-            self.text_dict['call'] = 'dialog.open'
-            self.text_dict['dialog'] = SUGGESTION_MODAL
+        if self._click_type == 'suggestion_button':
+            self.text_dict['call'] = 'dialog'
+            self.text_dict['dialog'] = {
+                'trigger_id': self.trigger_id,
+                'dialog': self.SUGGESTION_MODAL()
+            }
+
 
         # mentor
         elif self._click_type == 'mentor':
             self.text_dict['call'] = 'dialog.open'
             self.text_dict['dialog'] = MENTOR_REQUEST_MODAL
+            self.text_dict['dialog']['trigger_id'] = self.trigger_id
 
         # resources
-        elif self._click_type == 'resource_buttons':
-            self.text_dict['call'] = 'chat.update'
+        else:
+            self._click_type = self._event['actions'][0]['name']
+            self.text_dict['call'] = 'update'
             self.text_dict['dialog'] = self.make_base_params()
 
     def build_responses(self):
         params = self.text_dict['dialog']
         method = self.text_dict['call']
 
-        self.include_resp(getattr(SlackBuilder(), method), self._user_id, **params)
+        self.include_resp(getattr(SlackBuilder, method), **params)
 
     def make_base_params(self):
-        text = HELP_MENU[self._click_type]
+        text = HELP_MENU_RESPONSES[self._click_type]
         return {'text': text,
                 'channel': self._event['channel']['id'],
                 'ts': self._event['message_ts'],
                 'as_user': True
                 }
 
+    def SUGGESTION_MODAL(self):
+        return {
+            "callback_id": "suggestion_modal",
+            "title": "Help topic suggestion",
+            "submit_label": "Submit",
+            "trigger_id": self.trigger_id,
+            "elements": [
+                {
+                    "type": "text",
+                    "label": "Suggestion",
+                    "name": "suggestion",
+                    "placeholder": "Underwater Basket Weaving"
+                },
+            ]
+        }
 
-SUGGESTION_MODAL = {
-    "callback_id": "suggestion_modal",
-    "title": "Help topic suggestion",
-    "submit_label": "Submit",
-    "elements": [
-        {
-            "type": "text",
-            "label": "Suggestion",
-            "name": "suggestion",
-            "placeholder": "Underwater Basket Weaving"
-        },
-    ]
-}
 
 MENTOR_REQUEST_MODAL = {
     "callback_id": "mentor_request",
@@ -310,3 +318,52 @@ def needs_greet_button() -> List[dict]:
             ]
         }
     ]
+
+
+#  This is super ugly.  Maybe convert to JSON and store in another file?
+HELP_MENU_RESPONSES = {
+    'slack': """Slack is an online chatroom service that the Operation Code community uses.
+It can be accessed online, via https://operation-code.slack.com/ or via
+desktop or mobile apps, located at https://slack.com/downloads/. In addition to
+chatting, Slack also allows us to share files, audio conference and even program
+our own bots! Here are some tips to get you started:
+  - You can customize your notifications per channel by clicking the gear to the
+    left of the search box
+  - Join as many channels as you want via the + next to Channels in the side bar.""",
+
+    'python': """Python is a widely used high-level programming language used for general-purpose programming.
+It's very friendly for beginners and is great for everything from web development to 
+data science.
+
+Here are some python resources:
+    Operation Code Python Room: <#C04D6M3JT|python>
+    Python's official site: https://www.python.org/
+    Learn Python The Hard Way: https://learnpythonthehardway.org/book/
+    Automate The Boring Stuff: https://automatetheboringstuff.com/""",
+    'mentor': """The Operation Code mentorship program aims to pair you with an experienced developer in order to further your programming or career goals. When you sign up for our mentorship program you'll fill out a form with your interests. You'll then be paired up with an available mentor that best meets those interests.
+
+If you're interested in getting paired with a mentor, please fill out our sign up form here: http://op.co.de/mentor-request.
+    """,
+
+    'javascript': """Javascript is a high-level programming language used for general-purpose programming.
+In recent years it has exploded in popularity and with the popular node.js runtime
+environment it can run anywhere from the browser to a server.
+
+Here are some javascript resources:
+    Operation Code Javascript Room: <#C04CJ8H2S|javascript>
+    Javascript Koans: https://github.com/mrdavidlaing/javascript-koans
+    Eloquent Javascript: http://eloquentjavascript.net/
+    Node School: http://nodeschool.io/
+    Node University: http://node.university/courses""",
+    'ruby': """Ruby is one of the most popular languages to learn as a beginner.
+While it can be used in any situation it's most popular for it's
+web framework 'Rails' which allows people to build websites quickly 
+and easily.
+
+Here are some ruby resources:
+    Operation Code Ruby Room: <#C04D6GTGT|ruby>
+    Try Ruby Online: http://tryruby.org/
+    Learn Ruby The Hard Way: http://ruby.learncodethehardway.org/book
+    Learn To Program: http://pine.fm/LearnToProgram/
+    Ruby Koans: http://rubykoans.com/"""
+}

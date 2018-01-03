@@ -31,7 +31,11 @@ class SlackBuilder:
         return ResponseContainer(route='Slack',
                                  method='chat.update',
                                  payload=dict(**message_payload))
-
+    @staticmethod
+    def dialog(**message_payload):
+        return ResponseContainer(route='Slack',
+                                 method='dialog.open',
+                                 payload=dict(**message_payload))
 
 class Slack:
     # Store the instance
