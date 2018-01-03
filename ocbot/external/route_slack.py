@@ -59,7 +59,7 @@ class Slack:
     def _default(self, method, payload):
         print(f'default found.... {method}, {payload}')
         res = self._client.api_call(method, **payload)
-        print(res)
+        print('API call result: ', res)
         return res
 
     # TODO add exception handling for the cases

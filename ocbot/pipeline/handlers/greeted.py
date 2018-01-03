@@ -36,7 +36,7 @@ class GreetedHandler(RouteHandler):
     def build_responses(self):
         params = self.text_dict['message']
 
-        self.include_resp(SlackBuilder.update, COMMUNITY_CHANNEL, text=params)
+        self.include_resp(SlackBuilder.update, COMMUNITY_CHANNEL, text=params, ts=params['ts'])
 
     def was_greeted(self):
         return [
@@ -59,6 +59,6 @@ class GreetedHandler(RouteHandler):
     def make_base_params(self):
         return {'text': self._event['original_message']['text'],
                 'channel': self._event['channel']['id'],
-                'ts': self._event['original_message']['ts'],
+                'ts': self._event['message_ts'],
                 'as_user': True
                 }

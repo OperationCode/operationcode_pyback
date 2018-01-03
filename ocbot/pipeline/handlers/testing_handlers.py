@@ -3,7 +3,6 @@ from .newmember import NewMemberHandler
 
 
 class DefaultHandler(RouteHandler):
-
     def __init__(self, *, event_dict):
         self._event = event_dict
         super().__init__()

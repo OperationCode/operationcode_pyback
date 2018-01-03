@@ -1,5 +1,3 @@
-import threading
-
 from flask import Flask, request, make_response, redirect, url_for, render_template, json
 from ocbot.pipeline.routing import RoutingHandler
 
@@ -23,10 +21,9 @@ def token_id_route():
     """
     # data = request.get_json()
     data = json.loads(request.form['payload'])
+    print('Interaction payload:', data)
     route_id = data['callback_id']
-    t = threading.Thread(target=RoutingHandler(data, route_id=route_id))
-    t.start()
-    # RoutingHandler(data, route_id=route_id)
+    RoutingHandler(data, route_id=route_id)
     return make_response('', 200)
 
 
@@ -40,8 +37,9 @@ def events_route():
     Lastly forwards event data to route director
     """
     response_data = request.get_json()
+    print('Event endpoint:', response_data)
     route_id = response_data['event']['type']
-    RoutingHandler(response_data, route_id = route_id)
+    RoutingHandler(response_data, route_id=route_id)
     return make_response('', 200)
 
 
@@ -53,13 +51,15 @@ def options_route():
     """
     return redirect(url_for('HTTP404'))
 
+
 @app.route('/HTTP404')
 def HTTP404():
     return render_template('HTTP404.html')
 
+
 def start_server():
     setup_logging()
-    app.run(debug=True)
+    app.run(port=5000, debug=True)
 
 
 if __name__ == '__main__':
