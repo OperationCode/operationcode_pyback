@@ -65,7 +65,7 @@ class ActionMenuHandler(RouteHandler):
         return {'text': text,
                 'channel': self._event['channel']['id'],
                 'ts': self._event['message_ts'],
-                'as_user': True
+                'as_user': True,
                 }
 
     def SUGGESTION_MODAL(self):
@@ -290,7 +290,7 @@ def greeted_response_attachments(clicker: str) -> List[dict]:
             "attachment_type": "default",
             "actions": [{
                 "name": "reset_greet",
-                "text": f"Reset {clicker}'s claim",
+                "text": f"Reset claim",
                 "type": "button",
                 "style": "danger",
                 "value": "reset_greet",
@@ -320,50 +320,45 @@ def needs_greet_button() -> List[dict]:
     ]
 
 
-#  This is super ugly.  Maybe convert to JSON and store in another file?
 HELP_MENU_RESPONSES = {
-    'slack': """Slack is an online chatroom service that the Operation Code community uses.
-It can be accessed online, via https://operation-code.slack.com/ or via
-desktop or mobile apps, located at https://slack.com/downloads/. In addition to
-chatting, Slack also allows us to share files, audio conference and even program
-our own bots! Here are some tips to get you started:
-  - You can customize your notifications per channel by clicking the gear to the
-    left of the search box
-  - Join as many channels as you want via the + next to Channels in the side bar.""",
-
-    'python': """Python is a widely used high-level programming language used for general-purpose programming.
-It's very friendly for beginners and is great for everything from web development to 
-data science.
-
-Here are some python resources:
-    Operation Code Python Room: <#C04D6M3JT|python>
-    Python's official site: https://www.python.org/
-    Learn Python The Hard Way: https://learnpythonthehardway.org/book/
-    Automate The Boring Stuff: https://automatetheboringstuff.com/""",
-    'mentor': """The Operation Code mentorship program aims to pair you with an experienced developer in order to further your programming or career goals. When you sign up for our mentorship program you'll fill out a form with your interests. You'll then be paired up with an available mentor that best meets those interests.
-
-If you're interested in getting paired with a mentor, please fill out our sign up form here: http://op.co.de/mentor-request.
-    """,
-
-    'javascript': """Javascript is a high-level programming language used for general-purpose programming.
-In recent years it has exploded in popularity and with the popular node.js runtime
-environment it can run anywhere from the browser to a server.
-
-Here are some javascript resources:
-    Operation Code Javascript Room: <#C04CJ8H2S|javascript>
-    Javascript Koans: https://github.com/mrdavidlaing/javascript-koans
-    Eloquent Javascript: http://eloquentjavascript.net/
-    Node School: http://nodeschool.io/
-    Node University: http://node.university/courses""",
-    'ruby': """Ruby is one of the most popular languages to learn as a beginner.
-While it can be used in any situation it's most popular for it's
-web framework 'Rails' which allows people to build websites quickly 
-and easily.
-
-Here are some ruby resources:
-    Operation Code Ruby Room: <#C04D6GTGT|ruby>
-    Try Ruby Online: http://tryruby.org/
-    Learn Ruby The Hard Way: http://ruby.learncodethehardway.org/book
-    Learn To Program: http://pine.fm/LearnToProgram/
-    Ruby Koans: http://rubykoans.com/"""
+    "slack": "Slack is an online chatroom service that the Operation Code community uses.\n"
+             "It can be accessed online, via https://operation-code.slack.com/ or via\n"
+             "desktop or mobile apps, located at https://slack.com/downloads/. In addition to\n"
+             "chatting, Slack also allows us to share files, audio conference and even program\n"
+             "our own bots! Here are some tips to get you started:\n"
+             "  - You can customize your notifications per channel by clicking the gear to the\n"
+             "    left of the search box\n"
+             "  - Join as many channels as you want via the + next to Channels in the side bar.",
+    "python": "Python is a widely used high-level programming language used for general-purpose programming.\n"
+              "It's very friendly for beginners and is great for everything from web development to \n"
+              "data science.\n\n"
+              "Here are some python resources:\n"
+              "    Operation Code Python Room: <#C04D6M3JT|python>\n"
+              "    Python's official site: https://www.python.org/\n"
+              "    Learn Python The Hard Way: https://learnpythonthehardway.org/book/\n"
+              "    Automate The Boring Stuff: https://automatetheboringstuff.com/",
+    "mentor": "The Operation Code mentorship program aims to pair you with an experienced developer in order to"
+              " further your programming or career goals. When you sign up for our mentorship program you'll fill"
+              " out a form with your interests. You'll then be paired up with an available mentor that best meets"
+              " those interests.\n\n"
+              "If you're interested in getting paired with a mentor, please fill out our sign up form"
+              " here: http://op.co.de/mentor-request.\n    ",
+    "javascript": "Javascript is a high-level programming language used for general-purpose programming.\n"
+                  "In recent years it has exploded in popularity and with the popular node.js runtime\n"
+                  "environment it can run anywhere from the browser to a server.\n\n"
+                  "Here are some javascript resources:\n    Operation Code Javascript Room: <#C04CJ8H2S|javascript>\n"
+                  "    Javascript Koans: https://github.com/mrdavidlaing/javascript-koans\n"
+                  "    Eloquent Javascript: http://eloquentjavascript.net/\n"
+                  "    Node School: http://nodeschool.io/\n"
+                  "    Node University: http://node.university/courses",
+    "ruby": "Ruby is one of the most popular languages to learn as a beginner.\n"
+            "While it can be used in any situation it's most popular for it's\n"
+            "web framework 'Rails' which allows people to build websites quickly \n"
+            "and easily.\n\n"
+            "Here are some ruby resources:\n"
+            "    Operation Code Ruby Room: <#C04D6GTGT|ruby>\n"
+            "    Try Ruby Online: http://tryruby.org/\n"
+            "    Learn Ruby The Hard Way: http://ruby.learncodethehardway.org/book\n"
+            "    Learn To Program: http://pine.fm/LearnToProgram/\n"
+            "    Ruby Koans: http://rubykoans.com/"
 }

@@ -14,11 +14,11 @@ from tests.test_data import USER_INFO_HAS_NAME, USER_INFO_NO_NAME, MESSAGE
 
 
 class SlackClientSetup(unittest.TestCase):
-    @patch('ocbot.external.route_slack.SlackClient')
-    def test_missing_required_params(self, mock_client):
-        self.assertRaises(TypeError, Slack, verification_token=VERIFICATION_TOKEN)
-        self.assertRaises(TypeError, Slack, api_key=TOKEN)
-        self.assertRaises(TypeError, Slack)
+    # @patch('ocbot.external.route_slack.SlackClient')
+    # def test_missing_required_params(self, mock_client):
+    #     self.assertRaises(TypeError, Slack, verification_token=VERIFICATION_TOKEN)
+    #     self.assertRaises(TypeError, Slack, api_key=TOKEN)
+    #     self.assertRaises(TypeError, Slack)
 
     @patch('ocbot.external.route_slack.SlackClient')
     def test_setup(self, mock_client):

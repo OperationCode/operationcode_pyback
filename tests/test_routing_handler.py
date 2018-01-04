@@ -16,7 +16,7 @@ class ValidateRoutingCall(unittest.TestCase):
         """
         data = CALLBACK_GENERIC
         data['callback_id'] = 'greeting_buttons'
-        RoutingHandler(data, route_id='greeting_buttons')
+        RoutingHandler(data, route_id='resource_buttons')
         mock_func_call.assert_called_with(event_dict=data)
 
     @mock.patch('ocbot.pipeline.routing.GreetedHandler')
@@ -26,7 +26,7 @@ class ValidateRoutingCall(unittest.TestCase):
         """
         data = CALLBACK_GENERIC
         data['callback_id'] = 'greeted_interaction'
-        RoutingHandler(data, route_id='greeted_interaction')
+        RoutingHandler(data, route_id='greeted')
         mock_func_call.assert_called_with(event_dict=data)
 
     @mock.patch('ocbot.pipeline.routing.SuggestionHandler')
