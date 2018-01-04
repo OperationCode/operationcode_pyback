@@ -4,8 +4,8 @@ from collections import namedtuple
 from sqlalchemy import create_engine
 from ocbot.database.models import Base, User, Interest, UserGroup
 from sqlalchemy.orm import sessionmaker, Session
-# from keys import PG_USERNAME, PG_PASSWORD, PA_SSH_PASSWORD, PA_SSH_URL, PA_SSH_USERNAME, \
-#     PA_SSH_REMOTE_BIND_ADDR, PA_SSH_REMOTE_BIND_PORT
+from ocbot.keys import PG_USERNAME, PG_PASSWORD, PA_SSH_PASSWORD, PA_SSH_URL, PA_SSH_USERNAME, \
+    PA_SSH_REMOTE_BIND_ADDR, PA_SSH_REMOTE_BIND_PORT
 
 from sshtunnel import SSHTunnelForwarder
 

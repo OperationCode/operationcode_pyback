@@ -1,4 +1,5 @@
 import logging
+
 from .handlers.actionmenu import ActionMenuHandler
 from .handlers.greeted import GreetedHandler
 from .handlers.suggestion import SuggestionHandler
@@ -33,8 +34,7 @@ def RoutingHandler(json_data: dict, route_id=None) -> None:
     except KeyError as error:
         pass
 
-    #test_route_handler(json_data)
-
+    # test_route_handler(json_data)
 
 # def test_route_handler(json_data):
 #     if 'event' in json_data.keys() and json_data['event']['type'] == 'message' and 'user' in json_data[

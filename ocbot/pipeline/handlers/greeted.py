@@ -52,7 +52,7 @@ class GreetedHandler(RouteHandler):
                 "attachment_type": "default",
                 "actions": [{
                     "name": "reset_greet",
-                    "text": f"Reset {self._user_id}'s claim",
+                    "text": f"Reset claim",
                     "type": "button",
                     "style": "danger",
                     "value": "reset_greet",
@@ -65,7 +65,7 @@ class GreetedHandler(RouteHandler):
         return [
             {
                 'text': "",
-                "fallback": "Someone should greet them!",
+                "fallback": "I will greet them!",
                 "color": "#3AA3E3",
                 "callback_id": "greeted",
                 "attachment_type": "default",
