@@ -72,7 +72,7 @@ class Slack:
         to personalize messages.  Prioritizes real_name -> name -> 'New Member'
         :param user_id:
         """
-        response = self._client.api_call('users.info', user=user_id)
+        response = self.api_call('users.info', user=user_id)
         print(f'response: {response}')
         try:
             if response['user']['real_name']:
@@ -84,8 +84,11 @@ class Slack:
         else:
             return 'New Member'
 
+    def api_call(self, method, **kwargs):
+        return self._client.api_call(method, **kwargs)
+
     def auth_test(self):
-        response = self._client.api_call('auth.test')
+        response = self.api_call('auth.test')
         if not response['ok']:
             if response['error'] == 'invalid auth':
                 raise ValueError('Invalid auth recieved')
