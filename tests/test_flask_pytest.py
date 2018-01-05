@@ -3,6 +3,7 @@ import json
 import pytest
 import ocbot.keys
 from tests.test_data import CHALLENGE, NEW_MEMBER
+from pytest_mock import mocker
 
 GOOD_TOKEN = 'token'
 
@@ -18,7 +19,7 @@ def test_app(monkeypatch):
 
 
 # Request Verification Tests #
-def test_good_slack_token(mocker, test_app):
+def test_good_slack_token(mocker: mocker, test_app):
     data = NEW_MEMBER
     data['token'] = GOOD_TOKEN
     json_data = json.dumps(data)

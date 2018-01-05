@@ -1,5 +1,4 @@
 from tests.posgresql import Postgresql
-
 from ocbot.database.pybotdatabase import PyBotDatabase
 
 TEST_USER_1 = {'first_name': 'Billy', 'last_name': 'Boberson', 'interests': ['Ruby', 'Python'],
