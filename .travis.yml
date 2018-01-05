@@ -2,6 +2,8 @@ sudo: required
 
 language: python
 
+cache: pip
+
 os:
   - linux
 
