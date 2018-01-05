@@ -11,7 +11,7 @@ services:
 
   app_test:
     build: .
-    command: bash -c  "sleep 5 && find . -name "*.pyc" -delete && py.test tests/test_new_database.py"
+    command: bash -c  "sleep 5 && find . -name "*.pyc" -delete && py.test"
     depends_on:
       - db
 #  web:

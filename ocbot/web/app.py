@@ -6,7 +6,10 @@ from ocbot.pipeline.routing import RoutingHandler
 from ocbot.keys import VERIFICATION_TOKEN
 from ocbot.web.file_config import get_instance_folder_path
 from ocbot.web.route_decorators import validate_response, url_verification
+import logging
 from ..log_manager import setup_logging
+
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__,
             instance_path=get_instance_folder_path(),
@@ -23,7 +26,8 @@ def token_id_route():
     """
     # data = request.get_json()
     data = json.loads(request.form['payload'])
-    print('Interaction payload:', data)
+    logger.debug(f"Event received: {data}")
+    # print('Interaction payload:', data)
     route_id = data['callback_id']
     RoutingHandler(data, route_id=route_id)
     return make_response('', 200)
@@ -39,7 +43,8 @@ def events_route():
     Lastly forwards event data to route director
     """
     response_data = request.get_json()
-    print('Event endpoint:', response_data)
+    logger.debug(f'Interaction received: {json.dumps(response_data)}')
+    # print(, response_data)
     route_id = response_data['event']['type']
     RoutingHandler(response_data, route_id=route_id)
     return make_response('', 200)
@@ -59,10 +64,8 @@ def HTTP404():
     return render_template(url_for('HTTP404'))
 
 
-
-
-
-def start_server():
+def start_server(logging_level=logger.level):
+    logger.level = logging.DEBUG
     setup_logging()
     app.run(port=5000, debug=True)
 

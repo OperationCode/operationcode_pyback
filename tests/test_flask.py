@@ -1,110 +1,95 @@
-# #!flask/bin/python
-# import json
-# import unittest
-#
-# from mock import patch
-#
-# from ocbot.keys import VERIFICATION_TOKEN
-# from ocbot.web.app import app
-# from tests.test_data import CHALLENGE, NEW_MEMBER
-#
-#
-# class RequestVerification(unittest.TestCase):
-#     def setUp(self):
-#         app.config['TESTING'] = True
-#         app.config['WTF_CSRF_ENABLED'] = False
-#         app.config['DEBUG'] = False
-#         self.app = app.test_client()
-#
-#     def tearDown(self):
-#         pass
-#
-#     @patch('ocbot.web.app.RoutingHandler')
-#     def test_good_slack_token(self, mock):
-#         data = NEW_MEMBER
-#         data['token'] = VERIFICATION_TOKEN
-#         json_data = json.dumps(data)
-#         response = self.app.post('/event_endpoint', data=json_data,
-#                                  content_type='application/json',
-#                                  follow_redirects=True)
-#         self.assertTrue(mock.called)
-#         self.assertEqual(response.status_code, 200)
-#
-#     @patch('ocbot.web.app.RoutingHandler')
-#     def test_bad_slack_token(self, mock):
-#         data = NEW_MEMBER
-#         data['token'] = 'bad token'
-#         json_data = json.dumps(data)
-#         response = self.app.post('/event_endpoint', data=json_data,
-#                                  content_type='application/json',
-#                                  follow_redirects=True)
-#
-#         self.assertFalse(mock.called)
-#         self.assertEqual(response.status_code, 403)
-#
-#     @patch('ocbot.web.app.RoutingHandler')
-#     def test_empty_slack_value_token(self, mock):
-#         data = NEW_MEMBER
-#         data['token'] = None
-#         json_data = json.dumps(data)
-#         response = self.app.post('/event_endpoint', data=json_data,
-#                                  content_type='application/json',
-#                                  follow_redirects=True)
-#
-#
-#         self.assertFalse(mock.called)
-#
-#         self.assertEqual(response.status_code, 403)
-#
-#     @patch('ocbot.web.app.RoutingHandler')
-#     def test_empty_token_slack_data(self, mock):
-#         response = self.app.post('/event_endpoint', data=None,
-#                                  content_type='application/json',
-#                                  follow_redirects=True)
-#
-#         self.assertFalse(mock.called)
-#         self.assertEqual(response.status_code, 400)
-#
-# class ChallengeVerification(unittest.TestCase):
-#     def setUp(self):
-#         app.config['TESTING'] = True
-#         app.config['WTF_CSRF_ENABLED'] = False
-#         self.app = app.test_client()
-#
-#     def tearDown(self):
-#         pass
-#
-#     @patch('ocbot.web.app.RoutingHandler')
-#     def test_challenge_redirect(self, mock):
-#         '''
-#         :param mock: combined_route_director, don't want to call function
-#         :return:
-#         This case tests if we have a verification token
-#         '''
-#         CHALLENGE['token'] = VERIFICATION_TOKEN
-#         data = json.dumps(CHALLENGE)
-#         response = self.app.post('/event_endpoint', data=data,
-#                                  content_type='application/json',
-#                                  follow_redirects=True)
-#         self.assertFalse(mock.called)
-#         self.assertEqual(response.status_code, 200)
-#
-#     @patch('ocbot.web.app.RoutingHandler')
-#     @patch('ocbot.web.app.validate_response')
-#     def test_url_verified_called(self, validate_deco, route_mock ):
-#         '''
-#         :param mock: combined_route_director, don't want to call function
-#         :return:
-#         This case tests if we have a verification token
-#         '''
-#         CHALLENGE['token'] = VERIFICATION_TOKEN
-#         data = json.dumps(CHALLENGE)
-#         response = self.app.post('/event_endpoint', data=data,
-#                                  content_type='application/json',
-#                                  follow_redirects=True)
-#
-#         self.assertFalse(validate_deco.called)
-#         self.assertFalse(route_mock.called)
-#         self.assertEqual(response.status_code, 200)
-#
-#
+#!flask/bin/python
+import json
+import pytest
+import ocbot.keys
+from tests.test_data import CHALLENGE, NEW_MEMBER
+from pytest_mock import mocker
+
+GOOD_TOKEN = 'token'
+
+
+@pytest.fixture
+def test_app(monkeypatch):
+    monkeypatch.setattr(ocbot.keys, 'VERIFICATION_TOKEN', GOOD_TOKEN)
+    from ocbot.web.app import app
+    app.config['TESTING'] = True
+    app.config['WTF_CSRF_ENABLED'] = False
+    app.config['DEBUG'] = False
+    return app.test_client()
+
+
+# Request Verification Tests #
+def test_good_slack_token(mocker: mocker, test_app):
+    data = NEW_MEMBER
+    data['token'] = GOOD_TOKEN
+    json_data = json.dumps(data)
+    mocker.patch('ocbot.web.app.RoutingHandler')
+    response = test_app.post('/event_endpoint', data=json_data,
+                             content_type='application/json',
+                             follow_redirects=True)
+    assert ocbot.web.app.RoutingHandler.called
+    assert response.status_code == 200
+
+
+def test_bad_slack_token(mocker, test_app):
+    data = NEW_MEMBER
+    data['token'] = 'bad token'
+    json_data = json.dumps(data)
+    mocker.patch('ocbot.web.app.RoutingHandler')
+    response = test_app.post('/event_endpoint', data=json_data,
+                             content_type='application/json',
+                             follow_redirects=True)
+    assert not ocbot.web.app.RoutingHandler.called
+    assert response.status_code == 403
+
+
+def test_empty_slack_value_token(mocker, test_app):
+    data = NEW_MEMBER
+    data['token'] = None
+    json_data = json.dumps(data)
+    mocker.patch('ocbot.web.app.RoutingHandler')
+    response = test_app.post('/event_endpoint', data=json_data,
+                             content_type='application/json',
+                             follow_redirects=True)
+    assert not ocbot.web.app.RoutingHandler.called
+    assert response.status_code == 403
+
+
+def test_empty_token_slack_data(mocker, test_app):
+    mocker.patch('ocbot.web.app.RoutingHandler')
+    response = test_app.post('/event_endpoint', data=None,
+                             content_type='application/json',
+                             follow_redirects=True)
+    assert not ocbot.web.app.RoutingHandler.called
+    assert response.status_code == 400
+
+
+# Challenge verification tests #
+def test_challenge_redirect(mocker, test_app):
+    data = json.dumps(CHALLENGE)
+    mocker.patch('ocbot.web.app.RoutingHandler')
+    response = test_app.post('/event_endpoint', data=data,
+                             content_type='application/json',
+                             follow_redirects=True)
+    assert not ocbot.web.app.RoutingHandler.called
+    assert response.status_code == 200
+
+
+def test_url_verified_called(mocker, test_app):
+    """
+    :param mock: combined_route_director, don't want to call function
+    :return:
+    This case tests if we have a verification token
+    """
+    CHALLENGE['token'] = GOOD_TOKEN
+    data = json.dumps(CHALLENGE)
+    mocker.patch('ocbot.web.app.RoutingHandler')
+    mocker.patch('ocbot.web.app.validate_response')
+
+    response = test_app.post('/event_endpoint', data=data,
+                             content_type='application/json',
+                             follow_redirects=True)
+
+    assert not ocbot.web.app.RoutingHandler.called
+    assert not ocbot.web.app.validate_response.called
+    assert response.status_code == 200
