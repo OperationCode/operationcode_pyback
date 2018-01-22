@@ -36,6 +36,17 @@ class User(Base):
         return f'{self.id} | {self.first_name} | {self.last_name} | {self.email} | {self.interests}'
 
 
+class ChatUser(Base):
+    __tablename__ = 'chats'
+
+    id = Column(Integer, primary_key=True)
+    email = Column(String(50), nullable=False, unique=True)
+    thread_ts = Column(String(50), nullable=False, unique=True)
+
+    def __repr__(self) -> str:
+        return f'{self.id} | {self.email} | {self.thread_ts}'
+
+
 class Interest(Base):
     __tablename__ = 'interests'
 

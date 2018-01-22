@@ -50,6 +50,14 @@ def events_route():
     return make_response('', 200)
 
 
+@app.route('/frontend_event', methods=['POST'])
+def frontend_events():
+    response_data = request.get_json()
+    route_id = response_data['type']
+    RoutingHandler(response_data, route_id=route_id)
+    return make_response("", 200)
+
+
 @app.route('/options_load', methods=['POST'])
 def options_route():
     """

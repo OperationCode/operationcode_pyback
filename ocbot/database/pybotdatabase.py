@@ -2,7 +2,7 @@ import json
 from contextlib import contextmanager
 from collections import namedtuple
 from sqlalchemy import create_engine
-from ocbot.database.models import Base, User, Interest, UserGroup
+from ocbot.database.models import Base, User, Interest, UserGroup, ChatUser
 from sqlalchemy.orm import sessionmaker, Session
 from ocbot.keys import PG_USERNAME, PG_PASSWORD, PA_SSH_PASSWORD, PA_SSH_URL, PA_SSH_USERNAME, \
     PA_SSH_REMOTE_BIND_ADDR, PA_SSH_REMOTE_BIND_PORT
@@ -94,6 +94,19 @@ class PyBotDatabase:
                 new_user.interests = session.query(Interest).filter(Interest.name.in_(interests)).all()
                 session.commit()
             return True
+
+    def get_chat_session(self, email: str, **kwargs):
+        with self.session_scope() as session:
+            user = session.query(ChatUser).filter_by(email=email).first()
+            if user:
+                return {key: val for key, val in user.__dict__.items()}
+            else:
+                return False
+
+    def add_chat_session(self, email: str, thread_ts: str, **kwargs):
+        with self.session_scope() as session:
+            chat = ChatUser(email=email, thread_ts=thread_ts)
+            res = session.add(chat)
 
     def update_user(self, email: str, **kwargs: dict) -> bool:
         """
@@ -191,6 +204,7 @@ class PyBotDatabase:
         })
         return res
 
+
 #
 # def _pa_postgres_testing():
 #     """
@@ -244,29 +258,35 @@ class PyBotDatabase:
 #     db.close_all()
 #
 #
-# def _in_memory_sqlite_testing():
-#     db = PyBotDatabase()
-#     db._remake_tables()
-#     db._populate_interests()
-#     db.add_user(**TEST_USER_1)
-#     db.add_user(**TEST_USER_1)
-#     # params['email'] = 'fake2@email.com'
-#     # db.add_user(**params)
-#     # db.assign_usergroup(email='fake@email.com', group='Leadership')
-#     # print(db.get_user('fake@email.com'))  # 1 | Billy | Boberson | fake@email.com | [Java, Python]
-#     # print(db.get_user('fake2@email.com'))  # 1 | Billy | Boberson | fake@email.com | [Java, Python]
-#
-#     # user = db.get_user('fake@email.com')
-#     # print(user.__dict__)
-#
-#     db.close_all()
-#
-#
-# if __name__ == '__main__':
-#     """
-#     Stuff for lazy testing.
-#     """
-#     TEST_USER_1 = {'first_name': 'Billy', 'last_name': 'Boberson', 'interests': ['Java', 'Python'],
-#                    'email': 'fake@email.com', }
-#
-#
+def _in_memory_sqlite_testing():
+    db = PyBotDatabase()
+    db._remake_tables()
+    db._populate_interests()
+    db.add_chat_session("test@email.com", "123456.1234")
+    res = db.get_chat_session("test@e2mail.com")
+    if res:
+        print(res)
+    else:
+        print("None")
+
+    # db.add_user(**TEST_USER_1)
+    # db.add_user(**TEST_USER_1)
+    # params['email'] = 'fake2@email.com'
+    # db.add_user(**params)
+    # db.assign_usergroup(email='fake@email.com', group='Leadership')
+    # print(db.get_user('fake@email.com'))  # 1 | Billy | Boberson | fake@email.com | [Java, Python]
+    # print(db.get_user('fake2@email.com'))  # 1 | Billy | Boberson | fake@email.com | [Java, Python]
+
+    # user = db.get_user('fake@email.com')
+    # print(user.__dict__)
+
+    db.close_all()
+
+
+if __name__ == '__main__':
+    """
+    Stuff for lazy testing.
+    """
+    TEST_USER_1 = {'first_name': 'Billy', 'last_name': 'Boberson', 'interests': ['Java', 'Python'],
+                   'email': 'fake@email.com', }
+    _in_memory_sqlite_testing()

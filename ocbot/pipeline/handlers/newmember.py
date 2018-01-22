@@ -30,9 +30,9 @@ class NewMemberHandler(RouteHandler):
         pass
 
     def process_db_response(self):
-        built_resources = base_resources
+        built_resources = BASE_RESOURCES
         if not self.db_dict:
-            built_resources['attachments'][0]['actions'] = default_interest
+            built_resources['attachments'][0]['actions'] = DEFAULT_INTEREST
 
         # TODO process resources
         else:
@@ -40,7 +40,7 @@ class NewMemberHandler(RouteHandler):
         return built_resources
 
     def build_templates(self):
-        self.text_dict['message'] = text_greet.format(real_name=self.api_dict['real_name'])
+        self.text_dict['message'] = GREET_TEXT.format(real_name=self.api_dict['real_name'])
         self.text_dict['resource'] = self.process_db_response()
         self.text_dict['community'] = f":tada: <@{self.user_id}> has joined! :tada:"
         self.text_dict['attach'] = needs_greet_button()
@@ -57,7 +57,7 @@ class NewMemberHandler(RouteHandler):
         self.include_resp(SlackBuilder.message, COMMUNITY_CHANNEL, text=community, attachments=attachments)
 
 
-text_greet = ("Hi {real_name},\n\n Welcome to Operation Code! I'm a bot designed to help answer questions and "
+GREET_TEXT = ("Hi {real_name},\n\n Welcome to Operation Code! I'm a bot designed to help answer questions and "
               "get you on your way in our community.\n\n Our goal here at Operation Code is to get veterans and "
               "their families started on the path to a career in programming. We do that through providing you with "
               "scholarships, mentoring, career development opportunities, conference tickets, and more!\n")
@@ -111,7 +111,7 @@ external_buttons = {
     ]
 }
 
-default_interest = [
+DEFAULT_INTEREST = [
     {
         "name": "javascript",
         "text": "JavaScript",
@@ -138,7 +138,7 @@ default_interest = [
 
 ]
 
-base_resources = {
+BASE_RESOURCES = {
     "text": "We recommend the following resources.",
     "attachments": [
         {

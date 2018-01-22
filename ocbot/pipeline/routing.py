@@ -6,6 +6,7 @@ from .handlers.suggestion import SuggestionHandler
 from .handlers.mentor_request import MentorRequestHandler
 from .handlers.newmember import NewMemberHandler
 from .handlers.testing_handlers import test_message_handler, DefaultHandler
+from .handlers.frontend_chat import FrontendChatHandler
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +25,8 @@ def RoutingHandler(json_data: dict, route_id=None) -> None:
         'greeted': GreetedHandler,
         'mentor_request': MentorRequestHandler,
         'team_join': NewMemberHandler,
-        'suggestion_modal': SuggestionHandler
+        'suggestion_modal': SuggestionHandler,
+        'frontend_chat': FrontendChatHandler
     }
     try:
         class_route = route_dict.get(route_id, test_message_handler)
@@ -32,7 +34,7 @@ def RoutingHandler(json_data: dict, route_id=None) -> None:
         handler.event_route()
 
     except KeyError as error:
-        pass
+        print(error)
 
     # test_route_handler(json_data)
 

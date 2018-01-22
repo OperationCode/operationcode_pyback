@@ -8,6 +8,9 @@ from ..keys import VERIFICATION_TOKEN, TOKEN
 
 from ocbot.external.utils import ResponseContainer
 
+"""Refactor this out.  Currently being used for chatbox stuff"""
+from ocbot.keys import COMMUNITY_CHANNEL
+
 logger = logging.getLogger(__name__)
 
 
@@ -31,11 +34,13 @@ class SlackBuilder:
         return ResponseContainer(route='Slack',
                                  method='chat.update',
                                  payload=dict(**message_payload))
+
     @staticmethod
     def dialog(**message_payload):
         return ResponseContainer(route='Slack',
                                  method='dialog.open',
                                  payload=dict(**message_payload))
+
 
 class Slack:
     # Store the instance
@@ -133,6 +138,15 @@ class Slack:
     def build_message(self, message_template: str, **kwargs: dict) -> str:
         return message_template.format(**kwargs)
 
+    def post_new_frontend_chat_message(self, msg: str, email: str):
+        message = f'@here New Chat Message from {email}: {msg}'
+        res = self.api_call("chat.postMessage", channel=COMMUNITY_CHANNEL, text=message)
+        return res['ts']
+
+    def post_to_chat_thread(self, msg: str, thread_ts: str):
+        res = self.api_call("chat.postMessage", channel=COMMUNITY_CHANNEL, text=msg, thread_ts=thread_ts)
+        print(res)
+
 # def get_response_type(response_data):
 #     return response_data['actions'][0]['value']
 #
@@ -151,4 +165,3 @@ class Slack:
 #         username='test-bot',
 #         icon_emoji=':robot_face:'
 #     )
-
