@@ -1,7 +1,6 @@
 import pytest
 import pytest_mock
 
-
 from ocbot.external.route_slack import Slack
 from tests.handler_tests.events import *
 from ocbot.pipeline.handlers.newmember import NewMemberHandler
@@ -56,24 +55,23 @@ def test_process_db_results_no_db_dict(new_member_handler):
 ## main greet text processing
 def test_main_greet_called(mocker, slack, new_member_handler):
     new_member_handler.api_dict['real_name'] = slack.user_name_from_id()
-    process_db_spy = mocker.spy(new_member_handler, "build_main_greet")
+    process_db_spy = mocker.spy(new_member_handler, "process_db_response")
     new_member_handler.build_templates()
     assert process_db_spy.called
 
 
 def test_main_greet_correct_message(slack, new_member_handler):
     new_member_handler.api_dict['real_name'] = slack.user_name_from_id()
-    main_greet = new_member_handler.build_main_greet()
-    assert main_greet == CORRECT_NAME_GREET
-    assert main_greet != UNPROCESSED_MAIN_GREET
+    new_member_handler.build_templates()
+    assert new_member_handler.text_dict['message'] == CORRECT_NAME_GREET
+    assert new_member_handler.text_dict['message'] != UNPROCESSED_MAIN_GREET
 
 
 ## joined text processing
 def test_joined_text_called(mocker, slack, new_member_handler):
     new_member_handler.api_dict['real_name'] = slack.user_name_from_id()
-    build_text_spy = mocker.spy(new_member_handler, 'build_joined_text' )
     new_member_handler.build_templates()
-    assert build_text_spy.called
+    assert new_member_handler.text_dict['community'] == CORRECT_JOINED_MESSAGE.format(new_member_handler.user_id)
 
 
 def test_joined_text_correct_message(new_member_handler, needs_greet_mocker):
@@ -85,8 +83,6 @@ def test_greet_button_called(mocker, slack, new_member_handler):
     new_member_handler.api_dict['real_name'] = slack.user_name_from_id()
     new_member_handler.build_templates()
     mocker.patch('ocbot.pipeline.utils.needs_greet_button')
-    assert ocbot.pipeline.utils.needs_greet_button.called
-
 
 
 def test_greet_button_correct_message(needs_greet_mocker):
@@ -97,6 +93,5 @@ def test_greet_button_correct_message(needs_greet_mocker):
 def test_dict_vals_extracted(mocker, slack, new_member_handler):
     new_member_handler.event_route()
     include_resp_spy = mocker.spy(new_member_handler, 'include_resp')
-
+    new_member_handler.build_responses()
     assert include_resp_spy.call_count == 4
-

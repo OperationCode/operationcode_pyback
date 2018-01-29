@@ -77,14 +77,15 @@ external_buttons = {
             "callback_id": "external_buttons",
             "attachment_type": "default",
             "actions": [
-                {
-                    "name": "verify",
-                    "text": "Verify Veteran Status",
-                    "type": "button",
-                    "value": "verify",
-                    "url": "https://operationcode.org/profile",
-                    "style": "primary"
-                },
+                ### Taken out until backend endpoint to query veteran status is implemented
+                # {
+                #     "name": "verify",
+                #     "text": "Verify Veteran Status",
+                #     "type": "button",
+                #     "value": "verify",
+                #     "url": "https://operationcode.org/profile",
+                #     "style": "primary"
+                # },
                 {
                     "name": "github",
                     "text": "GitHub",
