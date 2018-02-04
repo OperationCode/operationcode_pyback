@@ -63,8 +63,9 @@ text_greet = ("Hi {real_name},\n\n Welcome to Operation Code! I'm a bot designed
               "scholarships, mentoring, career development opportunities, conference tickets, and more!\n")
 
 external_buttons = {
-    "text": ("The aid we provide requires veteran status. *please click the attached link* to verify your status if "
-             "you qualify for optional services.\n\nYou're currently in Slack, a chat application that serves as the "
+    "text": ("Much of the provided aid requires veteran or military spouse status. Please verify your status on your "
+             "profile at https://operationcode.org/ if you haven't already."
+             "\n\nYou're currently in Slack, a chat application that serves as the "
              "hub of Operation Code. If you're visiting us via your browser, Slack provides a stand alone program to "
              "make staying in touch even more convenient.\n\nAll active Operation Code projects are located on our "
              "source control repository. Our projects can be viewed on GitHub\n\n Lastly, please take a moment to "
