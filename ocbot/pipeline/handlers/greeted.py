@@ -8,8 +8,11 @@ from ocbot.pipeline.utils import get_response_type
 
 class GreetedHandler(RouteHandler):
     """
-        Handles the interactive message sent to the #community channel
-        when a new member joins.
+    Handles the interactive message sent to the #community channel
+    when a new member joins.
+
+    Displays the user that claimed the greeting along with the option
+    to un-claim
     """
 
     def __init__(self, *, event_dict):

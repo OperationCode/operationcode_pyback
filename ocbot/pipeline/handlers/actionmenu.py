@@ -8,11 +8,8 @@ from ocbot.external.route_slack import SlackBuilder
 
 class ActionMenuHandler(RouteHandler):
     """
-        Handles the interactive message sent to the #community channel
-        when a new member joins.
-
-        Displays the user that claimed the greeting along with the option
-        to un-claim
+        Handles the interactive message sent to a new user when
+        they first join
     """
 
     def __init__(self, *, event_dict):
@@ -40,7 +37,6 @@ class ActionMenuHandler(RouteHandler):
                 'trigger_id': self.trigger_id,
                 'dialog': self.SUGGESTION_MODAL()
             }
-
 
         # mentor
         elif self._click_type == 'mentor':
