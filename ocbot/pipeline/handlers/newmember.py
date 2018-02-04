@@ -63,12 +63,12 @@ text_greet = ("Hi {real_name},\n\n Welcome to Operation Code! I'm a bot designed
               "scholarships, mentoring, career development opportunities, conference tickets, and more!\n")
 
 external_buttons = {
-    "text": ("The aid we provide requires veteran status *please click the attached link* to verify your status if "
+    "text": ("The aid we provide requires veteran status. *please click the attached link* to verify your status if "
              "you qualify for optional services.\n\nYou're currently in Slack, a chat application that serves as the "
              "hub of Operation Code. If you're visiting us via your browser, Slack provides a stand alone program to "
-             "make staying in touch even more convenient.\n\nAll active Operation Code Projects are located on our "
-             "source control repository.Our projects can be viewed on Github\n\n Lastly, please take a moment to "
-             "review our Code of Conduct"),
+             "make staying in touch even more convenient.\n\nAll active Operation Code projects are located on our "
+             "source control repository. Our projects can be viewed on GitHub\n\n Lastly, please take a moment to "
+             "review our Code of Conduct."),
     "attachments": [
         {
             "text": "",
@@ -105,7 +105,7 @@ external_buttons = {
                     "text": "Code of Conduct",
                     "type": "button",
                     "value": "code_of_conduct",
-                    "url": "https://op.co.de/code-of-conduct"
+                    "url": "https://github.com/OperationCode/operationcode/blob/master/CODE-OF-CONDUCT.md"
                 }
             ]
         }
@@ -130,12 +130,13 @@ default_interest = [
         "text": "Ruby",
         "type": "button",
         "value": "ruby"
-    }, {
-        "name": "webdev",
-        "text": "Web Dev",
-        "type": "button",
-        "value": "webdev"
-    }
+    },
+    # {
+    #     "name": "webdev",
+    #     "text": "Web Dev",
+    #     "type": "button",
+    #     "value": "webdev"
+    # }
 
 ]
 
