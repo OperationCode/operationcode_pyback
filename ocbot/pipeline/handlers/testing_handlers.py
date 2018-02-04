@@ -25,6 +25,10 @@ class DefaultHandler(RouteHandler):
 
 def test_message_handler(*, event_dict):
     if event_dict['event']['text'] == 'testgreet':
+        event_dict['event']['user'] = {
+                "id": event_dict['event']['user']
+            }
+
         return NewMemberHandler(event_dict=event_dict)
     else:
         return DefaultHandler(event_dict=event_dict)

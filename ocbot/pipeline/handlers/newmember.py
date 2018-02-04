@@ -15,7 +15,7 @@ class NewMemberHandler(RouteHandler):
 
     def __init__(self, *, event_dict):
         event_dict = event_dict['event']
-        self.user_id = event_dict['user']
+        self.user_id = event_dict['user']['id']
         self._event = event_dict
         super().__init__()
 
