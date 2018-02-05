@@ -1,5 +1,6 @@
 import logging
 
+from ocbot.pipeline.handlers.airtable import NewAirtableRequestHandler
 from .handlers.actionmenu import ActionMenuHandler
 from .handlers.greeted import GreetedHandler
 from .handlers.suggestion import SuggestionHandler
@@ -8,6 +9,8 @@ from .handlers.newmember import NewMemberHandler
 from .handlers.testing_handlers import test_message_handler, DefaultHandler
 
 logger = logging.getLogger(__name__)
+
+
 
 
 def RoutingHandler(json_data: dict, route_id=None) -> None:
@@ -24,7 +27,8 @@ def RoutingHandler(json_data: dict, route_id=None) -> None:
         'greeted': GreetedHandler,
         'mentor_request': MentorRequestHandler,
         'team_join': NewMemberHandler,
-        'suggestion_modal': SuggestionHandler
+        'suggestion_modal': SuggestionHandler,
+        'new_airtable_request': NewAirtableRequestHandler,
     }
     try:
         class_route = route_dict.get(route_id, test_message_handler)

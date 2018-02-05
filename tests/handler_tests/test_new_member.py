@@ -68,14 +68,10 @@ def test_main_greet_correct_message(slack, new_member_handler):
 
 
 ## joined text processing
-def test_joined_text_called(mocker, slack, new_member_handler):
+def test_joined_text_correct_message(mocker, slack, new_member_handler):
     new_member_handler.api_dict['real_name'] = slack.user_name_from_id()
     new_member_handler.build_templates()
-    assert new_member_handler.text_dict['community'] == CORRECT_JOINED_MESSAGE.format(new_member_handler.user_id)
-
-
-def test_joined_text_correct_message(new_member_handler, needs_greet_mocker):
-    assert needs_greet_mocker == CORRECT_GREET_BUTTON
+    assert new_member_handler.text_dict['community'] == CORRECT_JOINED_MESSAGE
 
 
 ## need greet button processing

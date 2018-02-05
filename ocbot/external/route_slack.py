@@ -84,6 +84,11 @@ class Slack:
         else:
             return 'New Member'
 
+    def user_id_from_email(self, email: str) -> str:
+        response = self.api_call('users.lookupByEmail', email=email)
+        print(f'response: {response}')
+        return response['user']['id']
+
     def api_call(self, method, **kwargs):
         return self._client.api_call(method, **kwargs)
 

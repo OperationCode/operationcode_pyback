@@ -1,4 +1,4 @@
-import threading
+import pprint
 
 from flask import Flask, request, make_response, redirect, url_for, render_template, json
 from ocbot.pipeline.routing import RoutingHandler
@@ -15,6 +15,14 @@ app = Flask(__name__,
             instance_path=get_instance_folder_path(),
             instance_relative_config=True,
             template_folder='static/templates')
+
+
+@app.route("/zap_airtable_endpoint", methods=['POST'])
+def zap_endpoint():
+    data = request.get_json()
+    pprint.pprint(data)
+    RoutingHandler(data, route_id="new_airtable_request")
+    return make_response('', 200)
 
 
 @validate_response('token', VERIFICATION_TOKEN)

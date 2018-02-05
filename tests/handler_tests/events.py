@@ -241,7 +241,7 @@ UNPROCESSED_MAIN_GREET = ("Hi {real_name},\n\n Welcome to Operation Code! I'm a 
               "their families started on the path to a career in programming. We do that through providing you with "
               "scholarships, mentoring, career development opportunities, conference tickets, and more!\n")
 
-CORRECT_JOINED_MESSAGE = ":tada: <@{}> has joined! :tada:"
+CORRECT_JOINED_MESSAGE = ":tada: <@U8JUVGU65> has joined! :tada:"
 
 CORRECT_GREET_BUTTON = [
         {
