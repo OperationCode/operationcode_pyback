@@ -12,17 +12,29 @@ def AirTableStart(api_key=None, table_key=None, table_name=None):
     _airtableconfig['TABLE_KEY'] = table_key
 
 
-@verify_module_variable(['API_KEY', 'TABLE_NAME', 'TABLE_KEY'], _airtableconfig, 'airtable')
+# @verify_module_variable(['API_KEY', 'TABLE_NAME', 'TABLE_KEY'], _airtableconfig, 'airtable')
 class AirTableBuilder:
     # Temporary hack.  Change this to getting the record ID's from the table itself
     _services_records = {
-        'General Guidance - Slack Chat': 'recBxmDasLXwmVB78',
-        'General Guidance - Voice Chat': 'recDyu4PMbPl7Ti58',
-        'Pair Programming': 'recHCFAO9uNSy1WDs',
-        'Code Review': 'recUK55xJXOfAaYNb',
-        'Resume Review': 'recXZzUduWfaxWvSF',
-        'Mock Interview': 'recdY4XLeN1CPz1l8'
+        'General Guidance - Slack Chat': 'rec7TQyPoFMHGEARz',
+        'General Guidance - Voice Chat': 'rec9UYZuI5EwrChPz',
+        'Pair Programming': 'recdY9vt5oC3SKVnT',
+        'Code Review': 'recq6z0cFRDqUTXxC',
+        'Resume Review': 'rectl3PSqQ4lRFuC6',
+        'Mock Interview': 'recJkySqaHQN9i05z'
     }
+
+    @classmethod
+    def record_to_service(cls, record: str) -> str:
+        services = {
+            'rec7TQyPoFMHGEARz': 'General Guidance - Slack Chat',
+            'rec9UYZuI5EwrChPz': 'General Guidance - Voice Chat',
+            'recdY9vt5oC3SKVnT': 'Pair Programming',
+            'recq6z0cFRDqUTXxC': 'Code Review',
+            'rectl3PSqQ4lRFuC6': 'Resume Review',
+            'recJkySqaHQN9i05z': 'Mock Interview'
+        }
+        return services[record]
 
     @classmethod
     def entry(cls, params):

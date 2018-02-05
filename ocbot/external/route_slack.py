@@ -17,6 +17,8 @@ class SlackBuilder:
     user_id and flattened dict get passed
     """
 
+
+
     # TODO determine if need as_user
     @staticmethod
     def message(channel, **message_payload):
@@ -84,10 +86,10 @@ class Slack:
         else:
             return 'New Member'
 
-    def user_id_from_email(self, email: str) -> str:
+    def user_id_from_email(self, email: str) -> dict:
         response = self.api_call('users.lookupByEmail', email=email)
         print(f'response: {response}')
-        return response['user']['id']
+        return response
 
     def api_call(self, method, **kwargs):
         return self._client.api_call(method, **kwargs)
