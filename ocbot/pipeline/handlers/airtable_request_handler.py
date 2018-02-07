@@ -24,8 +24,6 @@ class NewAirtableRequestHandler(RouteHandler):
         else:
             self.api_dict['user'] = self._event['Slack User']
 
-
-
     def database_calls(self):
         pass
 
@@ -35,9 +33,11 @@ class NewAirtableRequestHandler(RouteHandler):
                                     f"Given Skillset(s): {self._event['Skillsets']}\n\n" \
                                     f"View requests: <https://airtable.com/tbl9uQEE8VeMdNCey/viwYzYa4J9aytVB4B|Airtable>\n\n" \
                                     f"Please reply to the channel if you'd like to be assigned to this request."
-                                    # f"Here's everything!\n {self._event}"
+        # f"Here's everything!\n {self._event}"
+        self.text_dict['details'] = f"Additional details: {self._event['Details']}"
 
     def build_responses(self):
         message_text = self.text_dict['message']
 
-        self.include_resp(SlackBuilder.message, COMMUNITY_CHANNEL, text=message_text)
+        self.include_resp(SlackBuilder.mentor_request, COMMUNITY_CHANNEL, details=self.text_dict['details'],
+                          text=message_text)

@@ -17,7 +17,13 @@ class SlackBuilder:
     user_id and flattened dict get passed
     """
 
-
+    @staticmethod
+    def mentor_request(channel, details, **kwargs):
+        return ResponseContainer(route="Slack",
+                                 method="mentor_request",
+                                 payload=dict(channel=channel,
+                                              first=kwargs,
+                                              second=details))
 
     # TODO determine if need as_user
     @staticmethod
@@ -33,11 +39,13 @@ class SlackBuilder:
         return ResponseContainer(route='Slack',
                                  method='chat.update',
                                  payload=dict(**message_payload))
+
     @staticmethod
     def dialog(**message_payload):
         return ResponseContainer(route='Slack',
                                  method='dialog.open',
                                  payload=dict(**message_payload))
+
 
 class Slack:
     # Store the instance
@@ -62,10 +70,16 @@ class Slack:
         return partial(self._default, name)
 
     def _default(self, method, payload):
-        print(f'default found.... {method}, {payload}')
+        logger.info(f'default found.... {method}, {payload}')
         res = self._client.api_call(method, **payload)
-        print('API call result: ', res)
+        logger.info(f'API call result: {res}')
         return res
+
+    def mentor_request(self, payload):
+        res = self._client.api_call("chat.postMessage", channel=payload['channel'], **payload['first'])
+        logger.info(f'First call result: {res}')
+        res2 = self._client.api_call("chat.postMessage", channel=payload['channel'], thread_ts=res['ts'], text=payload['second'])
+        logger.info(f'First call result: {res2}')
 
     # TODO add exception handling for the cases
     def user_name_from_id(self, user_id: str) -> str:
@@ -75,7 +89,7 @@ class Slack:
         :param user_id:
         """
         response = self.api_call('users.info', user=user_id)
-        print(f'response: {response}')
+        logger.debug(f'username from id response: {response}')
         try:
             if response['user']['real_name']:
                 return response['user']['real_name'].title()
@@ -88,7 +102,7 @@ class Slack:
 
     def user_id_from_email(self, email: str) -> dict:
         response = self.api_call('users.lookupByEmail', email=email)
-        print(f'response: {response}')
+        logger.debug(f'user id from email response: {response}')
         return response
 
     def api_call(self, method, **kwargs):
@@ -158,4 +172,3 @@ class Slack:
 #         username='test-bot',
 #         icon_emoji=':robot_face:'
 #     )
-
