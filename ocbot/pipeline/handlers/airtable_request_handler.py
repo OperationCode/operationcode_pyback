@@ -17,7 +17,6 @@ class NewAirtableRequestHandler(RouteHandler):
         If not found defaults to displaying the provided Slack Username in plaintext
         :return:
         """
-        # self.api_dict['id'] = Slack().user_id_from_email(self._user_email)
         response = Slack().user_id_from_email(self._user_email)
         if response['ok']:
             self.api_dict['user'] = f"<@{response['user']['id']}>"
@@ -33,11 +32,11 @@ class NewAirtableRequestHandler(RouteHandler):
                                     f"Given Skillset(s): {self._event['Skillsets']}\n\n" \
                                     f"View requests: <https://airtable.com/tbl9uQEE8VeMdNCey/viwYzYa4J9aytVB4B|Airtable>\n\n" \
                                     f"Please reply to the channel if you'd like to be assigned to this request."
-        # f"Here's everything!\n {self._event}"
         self.text_dict['details'] = f"Additional details: {self._event['Details']}"
 
     def build_responses(self):
         message_text = self.text_dict['message']
+        details_text = self.text_dict['details']
 
-        self.include_resp(SlackBuilder.mentor_request, COMMUNITY_CHANNEL, details=self.text_dict['details'],
+        self.include_resp(SlackBuilder.mentor_request, COMMUNITY_CHANNEL, details=details_text,
                           text=message_text)
