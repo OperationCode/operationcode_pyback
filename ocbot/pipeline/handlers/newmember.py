@@ -106,7 +106,7 @@ external_buttons = {
                     "text": "Code of Conduct",
                     "type": "button",
                     "value": "code_of_conduct",
-                    "url": "https://github.com/OperationCode/operationcode/blob/master/CODE-OF-CONDUCT.md"
+                    "url": "https://github.com/OperationCode/community/blob/master/code_of_conduct.md"
                 }
             ]
         }
