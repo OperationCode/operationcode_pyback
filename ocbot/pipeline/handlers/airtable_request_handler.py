@@ -1,6 +1,6 @@
 from ocbot.external.route_airtable import AirTableBuilder
 from ocbot.external.route_slack import SlackBuilder, Slack
-from ocbot.keys import COMMUNITY_CHANNEL
+from ocbot.keys import OPCODE_MENTORS_INTERNAL_CHANNEL
 from ocbot.pipeline.handlers.abc import RouteHandler
 
 
@@ -41,5 +41,5 @@ class NewAirtableRequestHandler(RouteHandler):
         message_text = self.text_dict['message']
         details_text = self.text_dict['details']
 
-        self.include_resp(SlackBuilder.mentor_request, COMMUNITY_CHANNEL, details=details_text,
+        self.include_resp(SlackBuilder.mentor_request, OPCODE_MENTORS_INTERNAL_CHANNEL, details=details_text,
                           text=message_text)
