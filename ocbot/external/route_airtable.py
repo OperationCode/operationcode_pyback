@@ -26,13 +26,24 @@ class AirTableBuilder:
 
     @classmethod
     def record_to_service(cls, record: str) -> str:
+
+        #  Test Airtable services.  These will all be moved somewhere else
+        #  eventually (maybe)
+        # services = {
+        #     'rec7TQyPoFMHGEARz': 'General Guidance - Slack Chat',
+        #     'rec9UYZuI5EwrChPz': 'General Guidance - Voice Chat',
+        #     'recdY9vt5oC3SKVnT': 'Pair Programming',
+        #     'recq6z0cFRDqUTXxC': 'Code Review',
+        #     'rectl3PSqQ4lRFuC6': 'Resume Review',
+        #     'recJkySqaHQN9i05z': 'Mock Interview'
+        # }
         services = {
-            'rec7TQyPoFMHGEARz': 'General Guidance - Slack Chat',
-            'rec9UYZuI5EwrChPz': 'General Guidance - Voice Chat',
-            'recdY9vt5oC3SKVnT': 'Pair Programming',
-            'recq6z0cFRDqUTXxC': 'Code Review',
-            'rectl3PSqQ4lRFuC6': 'Resume Review',
-            'recJkySqaHQN9i05z': 'Mock Interview'
+            'recry8s14qGJhHeOC': 'General Guidance - Slack Chat',
+            'rectzgTGoQyy2FVMC': 'General Guidance - Voice Chat',
+            'recxDrpFL9w5tNzkW': 'Pair Programming',
+            'recKLRUolCxsvWBuF': 'Code Review',
+            'recN0lJ46BYnsI8z9': 'Resume Review',
+            'rec3ZQMCQsKPKlE2C': 'Mock Interview'
         }
         return services[record]
 
