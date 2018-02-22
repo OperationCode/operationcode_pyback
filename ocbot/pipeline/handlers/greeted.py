@@ -45,8 +45,15 @@ class GreetedHandler(RouteHandler):
 
         self.include_resp(SlackBuilder.update, **params)
 
+    def now(self):
+        """
+        This has to be pulled out into its own method so a mock can
+        be injected for testing purposes
+        """
+        return int(time())
+
     def was_greeted_response_attachments(self) -> List[dict]:
-        unix_time = int(time())
+        unix_time = self.now()
         return [
             {
                 "text": f":100:<@{self._user_id}> has greeted the new user!:100:\n"

@@ -1,4 +1,6 @@
 import pytest
+import pytest_mock
+
 
 from ocbot.external.route_slack import SlackBuilder
 from tests.handler_tests.events import *
@@ -11,7 +13,7 @@ def greeted_handler():
 
 
 @pytest.fixture
-def reset_greet_handler():
+def reset_greet_handler(mocker: pytest_mock.mocker):
     return GreetedHandler(event_dict=RESET_GREET_EVENT)
 
 
@@ -39,7 +41,8 @@ def test_build_templates_calls_not_greeted(mocker, reset_greet_handler):
     assert not_greeted_spy.called
 
 
-def test_text_dict_is_assigned_correctly_when_greeted(greeted_handler):
+def test_text_dict_is_assigned_correctly_when_greeted(mocker, greeted_handler):
+    mocker.patch.object(greeted_handler, "now", return_value="0")
     greeted_handler.build_templates()
     assert greeted_handler.text_dict['message'] == CORRECT_GREET_MESSAGE
 
@@ -65,7 +68,9 @@ def test_handler_added_response(greeted_handler):
     assert (SlackBuilder.update(**CORRECT_GREET_MESSAGE)) in greeted_handler.response
 
 
-def test_handler_adds_multiple_responses(greeted_handler):
+def test_handler_adds_multiple_responses(mocker, greeted_handler):
+    mocker.patch.object(greeted_handler, "now", return_value="0")
+
     greeted_handler.text_dict['message'] = CORRECT_GREET_MESSAGE
     greeted_handler.build_responses()
     greeted_handler.text_dict['message'] = RESET_GREET_EVENT

@@ -48,11 +48,25 @@ CORRECT_RESET_PARAMS = {
     'as_user': True
 }
 
+# CORRECT_GREET_MESSAGE = {'text': ':tada: <@U8N6XBL7Q> has joined! :tada:', 'channel': 'G8NDRJJF9',
+#                          'ts': '1515177650.000464', 'as_user': True, 'attachments': [
+#         {'text': ':100:<@U8N6XBL7Q> has greeted the new user!:100:', 'fallback': '', 'color': '#3AA3E3',
+#          'callback_id': 'greeted', 'attachment_type': 'default', 'actions': [
+#             {'name': 'reset_greet', 'text': 'Reset claim', 'type': 'button', 'style': 'danger',
+#              'value': 'reset_greet'}]}]}
+
 CORRECT_GREET_MESSAGE = {'text': ':tada: <@U8N6XBL7Q> has joined! :tada:', 'channel': 'G8NDRJJF9',
-                         'ts': '1515177650.000464', 'as_user': True, 'attachments': [
-        {'text': ':100:<@U8N6XBL7Q> has greeted the new user!:100:', 'fallback': '', 'color': '#3AA3E3',
-         'callback_id': 'greeted', 'attachment_type': 'default', 'actions': [
-            {'name': 'reset_greet', 'text': 'Reset claim', 'type': 'button', 'style': 'danger',
+                         'ts': '1515177650.000464', 'as_user': True, 'attachments': [{
+        'text': ':100:<@U8N6XBL7Q> has greeted the new user!:100:\n<!date^0^Greeted at {date_num} {time_secs}|Failed to parse time>',
+        'fallback': '',
+        'color': '#3AA3E3',
+        'callback_id': 'greeted',
+        'attachment_type': 'default',
+        'actions': [
+            {'name': 'reset_greet',
+             'text': 'Reset claim',
+             'type': 'button',
+             'style': 'danger',
              'value': 'reset_greet'}]}]}
 
 CORRECT_RESET_MESSAGE = {'text': ':tada: <@U8N6XBL7Q> has joined! :tada:', 'channel': 'G8NDRJJF9',
@@ -66,16 +80,16 @@ GREETED_RESPONSE_CONTAINER = ResponseContainer(route='Slack', method='chat.updat
                                                payload={'text': ':tada: <@U8N6XBL7Q> has joined! :tada:',
                                                         'channel': 'G8NDRJJF9',
                                                         'ts': '1515177650.000464', 'as_user': True, 'attachments': [
-                                                       {'text': ':100:<@U8N6XBL7Q> has greeted the new user!:100:',
-                                                        'fallback': '',
-                                                        'color': '#3AA3E3', 'callback_id': 'greeted',
-                                                        'attachment_type': 'default', 'actions': [
+                                                       {
+                                                           'text': ':100:<@U8N6XBL7Q> has greeted the new '
+                                                                   'user!:100:\n<!date^0^Greeted at {date_num} {'
+                                                                   'time_secs}|Failed to parse time>',
+                                                           'fallback': '',
+                                                           'color': '#3AA3E3', 'callback_id': 'greeted',
+                                                           'attachment_type': 'default', 'actions': [
                                                            {'name': 'reset_greet', 'text': 'Reset claim',
                                                             'type': 'button', 'style': 'danger',
                                                             'value': 'reset_greet'}]}]})
-
-
-
 
 RESET_RESPONSE_CONTAINER = \
     ResponseContainer(route='Slack', method='chat.update',
@@ -174,7 +188,6 @@ USER_INFO_NO_NAME = {
     }
 }
 
-
 default_interest = [
     {
         "name": "javascript",
@@ -232,32 +245,33 @@ base_resources = {
 }
 
 CORRECT_NAME_GREET = ("Hi spengler,\n\n Welcome to Operation Code! I'm a bot designed to help answer questions and "
-              "get you on your way in our community.\n\n Our goal here at Operation Code is to get veterans and "
-              "their families started on the path to a career in programming. We do that through providing you with "
-              "scholarships, mentoring, career development opportunities, conference tickets, and more!\n")
+                      "get you on your way in our community.\n\n Our goal here at Operation Code is to get veterans and "
+                      "their families started on the path to a career in programming. We do that through providing you with "
+                      "scholarships, mentoring, career development opportunities, conference tickets, and more!\n")
 
-UNPROCESSED_MAIN_GREET = ("Hi {real_name},\n\n Welcome to Operation Code! I'm a bot designed to help answer questions and "
-              "get you on your way in our community.\n\n Our goal here at Operation Code is to get veterans and "
-              "their families started on the path to a career in programming. We do that through providing you with "
-              "scholarships, mentoring, career development opportunities, conference tickets, and more!\n")
+UNPROCESSED_MAIN_GREET = (
+    "Hi {real_name},\n\n Welcome to Operation Code! I'm a bot designed to help answer questions and "
+    "get you on your way in our community.\n\n Our goal here at Operation Code is to get veterans and "
+    "their families started on the path to a career in programming. We do that through providing you with "
+    "scholarships, mentoring, career development opportunities, conference tickets, and more!\n")
 
 CORRECT_JOINED_MESSAGE = ":tada: <@U8JUVGU65> has joined! :tada:"
 
 CORRECT_GREET_BUTTON = [
-        {
-            'text': "",
-            "fallback": "Someone should greet them!",
-            "color": "#3AA3E3",
-            "callback_id": "greeted",
-            "attachment_type": "default",
-            "actions": [
-                {
-                    "name": "greeted",
-                    "text": "I will greet them!",
-                    "type": "button",
-                    "style": "primary",
-                    "value": "greeted",
-                },
-            ]
-        }
-    ]
+    {
+        'text': "",
+        "fallback": "Someone should greet them!",
+        "color": "#3AA3E3",
+        "callback_id": "greeted",
+        "attachment_type": "default",
+        "actions": [
+            {
+                "name": "greeted",
+                "text": "I will greet them!",
+                "type": "button",
+                "style": "primary",
+                "value": "greeted",
+            },
+        ]
+    }
+]

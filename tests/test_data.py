@@ -98,8 +98,8 @@ CHALLENGE = {
 CALLBACK_GENERIC = {
     "actions": [
         {
-            "name": "recommend",
-            "value": "recommend",
+            "name": "slack",
+            "value": "slack",
             "type": "button"
         }
     ],
