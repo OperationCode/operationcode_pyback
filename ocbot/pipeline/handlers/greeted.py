@@ -1,5 +1,5 @@
 from typing import List
-
+from time import time
 from ocbot.external.route_slack import SlackBuilder
 
 from .abc import RouteHandler
@@ -46,9 +46,11 @@ class GreetedHandler(RouteHandler):
         self.include_resp(SlackBuilder.update, **params)
 
     def was_greeted_response_attachments(self) -> List[dict]:
+        unix_time = int(time())
         return [
             {
-                "text": f":100:<@{self._user_id}> has greeted the new user!:100:",
+                "text": f":100:<@{self._user_id}> has greeted the new user!:100:\n"
+                        f"<!date^{unix_time}^Greeted at {{date_num}} {{time_secs}}|Failed to parse time>",
                 "fallback": "",
                 "color": "#3AA3E3",
                 "callback_id": "greeted",

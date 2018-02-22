@@ -51,8 +51,7 @@ def events_route():
     Lastly forwards event data to route director
     """
     response_data = request.get_json()
-    logger.info(f'Event received: {json.dumps(response_data)}')
-    # print(, response_data)
+    logger.debug(f'Event received: {json.dumps(response_data)}')
     route_id = response_data['event']['type']
     RoutingHandler(response_data, route_id=route_id)
     return make_response('', 200)
