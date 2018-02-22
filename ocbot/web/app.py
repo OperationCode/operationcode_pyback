@@ -27,14 +27,14 @@ def zap_endpoint():
 
 @validate_response('token', VERIFICATION_TOKEN)
 @app.route("/user_interaction", methods=['POST'])
-def token_id_route():
+def interaction_route():
     """
     Receives request from slack interactive messages.
     These are the messages that contain key: 'token_id'
     """
     # data = request.get_json()
     data = json.loads(request.form['payload'])
-    logger.debug(f"Event received: {data}")
+    logger.info(f"Interaction received: {data}")
     # print('Interaction payload:', data)
     route_id = data['callback_id']
     RoutingHandler(data, route_id=route_id)
@@ -51,7 +51,7 @@ def events_route():
     Lastly forwards event data to route director
     """
     response_data = request.get_json()
-    logger.debug(f'Interaction received: {json.dumps(response_data)}')
+    logger.info(f'Event received: {json.dumps(response_data)}')
     # print(, response_data)
     route_id = response_data['event']['type']
     RoutingHandler(response_data, route_id=route_id)
