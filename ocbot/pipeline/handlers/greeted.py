@@ -38,6 +38,11 @@ class GreetedHandler(RouteHandler):
         else:
             params['attachments'] = self.not_greeted_attachments()
 
+        if click_type == 'reset_greet':
+            unix_time = self.now()
+            params['attachments'][0]['text'] = f"Reset by <@{self._event['user']['id']}> at" \
+                                               f" <!date^{unix_time}^ {{date_num}} {{time_secs}}|Failed to parse time>"
+
         self.text_dict['message'] = params
 
     def build_responses(self):

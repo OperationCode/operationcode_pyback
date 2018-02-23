@@ -71,10 +71,10 @@ CORRECT_GREET_MESSAGE = {'text': ':tada: <@U8N6XBL7Q> has joined! :tada:', 'chan
 
 CORRECT_RESET_MESSAGE = {'text': ':tada: <@U8N6XBL7Q> has joined! :tada:', 'channel': 'G8NDRJJF9',
                          'ts': '1515177650.000464', 'as_user': True, 'attachments': [
-        {'text': '', 'fallback': 'I will greet them!', 'color': '#3AA3E3', 'callback_id': 'greeted',
-         'attachment_type': 'default', 'actions': [
-            {'name': 'greeted', 'text': 'I will greet them!', 'type': 'button', 'style': 'primary',
-             'value': 'greeted'}]}]}
+        {'text': 'Reset by <@U8N6XBL7Q> at <!date^0^ {date_num} {time_secs}|Failed to parse time>',
+         'fallback': 'I will greet them!', 'color': '#3AA3E3', 'callback_id': 'greeted', 'attachment_type': 'default',
+         'actions': [{'name': 'greeted', 'text': 'I will greet them!', 'type': 'button', 'style': 'primary',
+                      'value': 'greeted'}]}]}
 
 GREETED_RESPONSE_CONTAINER = ResponseContainer(route='Slack', method='chat.update',
                                                payload={'text': ':tada: <@U8N6XBL7Q> has joined! :tada:',

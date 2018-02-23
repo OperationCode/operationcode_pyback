@@ -47,7 +47,8 @@ def test_text_dict_is_assigned_correctly_when_greeted(mocker, greeted_handler):
     assert greeted_handler.text_dict['message'] == CORRECT_GREET_MESSAGE
 
 
-def test_text_dict_is_assigned_correctly_when_reset(reset_greet_handler):
+def test_text_dict_is_assigned_correctly_when_reset(mocker, reset_greet_handler):
+    mocker.patch.object(reset_greet_handler, "now", return_value="0")
     reset_greet_handler.build_templates()
     assert reset_greet_handler.text_dict['message'] == CORRECT_RESET_MESSAGE
 
