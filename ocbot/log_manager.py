@@ -4,7 +4,6 @@ from os import path
 import decouple
 
 logger = logging.getLogger(__name__)
-new_event_logger = logging.getLogger(f'{__name__}.new_member')
 
 
 # https://fangpenlin.com/posts/2012/08/26/good-logging-practice-in-python/

@@ -2,63 +2,62 @@
   "version": 1,
   "disable_existing_loggers": false,
   "formatters": {
-      "simple": {
-          "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-      }
+    "simple": {
+      "format": "[%(asctime)s] - %(levelname)s - %(name)s - %(message)s"
+    }
   },
-
   "handlers": {
-      "console": {
-          "class": "logging.StreamHandler",
-          "level": "DEBUG",
-          "formatter": "simple",
-          "stream": "ext://sys.stdout"
-      },
-
-      "info_file_handler": {
-          "class": "logging.handlers.RotatingFileHandler",
-          "level": "INFO",
-          "formatter": "simple",
-          "filename": "info.log",
-          "maxBytes": 10485760,
-          "backupCount": 20,
-          "encoding": "utf8"
-      },
-      "new_member_handler": {
-          "class": "logging.handlers.RotatingFileHandler",
-          "level": "INFO",
-          "formatter": "simple",
-          "filename": "member.log",
-          "maxBytes": 10485760,
-          "backupCount": 20,
-          "encoding": "utf8"
-      },
-      "error_file_handler": {
-          "class": "logging.handlers.RotatingFileHandler",
-          "level": "ERROR",
-          "formatter": "simple",
-          "filename": "errors.log",
-          "maxBytes": 10485760,
-          "backupCount": 20,
-          "encoding": "utf8"
-      }
-  },
-
-  "loggers": {
-      "my_module": {
-          "level": "INFO",
-          "handlers": ["info_file_handler"],
-          "propagate": "no"
-      },
-      "my_module.new_member": {
-          "level": "INFO",
-          "handlers": ["new_member_handler"],
-          "propagate": "no"
-      }
-  },
-
-  "root": {
+    "console": {
+      "class": "logging.StreamHandler",
+      "level": "DEBUG",
+      "formatter": "simple",
+      "stream": "ext://sys.stdout"
+    },
+    "info_file_handler": {
+      "class": "logging.handlers.RotatingFileHandler",
       "level": "INFO",
-      "handlers": ["console", "info_file_handler", "new_member_handler", "error_file_handler"]
+      "formatter": "simple",
+      "filename": "logs/info.log",
+      "maxBytes": 1048576,
+      "backupCount": 10,
+      "encoding": "utf8"
+    },
+    "error_file_handler": {
+      "class": "logging.handlers.RotatingFileHandler",
+      "level": "ERROR",
+      "formatter": "simple",
+      "filename": "logs/errors.log",
+      "maxBytes": 1048576,
+      "backupCount": 10,
+      "encoding": "utf8"
+    },
+    "debug_file_handler": {
+      "class": "logging.handlers.RotatingFileHandler",
+      "level": "DEBUG",
+      "formatter": "simple",
+      "filename": "logs/debug.log",
+      "maxBytes": 1048576,
+      "backupCount": 5,
+      "encoding": "utf8"
+    }
+  },
+  "loggers": {
+    "my_module": {
+      "level": "DEBUG",
+      "handlers": [
+        "debug_file_handler",
+        "info_file_handler",
+        "error_file_handler"
+      ]
+    }
+  },
+  "root": {
+    "level": "INFO",
+    "handlers": [
+      "console",
+      "debug_file_handler",
+      "info_file_handler",
+      "error_file_handler"
+    ]
   }
 }

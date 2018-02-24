@@ -13,11 +13,16 @@ VERIFICATION_TOKEN = configs['VERIFICATION_TOKEN']
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
+# ensures tests don't call setup_logging() function
+if logger.parent.level:
+    setup_logging()
+    logger.level = logging.DEBUG
+
 
 @app.route("/zap_airtable_endpoint", methods=['POST'])
 def zap_endpoint():
     data = request.get_json()
-    pprint.pprint(data)
+    logger.info(f'Zapier event received: {data}')
     RoutingHandler(data, route_id="new_airtable_request")
     return make_response('', 200)
 
@@ -68,9 +73,6 @@ def HTTP404():
 
 
 def start_server():
-    logger.level = logging.DEBUG
-
-    setup_logging()
     app.run(port=5000, debug=True)
 
 

@@ -1,10 +1,15 @@
 #!flask/bin/python
 import json
+import logging
+
 import pytest
 import config.configs
 import ocbot
 from tests.test_data import CHALLENGE, NEW_MEMBER
 from pytest_mock import mocker
+
+
+logging.disable(logging.CRITICAL)
 
 GOOD_TOKEN = 'token'
 
