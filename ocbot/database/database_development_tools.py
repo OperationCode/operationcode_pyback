@@ -1,8 +1,14 @@
 from ocbot.database.pybotdatabase import PyBotDatabase
-from ocbot.keys import PG_USERNAME, PG_PASSWORD, PA_SSH_PASSWORD, PA_SSH_URL, PA_SSH_USERNAME, \
-    PA_SSH_REMOTE_BIND_ADDR, PA_SSH_REMOTE_BIND_PORT
-
+from config.configs import configs
 from sshtunnel import SSHTunnelForwarder
+
+PG_USERNAME = configs['PG_USERNAME']
+PG_PASSWORD = configs['PG_PASSWORD']
+PA_SSH_PASSWORD = configs['PA_SSH_PASSWORD']
+PA_SSH_URL = configs['PA_SSH_URL']
+PA_SSH_USERNAME = configs['PA_SSH_USERNAME']
+PA_SSH_REMOTE_BIND_ADDR = configs['PA_SSH_REMOTE_BIND_ADDR']
+PA_SSH_REMOTE_BIND_PORT = configs['PA_SSH_REMOTE_BIND_PORT']
 
 
 def _pa_postgres_testing():

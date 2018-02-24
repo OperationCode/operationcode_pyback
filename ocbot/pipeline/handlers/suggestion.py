@@ -1,8 +1,9 @@
 from ocbot.external.route_slack import Slack, SlackBuilder
 
-from ocbot.keys import COMMUNITY_CHANNEL
 from .abc import RouteHandler
+from config.configs import configs
 
+COMMUNITY_CHANNEL = configs['COMMUNITY_CHANNEL']
 
 class SuggestionHandler(RouteHandler):
     """

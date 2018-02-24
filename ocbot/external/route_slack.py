@@ -4,9 +4,12 @@ from typing import List
 from uuid import UUID
 
 from slackclient import SlackClient
-from ..keys import VERIFICATION_TOKEN, TOKEN
 
+from config.configs import configs
 from ocbot.external.utils import ResponseContainer
+
+VERIFICATION_TOKEN = configs['VERIFICATION_TOKEN']
+TOKEN = configs['TOKEN']
 
 logger = logging.getLogger(__name__)
 

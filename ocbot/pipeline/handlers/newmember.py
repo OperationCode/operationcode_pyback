@@ -1,8 +1,9 @@
 from ocbot.external.route_slack import SlackBuilder, Slack
-from ocbot.keys import COMMUNITY_CHANNEL
 from .abc import RouteHandler
 from ocbot.pipeline.utils import needs_greet_button
+from config.configs import configs
 
+COMMUNITY_CHANNEL = configs['COMMUNITY_CHANNEL']
 
 class NewMemberHandler(RouteHandler):
     """

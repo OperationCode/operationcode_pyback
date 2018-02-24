@@ -1,0 +1,15 @@
+from decouple import config
+
+DEBUG = False
+
+TOKEN = config('OPCODE_TOKEN')
+COMMUNITY_CHANNEL = config('OPCODE_COMMUNITY_ID')
+MENTORS_INTERNAL_CHANNEL = config('OPCODE_MENTORS_INTERNAL_CHANNEL')
+
+AIRTABLE_BASE_KEY = config('OPCODE__AIRTABLE_BASE_KEY')
+AIRTABLE_API_KEY = config('OPCODE_AIRTABLE_TOKEN')
+AIRTABLE_TABLE_NAME = 'Mentor Request'
+
+PG_USERNAME = config('PG_USERNAME', default=None)
+PG_PASSWORD = config('PG_PASSWORD', default=None)
+PG_URL = config('PG_URL', default=None)

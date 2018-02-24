@@ -1,7 +1,8 @@
 #!flask/bin/python
 import json
 import pytest
-import ocbot.keys
+import config.configs
+import ocbot
 from tests.test_data import CHALLENGE, NEW_MEMBER
 from pytest_mock import mocker
 
@@ -9,8 +10,8 @@ GOOD_TOKEN = 'token'
 
 
 @pytest.fixture
-def test_app(monkeypatch):
-    monkeypatch.setattr(ocbot.keys, 'VERIFICATION_TOKEN', GOOD_TOKEN)
+def test_app():
+    config.configs.configs['VERIFICATION_TOKEN'] = GOOD_TOKEN
     from ocbot.web.app import app
     app.config['TESTING'] = True
     app.config['WTF_CSRF_ENABLED'] = False

@@ -2,12 +2,13 @@ import pytest
 import pytest_mock
 from ocbot.external.route_slack import Slack, SlackBuilder
 from ocbot.external.route_airtable import AirTableBuilder
-from ocbot.keys import OPCODE_MENTORS_INTERNAL_CHANNEL
+from config.configs import configs
 
 from ocbot.pipeline.handlers.airtable_request_handler import NewAirtableRequestHandler
 from tests.handler_tests.airtable_request_events import NEW_AIRTABLE_REQUEST_JSON, USER_ID_FROM_EMAIL_RESPONSE, \
     TEXT_DICT_MESSAGE, TEXT_DICT_DETAILS
 
+MENTORS_INTERNAL_CHANNEL = configs['MENTORS_INTERNAL_CHANNEL']
 SLACK_USER_ID = '<@AGF2354>'
 
 
@@ -59,7 +60,7 @@ def test_text_dict_populated(new_request_handler: NewAirtableRequestHandler):
 def test_correct_response_added(new_request_handler: NewAirtableRequestHandler):
     new_request_handler.text_dict['message'] = TEXT_DICT_MESSAGE
     new_request_handler.text_dict['details'] = TEXT_DICT_DETAILS
-    correct_response = SlackBuilder.mentor_request(OPCODE_MENTORS_INTERNAL_CHANNEL,
+    correct_response = SlackBuilder.mentor_request(MENTORS_INTERNAL_CHANNEL,
                                                    details=TEXT_DICT_DETAILS,
                                                    text=TEXT_DICT_MESSAGE)
 

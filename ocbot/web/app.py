@@ -3,18 +3,15 @@ import pprint
 from flask import Flask, request, make_response, redirect, url_for, render_template, json
 from ocbot.pipeline.routing import RoutingHandler
 
-from ocbot.keys import VERIFICATION_TOKEN
-from ocbot.web.file_config import get_instance_folder_path
+from config.configs import configs
 from ocbot.web.route_decorators import validate_response, url_verification
 import logging
 from ..log_manager import setup_logging
 
-logger = logging.getLogger(__name__)
+VERIFICATION_TOKEN = configs['VERIFICATION_TOKEN']
 
-app = Flask(__name__,
-            instance_path=get_instance_folder_path(),
-            instance_relative_config=True,
-            template_folder='static/templates')
+logger = logging.getLogger(__name__)
+app = Flask(__name__)
 
 
 @app.route("/zap_airtable_endpoint", methods=['POST'])
@@ -70,8 +67,9 @@ def HTTP404():
     return render_template(url_for('HTTP404'))
 
 
-def start_server(logging_level=logger.level):
+def start_server():
     logger.level = logging.DEBUG
+
     setup_logging()
     app.run(port=5000, debug=True)
 
