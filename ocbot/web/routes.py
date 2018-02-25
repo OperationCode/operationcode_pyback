@@ -1,26 +1,48 @@
-import pprint
-
-from flask import Flask, request, make_response, redirect, url_for, render_template, json
-from ocbot.pipeline.routing import RoutingHandler
-
-from config.configs import configs
-from ocbot.web.route_decorators import validate_response, url_verification
+from flask import request, make_response, redirect, url_for, render_template, json
 import logging
-from ..log_manager import setup_logging
+
+from ocbot.web.slash_command_handlers import get_temporary_url, handle_log_view, AUTHORIZED_USERS
+from ocbot.web.route_decorators import validate_response, url_verification
+from ocbot.pipeline.routing import RoutingHandler
+from config.configs import configs
+from ocbot import app
 
 VERIFICATION_TOKEN = configs['VERIFICATION_TOKEN']
 
 logger = logging.getLogger(__name__)
-app = Flask(__name__)
+logger.level = logging.DEBUG
 
-# ensures tests don't call setup_logging() function
-if logger.parent.level:
-    setup_logging()
-    logger.level = logging.DEBUG
+
+@app.route("/get_logs", methods=['POST'])
+def get_logs():
+    """
+    Endpoint used by Slack /logs command
+    """
+    req = request.values
+    if req['token'] != VERIFICATION_TOKEN:
+        return redirect(url_for('HTTP403'))
+    logger.info(f'Log request received: {req}')
+
+    if req['user_id'] not in AUTHORIZED_USERS:
+        logger.info(f"{req['user_name']} attempted to view logs and was denied")
+        return make_response("You are not authorized to do that.", 200)
+
+    url = get_temporary_url(req['user_id'])
+    logger.info(f"Created log URL for {req['user_name']} : {url.url}")
+    return make_response(f'{request.host_url}logs/{url.url}', 200)
+
+
+@app.route("/logs/<variable>")
+def show_logs(variable):
+    return handle_log_view(variable)
 
 
 @app.route("/zap_airtable_endpoint", methods=['POST'])
 def zap_endpoint():
+    """
+    Endpoint for Zapier to send events when a new
+    mentor request in submitted in airtable
+    """
     data = request.get_json()
     logger.info(f'Zapier event received: {data}')
     RoutingHandler(data, route_id="new_airtable_request")
@@ -36,7 +58,6 @@ def interaction_route():
     """
     data = json.loads(request.form['payload'])
     logger.info(f"Interaction received: {data}")
-    # print('Interaction payload:', data)
     route_id = data['callback_id']
     RoutingHandler(data, route_id=route_id)
     return make_response('', 200)
@@ -67,14 +88,25 @@ def options_route():
     return redirect(url_for('HTTP404'))
 
 
-@app.route('/HTTP404')
+@app.route('/404')
 def HTTP404():
-    return render_template(url_for('HTTP404'))
+    return render_template('HTTP404.html'), 404
 
 
-def start_server():
-    app.run(port=5000, debug=True)
+@app.route('/403')
+def HTTP403():
+    return render_template('HTTP403.html'), 403
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return redirect(url_for('HTTP404'))
+
+
+@app.errorhandler(403)
+def page_forbidden(error):
+    return redirect(url_for('HTTP403'))
 
 
 if __name__ == '__main__':
-    start_server()
+    app.run(port=5000, debug=True)

@@ -17,7 +17,7 @@ GOOD_TOKEN = 'token'
 @pytest.fixture
 def test_app():
     config.configs.configs['VERIFICATION_TOKEN'] = GOOD_TOKEN
-    from ocbot.web.app import app
+    from ocbot.web.routes import app
     app.config['TESTING'] = True
     app.config['WTF_CSRF_ENABLED'] = False
     app.config['DEBUG'] = False

@@ -1,0 +1,30 @@
+.table {
+    table-layout: fixed;
+}
+
+.table-fixed thead {
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 50px;
+    line-height: 3em;
+    table-layout: fixed;
+    vertical-align: top;
+}
+
+.table-fixed tbody {
+    height: 94vh;
+    overflow: auto;
+}
+
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+    display: block;
+}
+
+.table-fixed tbody td, .table-fixed thead > tr > th {
+    float: left;
+    border-bottom-width: 0;
+    white-space: nowrap;
+}
+
