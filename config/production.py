@@ -11,6 +11,9 @@ AIRTABLE_BASE_KEY = config('OPCODE__AIRTABLE_BASE_KEY')
 AIRTABLE_API_KEY = config('OPCODE_AIRTABLE_TOKEN')
 AIRTABLE_TABLE_NAME = 'Mentor Request'
 
-PG_USERNAME = config('PG_USERNAME', default=None)
-PG_PASSWORD = config('PG_PASSWORD', default=None)
-PG_URL = config('PG_URL', default=None)
+DB_USERNAME = config('PROD_DB_USERNAME')
+DB_PASSWORD = config('PROD_DB_PASSWORD')
+DB_DIALECT = config('PROD_DB_DIALECT')
+DB_ADDR = config('PROD_DB_ADDR')
+DB_NAME = config('PROD_DB_NAME')
+
