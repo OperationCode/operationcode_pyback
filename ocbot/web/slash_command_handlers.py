@@ -52,4 +52,7 @@ AUTHORIZED_USERS = {
     #  Test Slack
     'U8DG4B3EK',  # Allen
     'U8FDR1603',  # Will
+
+    #  Test2 Slack
+    'U8N6XBL7Q',  # Allen
 }

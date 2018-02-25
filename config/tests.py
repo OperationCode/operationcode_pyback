@@ -3,7 +3,7 @@ from decouple import config
 PORT = 5000
 
 TOKEN = config('DEV_BOT_TOKEN', default='token')
-VERIFICATION_TOKEN = config('DEV_AUTH_TOKEN', default='token')
+VERIFICATION_TOKEN = 'token'
 COMMUNITY_CHANNEL = config('DEV_PRIVATE_CHANNEL', default='community_channel')
 MENTORS_INTERNAL_CHANNEL = config('DEV_PRIVATE_CHANNEL', default='mentor_channel')
 

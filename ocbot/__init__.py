@@ -10,10 +10,16 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__,
             template_folder="web/templates",
             static_folder="web/static")
-app.config['SQLALCHEMY_DATABASE_URI'] = configs['PG_URL']
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-setup_logging()
 
+if configs['DB_DIALECT'] == 'sqlite':
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://dev.db'
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = \
+        f"{configs['DB_DIALECT']}://{configs['DB_USERNAME']}:{configs['DB_PASSWORD']}@{configs['DB_ADDR']}/{configs['DB_NAME']}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+if configs['ENV'] != 'tests.py':
+    setup_logging()
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
