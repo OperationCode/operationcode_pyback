@@ -26,6 +26,7 @@ def test_event_dict_pulled_from_request(new_request_handler: NewAirtableRequestH
 
 
 def test_slack_queried_for_user_id_from_email(mocker: pytest_mock, new_request_handler: NewAirtableRequestHandler):
+    mocker.patch('ocbot.external.route_slack.Slack.auth_test', return_value=True)
     mocker.patch.object(Slack, "user_id_from_email", return_value=USER_ID_FROM_EMAIL_RESPONSE)
     new_request_handler.api_calls()
     assert new_request_handler.api_dict['user'] == SLACK_USER_ID
@@ -33,6 +34,7 @@ def test_slack_queried_for_user_id_from_email(mocker: pytest_mock, new_request_h
 
 def test_event_slack_user_used_when_user_id_query_fails(mocker: pytest_mock,
                                                         new_request_handler: NewAirtableRequestHandler):
+    mocker.patch('ocbot.external.route_slack.Slack.auth_test', return_value=True)
     mocker.patch.object(Slack, "user_id_from_email", return_value={'ok': False})
     new_request_handler.api_calls()
     assert new_request_handler.api_dict['user'] == NEW_AIRTABLE_REQUEST_JSON['Slack User']

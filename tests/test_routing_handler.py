@@ -25,6 +25,7 @@ def test_greeted_called(mocker):
     data = CALLBACK_GENERIC
     data['callback_id'] = 'greeted_interaction'
     mocker.patch('ocbot.pipeline.routing.GreetedHandler')
+    mocker.patch('ocbot.external.route_slack.Slack.auth_test', return_value=True)
 
     RoutingHandler(data, route_id='resource_buttons')
 
