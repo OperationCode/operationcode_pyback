@@ -5,6 +5,7 @@ from config.configs import configs
 
 COMMUNITY_CHANNEL = configs['COMMUNITY_CHANNEL']
 
+
 class NewMemberHandler(RouteHandler):
     """
         Invoked when a new user joins and a team_join event is received.
@@ -52,10 +53,15 @@ class NewMemberHandler(RouteHandler):
         community = self.text_dict['community']
         attachments = self.text_dict['attach']
 
+        if 'channel_id' in self._event:
+            channel = self._event['channel_id']
+        else:
+            channel = COMMUNITY_CHANNEL
+
         self.include_resp(SlackBuilder.message, self.user_id, text=message_text)
         self.include_resp(SlackBuilder.message, self.user_id, **external_buttons)
         self.include_resp(SlackBuilder.message, self.user_id, **built_resource)
-        self.include_resp(SlackBuilder.message, COMMUNITY_CHANNEL, text=community, attachments=attachments)
+        self.include_resp(SlackBuilder.message, channel, text=community, attachments=attachments)
 
 
 text_greet = ("Hi {real_name},\n\n Welcome to Operation Code! I'm a bot designed to help answer questions and "

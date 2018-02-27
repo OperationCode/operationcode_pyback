@@ -19,6 +19,7 @@ class User(db.Model):
     slack_id = db.Column(db.String(32), index=True, unique=True)
     slack_name = db.Column(db.String(32), index=True)
     access_logs = db.Column(db.Boolean, default=False)
+    can_test = db.Column(db.Boolean, default=False)
 
     def __repr__(self) -> str:
         return f'<User id:{self.id} | slack_id: {self.slack_id} | slack_name: {self.slack_name} | access_logs: {self.access_logs}>'

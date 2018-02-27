@@ -55,4 +55,4 @@ def handle_log_view(variable: str):
 
 @lru_cache(100)
 def can_view_logs(user_id: str):
-    return bool(User.query.filter_by(slack_id=user_id).first())
+    return bool(User.query.filter_by(slack_id=user_id, access_logs=True).first())
