@@ -1,9 +1,10 @@
 import datetime
+from functools import lru_cache
 
 from flask import url_for, redirect, render_template
 
 from ocbot import db
-from ocbot.database.models_flask import TemporaryUrl
+from ocbot.database.models_flask import TemporaryUrl, User
 import logging
 
 logger = logging.getLogger(__name__)
@@ -40,19 +41,6 @@ def handle_log_view(variable):
     lines = reversed(lines)
     return render_template("logs.html", logs=lines)
 
-
-AUTHORIZED_USERS = {
-    'U7NTQE92A',  # Allen
-    'U4K0GHV54',  # wimo7083
-    'U0S1GKKFH',  # hollomancer
-    'U1VMREVD2',  # Ashley
-    'U8F1PPE3U',  # Jenn
-    'U04NUP2PA',  # nellshamrell
-
-    #  Test Slack
-    'U8DG4B3EK',  # Allen
-    'U8FDR1603',  # Will
-
-    #  Test2 Slack
-    'U8N6XBL7Q',  # Allen
-}
+@lru_cache(50)
+def can_view_logs(user_id: str):
+    return bool(User.query.filter_by(slack_id=user_id).first())

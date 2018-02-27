@@ -1,7 +1,7 @@
 from flask import request, make_response, redirect, url_for, render_template, json
 import logging
 
-from ocbot.web.slash_command_handlers import get_temporary_url, handle_log_view, AUTHORIZED_USERS
+from ocbot.web.slash_command_handlers import get_temporary_url, handle_log_view, can_view_logs
 from ocbot.web.route_decorators import validate_response, url_verification
 from ocbot.pipeline.routing import RoutingHandler
 from config.configs import configs
@@ -23,7 +23,7 @@ def get_logs():
         return redirect(url_for('HTTP403'))
     logger.info(f'Log request received: {req}')
 
-    if req['user_id'] not in AUTHORIZED_USERS:
+    if not can_view_logs(req['user_id']):
         logger.info(f"{req['user_name']} attempted to view logs and was denied")
         return make_response("You are not authorized to do that.", 200)
 
