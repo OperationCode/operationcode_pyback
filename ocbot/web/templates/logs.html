@@ -18,6 +18,11 @@
             <td>{{ line }}</td>
         </tr>
     {% endfor %}
+    {% for line in older_logs %}
+        <tr>
+        <td>{{ line }}</td>
+        </tr>
+    {% endfor %}
     </tbody>
 </table>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

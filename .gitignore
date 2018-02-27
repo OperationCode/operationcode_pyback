@@ -61,6 +61,7 @@ coverage.xml
 
 # Django stuff:
 *.log
+*.log.*
 .static_storage/
 .media/
 local_settings.py
@@ -112,3 +113,8 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+migrations/*
+ocbot/external/tmp.py
+ocbot/external/users.txt
+ocbot/external/users_test.txt
+ocbot/resources/help_menu.json

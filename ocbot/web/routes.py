@@ -1,7 +1,7 @@
 from flask import request, make_response, redirect, url_for, render_template, json
 import logging
 
-from ocbot.web.slash_command_handlers import get_temporary_url, handle_log_view, can_view_logs
+from ocbot.pipeline.slash_command_handlers.log_handlers import get_temporary_url, handle_log_view, can_view_logs
 from ocbot.web.route_decorators import validate_response, url_verification
 from ocbot.pipeline.routing import RoutingHandler
 from config.configs import configs
@@ -13,21 +13,20 @@ logger = logging.getLogger(__name__)
 logger.level = logging.DEBUG
 
 
+@validate_response('token', VERIFICATION_TOKEN)
 @app.route("/get_logs", methods=['POST'])
 def get_logs():
     """
     Endpoint used by Slack /logs command
     """
     req = request.values
-    if req['token'] != VERIFICATION_TOKEN:
-        return redirect(url_for('HTTP403'))
     logger.info(f'Log request received: {req}')
 
     if not can_view_logs(req['user_id']):
         logger.info(f"{req['user_name']} attempted to view logs and was denied")
         return make_response("You are not authorized to do that.", 200)
 
-    url = get_temporary_url(req['user_id'])
+    url = get_temporary_url(req['user_id'], req['text'])
     logger.info(f"Created log URL for {req['user_name']} : {url.url}")
     return make_response(f'{request.host_url}logs/{url.url}', 200)
 
@@ -98,6 +97,11 @@ def HTTP403():
     return render_template('HTTP403.html'), 403
 
 
+@app.route('/410')
+def HTTP410():
+    return render_template('HTTP410.html'), 410
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     return redirect(url_for('HTTP404'))
@@ -106,6 +110,11 @@ def page_not_found(error):
 @app.errorhandler(403)
 def page_forbidden(error):
     return redirect(url_for('HTTP403'))
+
+
+@app.errorhandler(410)
+def page_gone(error):
+    return redirect(url_for('HTTP410'))
 
 
 if __name__ == '__main__':

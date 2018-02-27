@@ -7,6 +7,7 @@ class TemporaryUrl(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     slack_user = db.Column(db.String(64), index=True, unique=True)
     url = db.Column(db.String, default=lambda: uuid4().hex, unique=True)
+    level = db.Column(db.String(32), default="info")
     created_on = db.Column(db.DateTime, server_default=db.func.now())
 
     def __repr__(self):

@@ -14,6 +14,8 @@ def validate_response(json_key, expected_value):
 
             try:
                 data = request.get_json()
+                if not data:
+                    data = request.data
             except Exception as e:
                 return redirect('HTTP400.html', code=400)
 
