@@ -32,20 +32,22 @@ class NewMemberHandler(RouteHandler):
         pass
 
     def process_db_response(self):
-        built_resources = base_resources
-        if not self.db_dict:
-            built_resources['attachments'][0]['actions'] = default_interest
-
-        # TODO process resources
-        else:
-            pass
-        return built_resources
+        # built_resources = base_resources
+        # if not self.db_dict:
+        #     built_resources['attachments'][0]['actions'] = default_interest
+        #
+        # # TODO process resources
+        # else:
+        #     pass
+        # return built_resources
+        pass
 
     def build_templates(self):
         #self.text_dict['message'] = text_greet.format(real_name=self.api_dict['real_name'])
         #self.text_dict['resource'] = self.process_db_response()
-        self.text_dict['community'] = f":tada: <@{self.user_id}> has joined! :tada:"
-        self.text_dict['attach'] = needs_greet_button()
+        # self.text_dict['community'] = f":tada: <@{self.user_id}> has joined! :tada:"
+        # self.text_dict['attach'] = needs_greet_button()
+        pass
 
     def build_responses(self):
         #message_text = self.text_dict['message']
