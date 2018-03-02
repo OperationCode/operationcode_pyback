@@ -42,14 +42,14 @@ class NewMemberHandler(RouteHandler):
         return built_resources
 
     def build_templates(self):
-        self.text_dict['message'] = text_greet.format(real_name=self.api_dict['real_name'])
-        self.text_dict['resource'] = self.process_db_response()
+        #self.text_dict['message'] = text_greet.format(real_name=self.api_dict['real_name'])
+        #self.text_dict['resource'] = self.process_db_response()
         self.text_dict['community'] = f":tada: <@{self.user_id}> has joined! :tada:"
         self.text_dict['attach'] = needs_greet_button()
 
     def build_responses(self):
-        message_text = self.text_dict['message']
-        built_resource = self.text_dict['resource']
+        #message_text = self.text_dict['message']
+        #built_resource = self.text_dict['resource']
         community = self.text_dict['community']
         attachments = self.text_dict['attach']
 
@@ -58,9 +58,9 @@ class NewMemberHandler(RouteHandler):
         else:
             channel = COMMUNITY_CHANNEL
 
-        self.include_resp(SlackBuilder.message, self.user_id, text=message_text)
-        self.include_resp(SlackBuilder.message, self.user_id, **external_buttons)
-        self.include_resp(SlackBuilder.message, self.user_id, **built_resource)
+        #self.include_resp(SlackBuilder.message, self.user_id, text=message_text)
+        #self.include_resp(SlackBuilder.message, self.user_id, **external_buttons)
+        #self.include_resp(SlackBuilder.message, self.user_id, **built_resource)
         self.include_resp(SlackBuilder.message, channel, text=community, attachments=attachments)
 
 
