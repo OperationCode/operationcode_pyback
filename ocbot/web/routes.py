@@ -1,5 +1,6 @@
 from flask import request, make_response, redirect, url_for, render_template, json
 import logging
+import threading
 
 from ocbot.pipeline.slash_command_handlers.log_handlers import get_temporary_url, handle_log_view, can_view_logs
 from ocbot.pipeline.slash_command_handlers.testgreet_handler import can_test, create_testgreet_event
@@ -26,7 +27,9 @@ def events_route():
     response_data = request.get_json()
     logger.debug(f'Event received: {json.dumps(response_data)}')
     route_id = response_data['event']['type']
-    RoutingHandler(response_data, route_id=route_id)
+    threading.Thread(target=RoutingHandler,
+                     kwargs={"json_data": response_data, 'route_id': route_id}).start()
+    # RoutingHandler(response_data, route_id=route_id)
     return make_response('', 200)
 
 
@@ -40,7 +43,9 @@ def interaction_route():
     data = json.loads(request.form['payload'])
     logger.info(f"Interaction received: {data}")
     route_id = data['callback_id']
-    RoutingHandler(data, route_id=route_id)
+    threading.Thread(target=RoutingHandler,
+                     kwargs={'json_data': data, 'route_id': route_id}).start()
+    # RoutingHandler(data, route_id=route_id)
     return make_response('', 200)
 
 
@@ -52,7 +57,9 @@ def zap_endpoint():
     """
     data = request.get_json()
     logger.info(f'Zapier event received: {data}')
-    RoutingHandler(data, route_id="new_airtable_request")
+    threading.Thread(target=RoutingHandler,
+                     kwargs={'json_data': data, 'route_id': 'new_airtable_request'}).start()
+    # RoutingHandler(data, route_id="new_airtable_request")
     return make_response('', 200)
 
 
@@ -71,7 +78,9 @@ def test_greet():
         return make_response("You are not authorized to do that.", 200)
 
     event = create_testgreet_event(req)
-    RoutingHandler(event, route_id='team_join')
+    threading.Thread(target=RoutingHandler,
+                     kwargs={'json_data': event, 'route_id': 'team_join'}).start()
+    # RoutingHandler(event, route_id='team_join')
     return make_response('Test completed.', 200)
 
 
