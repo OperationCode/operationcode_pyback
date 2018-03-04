@@ -1,1 +1,1 @@
-from ocbot import app
+from ocbot import app as application
