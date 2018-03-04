@@ -20,8 +20,8 @@ else:
         f"{configs['DB_DIALECT']}://{configs['DB_USERNAME']}:{configs['DB_PASSWORD']}@{configs['DB_ADDR']}/{configs['DB_NAME']}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-if 'test-oc' not in os.environ:
-    setup_logging()
+# if 'test-oc' not in os.environ:
+#     setup_logging()
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
