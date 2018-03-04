@@ -60,8 +60,7 @@ coverage.xml
 *.pot
 
 # Django stuff:
-*.log
-*.log.*
+/logs/*.log.*
 .static_storage/
 .media/
 local_settings.py
@@ -118,3 +117,13 @@ ocbot/external/tmp.py
 ocbot/external/users.txt
 ocbot/external/users_test.txt
 ocbot/resources/help_menu.json
+
+
+# Elastic Beanstalk Files
+
+.elasticbeanstalk/*
+
+!.elasticbeanstalk/*.cfg.yml
+
+!.elasticbeanstalk/*.global.yml
+
