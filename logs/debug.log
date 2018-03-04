@@ -1044,3 +1044,53 @@
 [2018-03-03 16:16:58,102] - WARNING - werkzeug -  * Debugger is active!
 [2018-03-03 16:16:58,105] - INFO - werkzeug -  * Debugger PIN: 497-393-993
 [2018-03-03 16:16:58,109] - INFO - werkzeug -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[2018-03-03 20:13:59,448] - INFO - werkzeug -  * Restarting with stat
+[2018-03-03 20:14:00,003] - WARNING - werkzeug -  * Debugger is active!
+[2018-03-03 20:14:00,005] - INFO - werkzeug -  * Debugger PIN: 497-393-993
+[2018-03-03 20:14:00,010] - INFO - werkzeug -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[2018-03-03 22:39:48,899] - INFO - werkzeug -  * Restarting with stat
+[2018-03-03 22:39:49,447] - WARNING - werkzeug -  * Debugger is active!
+[2018-03-03 22:39:49,450] - INFO - werkzeug -  * Debugger PIN: 497-393-993
+[2018-03-03 22:39:49,454] - INFO - werkzeug -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[2018-03-03 22:40:43,581] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:40:43] "[32mGET / HTTP/1.1[0m" 302 -
+[2018-03-03 22:40:43,625] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:40:43] "[33mGET /404 HTTP/1.1[0m" 404 -
+[2018-03-03 22:40:43,658] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:40:43] "[37mGET /static/errors.css HTTP/1.1[0m" 200 -
+[2018-03-03 22:40:43,726] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:40:43] "[32mGET /favicon.ico HTTP/1.1[0m" 302 -
+[2018-03-03 22:40:43,787] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:40:43] "[32mGET /favicon.ico HTTP/1.1[0m" 302 -
+[2018-03-03 22:40:43,789] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:40:43] "[32mGET /favicon.ico HTTP/1.1[0m" 302 -
+[2018-03-03 22:40:43,790] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:40:43] "[33mGET /404 HTTP/1.1[0m" 404 -
+[2018-03-03 22:40:43,795] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:40:43] "[33mGET /404 HTTP/1.1[0m" 404 -
+[2018-03-03 22:40:43,803] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:40:43] "[33mGET /404 HTTP/1.1[0m" 404 -
+[2018-03-03 22:46:59,883] - INFO - werkzeug -  * Restarting with stat
+[2018-03-03 22:47:00,440] - WARNING - werkzeug -  * Debugger is active!
+[2018-03-03 22:47:00,443] - INFO - werkzeug -  * Debugger PIN: 497-393-993
+[2018-03-03 22:47:00,447] - INFO - werkzeug -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[2018-03-03 22:47:03,936] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:47:03] "[32mGET / HTTP/1.1[0m" 302 -
+[2018-03-03 22:47:04,012] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:47:04] "[1m[35mGET /404 HTTP/1.1[0m" 500 -
+[2018-03-03 22:47:04,059] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:47:04] "[37mGET /404?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+[2018-03-03 22:47:04,097] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:47:04] "[37mGET /404?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+[2018-03-03 22:47:04,112] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:47:04] "[37mGET /404?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+[2018-03-03 22:47:04,149] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:47:04] "[37mGET /404?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+[2018-03-03 22:47:04,256] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:47:04] "[37mGET /404?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+[2018-03-03 22:47:04,263] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:47:04] "[37mGET /404?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+[2018-03-03 22:47:04,270] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:47:04] "[37mGET /404?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+[2018-03-03 22:47:04,299] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:47:04] "[37mGET /404?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+[2018-03-03 22:47:04,305] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:47:04] "[37mGET /404?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+[2018-03-03 22:47:17,224] - INFO - werkzeug -  * Detected change in 'C:\\Users\\Allen\\_code\\Python\\operation_code_pybot_temp\\ocbot\\__init__.py', reloading
+[2018-03-03 22:47:17,289] - INFO - werkzeug -  * Restarting with stat
+[2018-03-03 22:47:17,561] - INFO - werkzeug -  * Restarting with stat
+[2018-03-03 22:47:17,849] - WARNING - werkzeug -  * Debugger is active!
+[2018-03-03 22:47:17,852] - INFO - werkzeug -  * Debugger PIN: 497-393-993
+[2018-03-03 22:47:17,856] - INFO - werkzeug -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[2018-03-03 22:47:18,114] - WARNING - werkzeug -  * Debugger is active!
+[2018-03-03 22:47:18,117] - INFO - werkzeug -  * Debugger PIN: 497-393-993
+[2018-03-03 22:47:18,121] - INFO - werkzeug -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[2018-03-03 22:47:21,079] - INFO - werkzeug -  * Restarting with stat
+[2018-03-03 22:47:21,619] - WARNING - werkzeug -  * Debugger is active!
+[2018-03-03 22:47:21,622] - INFO - werkzeug -  * Debugger PIN: 497-393-993
+[2018-03-03 22:47:21,626] - INFO - werkzeug -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+[2018-03-03 22:47:22,930] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:47:22] "[32mGET / HTTP/1.1[0m" 302 -
+[2018-03-03 22:47:22,954] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:47:22] "[33mGET /404 HTTP/1.1[0m" 404 -
+[2018-03-03 22:48:08,692] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:48:08] "[32mGET /302 HTTP/1.1[0m" 302 -
+[2018-03-03 22:48:08,705] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:48:08] "[33mGET /404 HTTP/1.1[0m" 404 -
+[2018-03-03 22:48:11,205] - INFO - werkzeug - 127.0.0.1 - - [03/Mar/2018 22:48:11] "[1m[31mGET /403 HTTP/1.1[0m" 403 -
