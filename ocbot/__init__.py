@@ -1,4 +1,6 @@
 import logging
+import os
+
 from flask import Flask
 from config.configs import configs
 from flask_sqlalchemy import SQLAlchemy
@@ -18,7 +20,7 @@ else:
         f"{configs['DB_DIALECT']}://{configs['DB_USERNAME']}:{configs['DB_PASSWORD']}@{configs['DB_ADDR']}/{configs['DB_NAME']}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-if configs['ENV'] != 'tests.py':
+if 'test-oc' not in os.environ:
     setup_logging()
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
