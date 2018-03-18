@@ -1,9 +1,12 @@
+from typing import List
+
 from ocbot.external.route_airtable import AirTableBuilder
 from ocbot.external.route_slack import SlackBuilder, Slack
 from ocbot.pipeline.handlers.abc import RouteHandler
 from config.configs import configs
 
 MENTORS_INTERNAL_CHANNEL = configs['MENTORS_INTERNAL_CHANNEL']
+
 
 class NewAirtableRequestHandler(RouteHandler):
 
@@ -34,13 +37,37 @@ class NewAirtableRequestHandler(RouteHandler):
 
         self.text_dict['message'] = f"User {self.api_dict['user']} has requested a mentor for {service}\n\n" \
                                     f"Given Skillset(s): {self._event['Skillsets']}\n\n" \
-                                    f"View requests: <https://airtable.com/tbl9uQEE8VeMdNCey/viwYzYa4J9aytVB4B|Airtable>\n\n" \
-                                    f"Please reply to the channel if you'd like to be assigned to this request."
+                                    f"View requests: <https://airtable.com/tbl9uQEE8VeMdNCey/viwYzYa4J9aytVB4B|Airtable>"
+        self.text_dict['attachment'] = initial_claim_button(self._event['Record'])
         self.text_dict['details'] = f"Additional details: {self._event['Details']}"
 
     def build_responses(self):
         message_text = self.text_dict['message']
+        attachment = self.text_dict['attachment']
         details_text = self.text_dict['details']
 
         self.include_resp(SlackBuilder.mentor_request, MENTORS_INTERNAL_CHANNEL, details=details_text,
+                          attachment=attachment,
                           text=message_text)
+
+
+def initial_claim_button(record) -> List[dict]:
+    return [
+        {
+            'text': '',
+            'fallback': '',
+            'color': '#3AA3E3',
+            'callback_id': 'claim_mentee',
+            'attachment_type': 'default',
+            'actions': [
+                {
+                    'name': f'{record}',
+                    'text': 'Claim Mentee',
+                    'type': 'button',
+                    'style': 'primary',
+                    'value': f'mentee_claimed',
+                }
+            ]
+
+        }
+    ]

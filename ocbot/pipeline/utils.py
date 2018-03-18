@@ -5,6 +5,10 @@ def get_response_type(response_data):
     return response_data['actions'][0]['value']
 
 
+def get_attachment_name(event: dict) -> str:
+    return event['actions'][0]['name']
+
+
 def greeted_response_attachments(clicker: str) -> List[dict]:
     return [
         {
@@ -43,3 +47,12 @@ def needs_greet_button() -> List[dict]:
             ]
         }
     ]
+
+
+def make_base_params(event: dict) -> dict:
+    return {
+        'text': event['original_message']['text'],
+        'channel': event['channel']['id'],
+        'ts': event['message_ts'],
+        'as_user': True
+    }

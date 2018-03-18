@@ -3,7 +3,7 @@ from time import time
 from ocbot.external.route_slack import SlackBuilder
 
 from .abc import RouteHandler
-from ocbot.pipeline.utils import get_response_type
+from ocbot.pipeline.utils import get_response_type, make_base_params
 
 
 class GreetedHandler(RouteHandler):
@@ -30,7 +30,7 @@ class GreetedHandler(RouteHandler):
 
     def build_templates(self):
         click_type = get_response_type(self._event)
-        params = self.make_base_params()
+        params = make_base_params(self._event)
 
         # adjust button type
         if click_type == 'greeted':
@@ -97,11 +97,3 @@ class GreetedHandler(RouteHandler):
                 ]
             }
         ]
-
-    def make_base_params(self):
-        return {
-            'text': self._event['original_message']['text'],
-            'channel': self._event['channel']['id'],
-            'ts': self._event['message_ts'],
-            'as_user': True
-        }

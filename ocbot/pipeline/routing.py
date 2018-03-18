@@ -1,6 +1,7 @@
 import logging
 
 from ocbot.pipeline.handlers.airtable_request_handler import NewAirtableRequestHandler
+from ocbot.pipeline.handlers.claim_mentee import MenteeClaimHandler
 from .handlers.actionmenu import ActionMenuHandler
 from .handlers.greeted import GreetedHandler
 from .handlers.suggestion import SuggestionHandler
@@ -27,6 +28,7 @@ def RoutingHandler(json_data: dict, route_id: str=None) -> None:
         'team_join': NewMemberHandler,
         'suggestion_modal': SuggestionHandler,
         'new_airtable_request': NewAirtableRequestHandler,
+        'claim_mentee': MenteeClaimHandler,
     }
     try:
         class_route = route_dict.get(route_id, DefaultHandler)

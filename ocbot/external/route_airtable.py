@@ -1,51 +1,36 @@
+import logging
+
 from .utils import ResponseContainer
 from .utils import verify_module_variable
-from requests import post
+from requests import post, get, patch
 from functools import partial
+from config.configs import configs
 
-_airtableconfig = {}
-
-
-def AirTableStart(api_key=None, table_key=None, table_name=None):
-    _airtableconfig['API_KEY'] = api_key
-    _airtableconfig['TABLE_NAME'] = table_name
-    _airtableconfig['TABLE_KEY'] = table_key
+logger = logging.getLogger(__name__)
 
 
 # @verify_module_variable(['API_KEY', 'TABLE_NAME', 'TABLE_KEY'], _airtableconfig, 'airtable')
 class AirTableBuilder:
-    # Temporary hack.  Change this to getting the record ID's from the table itself
-    _services_records = {
-        'General Guidance - Slack Chat': 'rec7TQyPoFMHGEARz',
-        'General Guidance - Voice Chat': 'rec9UYZuI5EwrChPz',
-        'Pair Programming': 'recdY9vt5oC3SKVnT',
-        'Code Review': 'recq6z0cFRDqUTXxC',
-        'Resume Review': 'rectl3PSqQ4lRFuC6',
-        'Mock Interview': 'recJkySqaHQN9i05z'
-    }
+    BASE = configs['AIRTABLE_BASE_KEY']
+    API_KEY = configs['AIRTABLE_API_KEY']
+    MENTORS_TABLE_NAME = "Mentors"
+    REQUEST_TABLE_NAME = "Mentor Request"
+    services_id_to_service = {}
 
     @classmethod
     def record_to_service(cls, record: str) -> str:
+        if not cls.services_id_to_service:
+            cls.services_id_to_service = cls.get_translations()
 
-        #  Test Airtable services.  These will all be moved somewhere else
-        #  eventually (maybe)
-        # services = {
-        #     'rec7TQyPoFMHGEARz': 'General Guidance - Slack Chat',
-        #     'rec9UYZuI5EwrChPz': 'General Guidance - Voice Chat',
-        #     'recdY9vt5oC3SKVnT': 'Pair Programming',
-        #     'recq6z0cFRDqUTXxC': 'Code Review',
-        #     'rectl3PSqQ4lRFuC6': 'Resume Review',
-        #     'recJkySqaHQN9i05z': 'Mock Interview'
-        # }
-        services = {
-            'recry8s14qGJhHeOC': 'General Guidance - Slack Chat',
-            'rectzgTGoQyy2FVMC': 'General Guidance - Voice Chat',
-            'recxDrpFL9w5tNzkW': 'Pair Programming',
-            'recKLRUolCxsvWBuF': 'Code Review',
-            'recN0lJ46BYnsI8z9': 'Resume Review',
-            'rec3ZQMCQsKPKlE2C': 'Mock Interview'
-        }
-        return services[record]
+        return cls.services_id_to_service[record]
+
+    @classmethod
+    def get_translations(cls):
+        header = AirTableBuilder.build_auth_header()
+        url = f'https://api.airtable.com/v0/{cls.BASE}/Services?fields%5B%5D=Name'
+        res = get(url, headers=header)
+        records = res.json()['records']
+        return {record['id']: record['fields']['Name'] for record in records}
 
     @classmethod
     def entry(cls, params):
@@ -53,25 +38,33 @@ class AirTableBuilder:
                                  method='raw',
                                  payload=dict(url=cls.build_url,
                                               json=params,
-                                              headers=cls.build_header()
+                                              headers=cls.build_auth_header()
                                               )
                                  )
 
     @classmethod
-    def record(cls, record_key):
-        return cls._services_records[record_key]
+    def build_auth_header(cls):
+        return {f'authorization': f"Bearer {cls.API_KEY}"}
 
     @classmethod
-    def build_url(cls):
-        return {f'authorization': f"Bearer {_airtableconfig['API_KEY']}"
-                }
+    def build_url(cls, table_name, record_id=None):
+        url = f'https://api.airtable.com/v0/{cls.BASE}/{table_name}'
+        if record_id:
+            url += f'/{record_id}'
+        return url
 
     @classmethod
-    def build_header(cls):
-        return {f'https://api.airtable.com/v0/{_airtableconfig["TABLE_KEY"]}/{_airtableconfig["TABLE_NAME"]}'}
+    def claim_mentee(cls, record, mentor):
+        return ResponseContainer(route='Airtable',
+                                 method='patch',
+                                 payload=dict(
+                                     url=cls.build_url("Mentor Request", record),
+                                     headers=cls.build_auth_header(),
+                                     mentor=mentor
+                                 ))
 
 
-class AirTable:
+class Airtable:
     def __getattr__(self, name):
         """
         called when getattr(self, name) is not found
@@ -89,6 +82,34 @@ class AirTable:
                             f"{params}"
                             f"Exception value:"
                             f"{error}")
+
+    @staticmethod
+    def patch(payload: dict):
+        url = payload['url']
+        headers = payload['headers']
+        mentor = [payload['mentor']] if payload['mentor'] else None
+        data = {"fields": {
+            "Mentor Assigned": mentor
+        }}
+        res = patch(url, json=data, headers=headers)
+        logger.info(f'Airtable API call status: {res.status_code} | Content: {res.content}')
+
+    @staticmethod
+    def mentor_id_from_slack_username(username: str) -> str:
+        url = AirTableBuilder.build_url("Mentors")
+        params = {
+            "filterByFormula": f"FIND(LOWER('{username}'), LOWER({{Slack Name}}))"
+        }
+        headers = AirTableBuilder.build_auth_header()
+        res = get(url, headers=headers, params=params)
+        if res.status_code == 200:
+            records = res.json()['records']
+            if records:
+                return records[0]['id']
+            else:
+                return ''
+        else:
+            return ''
 
     def default(self, method, payload):
         raise NotImplemented

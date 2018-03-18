@@ -21,11 +21,12 @@ class SlackBuilder:
     """
 
     @staticmethod
-    def mentor_request(channel, details, **kwargs):
+    def mentor_request(channel, details, attachment, **kwargs):
         return ResponseContainer(route="Slack",
                                  method="mentor_request",
                                  payload=dict(channel=channel,
                                               first=kwargs,
+                                              attachment=attachment,
                                               second=details))
 
     # TODO determine if need as_user
@@ -79,9 +80,11 @@ class Slack:
         return res
 
     def mentor_request(self, payload):
-        res = self._client.api_call("chat.postMessage", channel=payload['channel'], **payload['first'])
+        res = self._client.api_call("chat.postMessage", channel=payload['channel'], attachments=payload['attachment'],
+                                    **payload['first'])
         logger.info(f'First call result: {res}')
-        res2 = self._client.api_call("chat.postMessage", channel=payload['channel'], thread_ts=res['ts'], text=payload['second'])
+        res2 = self._client.api_call("chat.postMessage", channel=payload['channel'], thread_ts=res['ts'],
+                                     text=payload['second'])
         logger.info(f'First call result: {res2}')
 
     # TODO add exception handling for the cases

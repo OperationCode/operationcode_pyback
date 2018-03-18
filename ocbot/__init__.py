@@ -6,6 +6,7 @@ from config.configs import configs
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
+from ocbot.external.route_airtable import AirTableBuilder
 from ocbot.log_manager import setup_logging
 
 logger = logging.getLogger(__name__)
