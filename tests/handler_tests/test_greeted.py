@@ -3,6 +3,7 @@ import pytest_mock
 
 
 from ocbot.external.route_slack import SlackBuilder
+from ocbot.pipeline.utils import make_base_params
 from tests.handler_tests.events import *
 from ocbot.pipeline.handlers.greeted import GreetedHandler
 
@@ -25,7 +26,7 @@ def reset_greet_handler(mocker: pytest_mock.mocker):
 ])
 def test_build_templates_gets_correct_response_type(event, correct_params):
     handler = GreetedHandler(event_dict=event)
-    base_params = handler.make_base_params()
+    base_params = make_base_params(event)
     assert base_params == correct_params
 
 

@@ -18,7 +18,8 @@ NEW_AIRTABLE_REQUEST_JSON = {
                " Proin vel cursus tellus. Quisque eget mauris neque. Cras eu pharetra leo. Nam nulla tortor, imperdiet"
                " sit amet dictum eu, mollis id ante. ",
     "Service": "recry8s14qGJhHeOC",
-    "Email": "ic4rusX@gmail.com"
+    "Email": "ic4rusX@gmail.com",
+    "Record": "someRecId'"
 }
 
 USER_ID_FROM_EMAIL_RESPONSE = {'ok': True, 'user': {'id': 'AGF2354'}}
@@ -45,3 +46,24 @@ TEXT_DICT_DETAILS = 'Additional details:  Lorem ipsum dolor sit amet, consectetu
                     'quam, vitae ornare mauris viverra vel. In vestibulum enim pulvinar, pharetra augue a, ' \
                     'tempor felis. Proin vel cursus tellus. Quisque eget mauris neque. Cras eu pharetra leo. Nam ' \
                     'nulla tortor, imperdiet sit amet dictum eu, mollis id ante.'
+
+
+MENTOR_REQUEST_ATTACHMENT = [
+        {
+            'text': '',
+            'fallback': '',
+            'color': '#3AA3E3',
+            'callback_id': 'claim_mentee',
+            'attachment_type': 'default',
+            'actions': [
+                {
+                    'name': 'fakerec',
+                    'text': 'Claim Mentee',
+                    'type': 'button',
+                    'style': 'primary',
+                    'value': f'mentee_claimed',
+                }
+            ]
+
+        }
+    ]
