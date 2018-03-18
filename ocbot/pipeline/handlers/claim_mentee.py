@@ -71,7 +71,7 @@ class MenteeClaimHandler(RouteHandler):
         return [
             {
                 "text": f":100: Request claimed by <@{self._user_id}>:100:\n"
-                        f"<!date^{unix_time}^Greeted at {{date_num}} {{time_secs}}|Failed to parse time>",
+                        f"<!date^{unix_time}^Claimed at {{date_num}} {{time_secs}}|Failed to parse time>",
                 "fallback": "",
                 "color": "#3AA3E3",
                 "callback_id": "claim_mentee",

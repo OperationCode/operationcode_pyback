@@ -32,12 +32,11 @@ class NewAirtableRequestHandler(RouteHandler):
 
     def build_templates(self):
         service = AirTableBuilder.record_to_service(self._event['Service'])
-        if 'skillsets' not in self._event:
+        if 'Skillsets' not in self._event:
             self._event['Skillsets'] = 'None given'
 
         self.text_dict['message'] = f"User {self.api_dict['user']} has requested a mentor for {service}\n\n" \
-                                    f"Given Skillset(s): {self._event['Skillsets']}\n\n" \
-                                    f"View requests: <https://airtable.com/tbl9uQEE8VeMdNCey/viwYzYa4J9aytVB4B|Airtable>"
+                                    f"Given Skillset(s): {self._event['Skillsets']}"
         self.text_dict['attachment'] = initial_claim_button(self._event['Record'])
         self.text_dict['details'] = f"Additional details: {self._event['Details']}"
 
