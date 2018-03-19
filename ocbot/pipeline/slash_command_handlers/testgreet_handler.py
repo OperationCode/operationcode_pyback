@@ -17,6 +17,6 @@ def create_testgreet_event(request):
     return event_dict
 
 
-@lru_cache(100)
+# @lru_cache(100)
 def can_test(user_id: str):
     return bool(User.query.filter_by(slack_id=user_id, can_test=True).first())

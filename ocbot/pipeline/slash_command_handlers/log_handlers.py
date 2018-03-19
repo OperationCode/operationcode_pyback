@@ -53,6 +53,6 @@ def handle_log_view(variable: str):
     return render_template("logs.html", logs=lines, older_logs=older_logs)
 
 
-@lru_cache(100)
+# @lru_cache(100)
 def can_view_logs(user_id: str):
     return bool(User.query.filter_by(slack_id=user_id, access_logs=True).first())
