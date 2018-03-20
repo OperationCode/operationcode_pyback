@@ -17,7 +17,7 @@ logger.level = logging.DEBUG
 
 @app.route('/event_endpoint', methods=['POST'])
 @url_verification
-@validate_response('token', VERIFICATION_TOKEN)
+@validate_response('token', VERIFICATION_TOKEN, 'json')
 def events_route():
     """
     Any event based response will get routed here.
@@ -34,7 +34,7 @@ def events_route():
 
 
 @app.route("/user_interaction", methods=['POST'])
-@validate_response('token', VERIFICATION_TOKEN)
+@validate_response('token', VERIFICATION_TOKEN, 'form')
 def interaction_route():
     """
     Receives request from slack interactive messages.
@@ -64,7 +64,7 @@ def zap_endpoint():
 
 
 @app.route('/test/testgreet', methods=['POST'])
-@validate_response('token', VERIFICATION_TOKEN)
+@validate_response('token', VERIFICATION_TOKEN, 'values')
 def test_greet():
     """
     Endpoint for simulating a Slack 'team_join' event.
@@ -85,7 +85,7 @@ def test_greet():
 
 
 @app.route("/get_logs", methods=['POST'])
-@validate_response('token', VERIFICATION_TOKEN)
+@validate_response('token', VERIFICATION_TOKEN, 'values')
 def get_logs():
     """
     Endpoint used by Slack /logs command

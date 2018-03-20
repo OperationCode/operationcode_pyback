@@ -7,15 +7,19 @@ from flask import make_response, redirect, request
 logger = logging.getLogger(__name__)
 
 
-def validate_response(json_key, expected_value):
+def validate_response(json_key, expected_value, data_location):
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
 
             try:
-                data = request.get_json()
-                if not data:
-                    data = request.data
+
+                if data_location == 'form':
+                    data = json.loads(request.form['payload'])
+                elif data_location == 'values':
+                    data = request.values
+                else:
+                    data = request.get_json()
             except Exception as e:
                 return redirect('HTTP400.html', code=400)
 

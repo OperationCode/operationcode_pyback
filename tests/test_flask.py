@@ -54,8 +54,7 @@ def test_interaction_with_bad_slack_token(mocker, test_app):
     data['token'] = 'bad token'
     json_data = json.dumps(data)
     mocker.patch('ocbot.web.routes.RoutingHandler')
-    response = test_app.post('/user_interaction', data=json_data,
-                             content_type='application/json',
+    response = test_app.post('/user_interaction', data=dict(payload=json_data),
                              follow_redirects=True)
     assert not ocbot.web.routes.RoutingHandler.called
     assert response.status_code == 403
