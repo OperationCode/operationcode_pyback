@@ -5,9 +5,9 @@ import logging
 import pytest
 import config.configs
 import ocbot.web.routes
+from tests.handler_tests.action_menu_events import SUGGESTION_CLICKED_EVENT
 from tests.test_data import CHALLENGE, NEW_MEMBER
 from pytest_mock import mocker
-
 
 logging.disable(logging.CRITICAL)
 
@@ -37,12 +37,24 @@ def test_good_slack_token(mocker: mocker, test_app):
     assert response.status_code == 200
 
 
-def test_bad_slack_token(mocker, test_app):
+def test_event_with_bad_slack_token(mocker, test_app):
     data = NEW_MEMBER
     data['token'] = 'bad token'
     json_data = json.dumps(data)
     mocker.patch('ocbot.web.routes.RoutingHandler')
     response = test_app.post('/event_endpoint', data=json_data,
+                             content_type='application/json',
+                             follow_redirects=True)
+    assert not ocbot.web.routes.RoutingHandler.called
+    assert response.status_code == 403
+
+
+def test_interaction_with_bad_slack_token(mocker, test_app):
+    data = SUGGESTION_CLICKED_EVENT
+    data['token'] = 'bad token'
+    json_data = json.dumps(data)
+    mocker.patch('ocbot.web.routes.RoutingHandler')
+    response = test_app.post('/user_interaction', data=json_data,
                              content_type='application/json',
                              follow_redirects=True)
     assert not ocbot.web.routes.RoutingHandler.called
