@@ -33,8 +33,8 @@ def events_route():
     return make_response('', 200)
 
 
-@validate_response('token', VERIFICATION_TOKEN)
 @app.route("/user_interaction", methods=['POST'])
+@validate_response('token', VERIFICATION_TOKEN)
 def interaction_route():
     """
     Receives request from slack interactive messages.
@@ -63,8 +63,8 @@ def zap_endpoint():
     return make_response('', 200)
 
 
-@validate_response('token', VERIFICATION_TOKEN)
 @app.route('/test/testgreet', methods=['POST'])
+@validate_response('token', VERIFICATION_TOKEN)
 def test_greet():
     """
     Endpoint for simulating a Slack 'team_join' event.
@@ -84,8 +84,8 @@ def test_greet():
     return make_response('Test completed.', 200)
 
 
-@validate_response('token', VERIFICATION_TOKEN)
 @app.route("/get_logs", methods=['POST'])
+@validate_response('token', VERIFICATION_TOKEN)
 def get_logs():
     """
     Endpoint used by Slack /logs command
