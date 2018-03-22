@@ -110,3 +110,5 @@ RESET_MENTEE_ATTACHMENT = [{'text': 'Reset by <@U11111> at <!date^11111^ {date_n
                             'attachment_type': 'default', 'actions': [
         {'name': 'rec7pRh2FwyO4nP2W', 'text': 'Claim Mentee', 'type': 'button', 'style': 'primary',
          'value': 'mentee_claimed'}]}]
+
+SLACK_USER_INFO = {'user': {'profile': {'email': 'fake@email.com'}}}

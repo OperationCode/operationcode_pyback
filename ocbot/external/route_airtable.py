@@ -68,8 +68,6 @@ class Airtable:
     def __getattr__(self, name):
         """
         called when getattr(self, name) is not found
-        :return:
-        :rtype:
         """
         default = partial(self.default, name)
         return default
@@ -99,6 +97,23 @@ class Airtable:
         url = AirTableBuilder.build_url("Mentors")
         params = {
             "filterByFormula": f"FIND(LOWER('{username}'), LOWER({{Slack Name}}))"
+        }
+        headers = AirTableBuilder.build_auth_header()
+        res = get(url, headers=headers, params=params)
+        if res.status_code == 200:
+            records = res.json()['records']
+            if records:
+                return records[0]['id']
+            else:
+                return ''
+        else:
+            return ''
+
+    @staticmethod
+    def mentor_id_from_slack_email(email: str) -> str:
+        url = AirTableBuilder.build_url("Mentors")
+        params = {
+            "filterByFormula": f"FIND(LOWER('{email}'), LOWER({{Email}}))"
         }
         headers = AirTableBuilder.build_auth_header()
         res = get(url, headers=headers, params=params)

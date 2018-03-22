@@ -3,7 +3,7 @@ from time import time
 
 from ocbot import AirTableBuilder
 from ocbot.external.route_airtable import Airtable
-from ocbot.external.route_slack import SlackBuilder
+from ocbot.external.route_slack import SlackBuilder, Slack
 
 from .abc import RouteHandler
 from ocbot.pipeline.utils import get_response_type, get_attachment_name, make_base_params
@@ -27,7 +27,9 @@ class MenteeClaimHandler(RouteHandler):
         super().__init__()
 
     def api_calls(self):
-        self.api_dict['mentor_id'] = Airtable.mentor_id_from_slack_username(self._user_name)
+        user_info = Slack().user_info_from_id(slack_id=self._user_id)
+        email = user_info['user']['profile']['email']
+        self.api_dict['mentor_id'] = Airtable.mentor_id_from_slack_email(email)
 
     def database_calls(self):
         pass

@@ -3,12 +3,13 @@ import pytest_mock
 from ocbot.external.route_airtable import AirTableBuilder
 from ocbot.pipeline.handlers.claim_mentee import MenteeClaimHandler
 from tests.handler_tests.airtable_request_events import CLAIM_MENTEE_EVENT, INVALID_MENTOR_ID_TEXT, \
-    RESET_MENTEE_CLAIM_EVENT, RESET_MENTEE_ATTACHMENT
+    RESET_MENTEE_CLAIM_EVENT, RESET_MENTEE_ATTACHMENT, SLACK_USER_INFO
 
 FAKE_RECORD_ID = 'rec123'
 
-AIRTABLE_MENTOR_ID_CALL = 'ocbot.external.route_airtable.Airtable.mentor_id_from_slack_username'
-
+AIRTABLE_MENTOR_ID_CALL = 'ocbot.external.route_airtable.Airtable.mentor_id_from_slack_email'
+SLACK_INFO_CALL = 'ocbot.external.route_slack.Slack.user_info_from_id'
+SLACK_AUTH_TEST = 'ocbot.external.route_slack.Slack.auth_test'
 
 @pytest.fixture
 def claim_handler():
@@ -45,7 +46,10 @@ def test_has_correct_record_id(claim_handler: MenteeClaimHandler):
 
 
 def test_calls_airtable_for_mentor_id(mocker: pytest_mock, claim_handler: MenteeClaimHandler):
+    mocker.patch(SLACK_AUTH_TEST)
+    mocker.patch(SLACK_INFO_CALL, return_value=SLACK_USER_INFO)
     mock = mocker.patch(AIRTABLE_MENTOR_ID_CALL, return_value=FAKE_RECORD_ID)
+
 
     claim_handler.api_calls()
     assert mock.called

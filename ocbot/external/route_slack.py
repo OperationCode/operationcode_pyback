@@ -111,6 +111,12 @@ class Slack:
         logger.debug(f'user id from email response: {response}')
         return response
 
+    def user_info_from_id(self, slack_id: str) -> dict:
+        response = self.api_call('users.info', user=slack_id)
+        logger.debug(f'user info from ID response: {response}')
+        return response
+
+
     def api_call(self, method, **kwargs):
         return self._client.api_call(method, **kwargs)
 
