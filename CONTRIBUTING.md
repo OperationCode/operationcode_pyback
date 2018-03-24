@@ -39,7 +39,7 @@ There are a few different ways you can accomplish this.
 You can use a tool like curl or [Postman](https://www.getpostman.com/) to interact with the API directly, or you can use the python Slack client.
 
 ###### Postman
-![postman](/imgages/postman.png)
+![postman](/images/postman.png)
 
 ###### Python Terminal and Slack Client
 ![channels](/images/channelsWithClient.png)
