@@ -38,13 +38,16 @@ To do this we're going to use the Slack API, particularly the [channels.list](ht
 There are a few different ways you can accomplish this.
 You can use a tool like curl or [Postman](https://www.getpostman.com/) to interact with the API directly, or you can use the python Slack client.
 
+Before making any requests, go to `OAuth & Permissions`, click `Select Permissions Scopes` under `Scopes`, and
+select `Access information about user's public channels` under the `Channels` tab.
+
 ###### Postman
 ![postman](/images/postman.png)
 
 ###### Python Terminal and Slack Client
 ![channels](/images/channelsWithClient.png)
 
-Add the channel id to your .env file as `DEV_PRIVATE_CHANNEL = '[channel-id]`
+Add the channel id to your .env file as `DEV_PRIVATE_CHANNEL = '[channel-id]'`
 
 Go ahead and run the `run.py` file, the server should successfully start.
 
@@ -62,7 +65,7 @@ We now need to tell Slack to send all events to your forwarding URL.
 
 Back in the Slack App console select the `Event Subscription` tab and click the enable events slider.
 
-Our app is listening for events at the `/events_endpoint` url, so our request URL is `[ngrok url]/events_endpoint`
+Our app is listening for events at the `/event_endpoint` url, so our request URL is `[ngrok url]/event_endpoint`
 
 ![events](/images/events.png)
 
