@@ -1,4 +1,5 @@
 import logging
+from pprint import pprint
 
 from .utils import ResponseContainer
 from .utils import verify_module_variable
@@ -108,6 +109,26 @@ class Airtable:
                 return ''
         else:
             return ''
+
+    @staticmethod
+    def find_mentors_with_matching_skillsets(skillsetStr: str) -> tuple:
+        url = AirTableBuilder.build_url("Mentors") + "?fields=Email&fields=Skillsets"
+        headers = AirTableBuilder.build_auth_header()
+        skillsets = skillsetStr.split(',')
+        mentors = get(url, headers=headers).json()['records']
+        partial_match = []
+        complete_match = []
+        try:
+            for mentor in mentors:
+                if all(skillset in mentor['fields']['Skillsets'] for skillset in skillsets):
+                    complete_match.append(mentor['fields'])
+                if any(mentor['fields'] not in complete_match and
+                       skillset in mentor['fields']['Skillsets'] for skillset in skillsets):
+                    partial_match.append(mentor['fields'])
+        except Exception as e:
+            logger.warning("Exception occurred while attempting to get matching mentors for skillsets : ", e)
+
+        return complete_match, partial_match
 
     @staticmethod
     def mentor_id_from_slack_email(email: str) -> str:

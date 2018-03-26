@@ -8,6 +8,8 @@ from ocbot.pipeline.handlers.airtable_request_handler import NewAirtableRequestH
 from tests.handler_tests.airtable_request_events import NEW_AIRTABLE_REQUEST_JSON, USER_ID_FROM_EMAIL_RESPONSE, \
     TEXT_DICT_MESSAGE, TEXT_DICT_DETAILS, MENTOR_REQUEST_ATTACHMENT
 
+RECORD_TO_SERVICE = 'ocbot.external.route_airtable.AirTableBuilder.record_to_service'
+
 SLACK_AUTH_TEST = 'ocbot.external.route_slack.Slack.auth_test'
 
 MENTORS_INTERNAL_CHANNEL = configs['MENTORS_INTERNAL_CHANNEL']
@@ -16,7 +18,12 @@ SLACK_USER_ID = '<@AGF2354>'
 
 @pytest.fixture
 def new_request_handler():
-    return NewAirtableRequestHandler(event_dict=NEW_AIRTABLE_REQUEST_JSON)
+    handler = NewAirtableRequestHandler(event_dict=NEW_AIRTABLE_REQUEST_JSON)
+    handler.api_dict['complete_matches'] = ''
+    handler.api_dict['partial_matches'] = ''
+    handler.text_dict['complete_matches'] = ''
+    handler.text_dict['partial_matches'] = ''
+    return handler
 
 
 def test_email_pulled_from_request(new_request_handler: NewAirtableRequestHandler):
@@ -44,8 +51,7 @@ def test_event_slack_user_used_when_user_id_query_fails(mocker: pytest_mock,
 
 def test_airtable_builder_called_to_translate_service(mocker: pytest_mock,
                                                       new_request_handler: NewAirtableRequestHandler):
-    airtable_mock = mocker.patch('ocbot.external.route_airtable.AirTableBuilder.record_to_service',
-                                 return_value="fakerec")
+    airtable_mock = mocker.patch(RECORD_TO_SERVICE, return_value="fakerec")
     new_request_handler.api_dict['user'] = SLACK_USER_ID
 
     new_request_handler.build_templates()
@@ -54,8 +60,7 @@ def test_airtable_builder_called_to_translate_service(mocker: pytest_mock,
 
 
 def test_text_dict_populated(mocker: pytest_mock, new_request_handler: NewAirtableRequestHandler):
-    airtable_mock = mocker.patch('ocbot.external.route_airtable.AirTableBuilder.record_to_service',
-                                 return_value="fakerec")
+    airtable_mock = mocker.patch(RECORD_TO_SERVICE, return_value="fakerec")
 
     new_request_handler.api_dict['user'] = SLACK_USER_ID
 
@@ -66,8 +71,7 @@ def test_text_dict_populated(mocker: pytest_mock, new_request_handler: NewAirtab
 
 
 def test_correct_response_added(mocker: pytest_mock, new_request_handler: NewAirtableRequestHandler):
-    airtable_mock = mocker.patch('ocbot.external.route_airtable.AirTableBuilder.record_to_service',
-                                 return_value="fakerec")
+    airtable_mock = mocker.patch(RECORD_TO_SERVICE, return_value="fakerec")
 
     new_request_handler.text_dict['message'] = TEXT_DICT_MESSAGE
     new_request_handler.text_dict['details'] = TEXT_DICT_DETAILS
@@ -76,8 +80,12 @@ def test_correct_response_added(mocker: pytest_mock, new_request_handler: NewAir
     correct_response = SlackBuilder.mentor_request(MENTORS_INTERNAL_CHANNEL,
                                                    details=TEXT_DICT_DETAILS,
                                                    text=TEXT_DICT_MESSAGE,
-                                                   attachment=MENTOR_REQUEST_ATTACHMENT)
+                                                   attachment=MENTOR_REQUEST_ATTACHMENT,
+                                                   complete='',
+                                                   partial='',
+                                                   )
 
     new_request_handler.build_responses()
+    # print(new_request_handler.response)
 
     assert correct_response in new_request_handler.response
