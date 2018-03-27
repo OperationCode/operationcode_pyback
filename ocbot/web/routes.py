@@ -115,6 +115,7 @@ def random_lunch():
     logger.info(f"Lunch request received from {req['user_name']} : {req}")
 
     lunch_val = create_lunch_event(req)
+
     return make_response(lunch_val, 200)
 
 

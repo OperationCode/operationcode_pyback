@@ -51,7 +51,7 @@ def get_random_lunch(lunch_response):
     return lunch_response['businesses'][selected_loc]
 
 def build_response_text(loc_dict):
-    return f'the Wheel of Lunch has selected {loc_dict["name"]} at {" ".join(loc_dict["location"]["display_address"])}'
+    return f'The Wheel of Lunch has selected {loc_dict["name"]} at {" ".join(loc_dict["location"]["display_address"])}'
 
 
 def create_lunch_event(request):
@@ -71,8 +71,4 @@ def create_lunch_event(request):
 if __name__ == '__main__':
     print(create_lunch_event({'text':'80020 20'}))
     print(create_lunch_event({'text':'20'}))
-    #print(create_lunch_event({'text':'80020'}))
-    #print(create_lunch_event({'text':'800200 20'}))
-    #print(create_lunch_event({'text':'800 20'}))
-    #print(create_lunch_event({'text':'8000002'}))
-    #print(create_lunch_event({'text':'0'}))
+
