@@ -3,6 +3,7 @@ import logging
 import threading
 
 from ocbot.pipeline.slash_command_handlers.log_handlers import get_temporary_url, handle_log_view, can_view_logs
+from ocbot.pipeline.open_endpoints.handle_code_school import handle_code_school
 from ocbot.pipeline.slash_command_handlers.lunch_handler import create_lunch_event
 from ocbot.pipeline.slash_command_handlers.testgreet_handler import can_test, create_testgreet_event
 from ocbot.web.route_decorators import validate_response, url_verification
@@ -123,6 +124,9 @@ def random_lunch():
 def show_logs(variable):
     return handle_log_view(variable)
 
+@app.route("/new_school")
+def show_new_school_route():
+    return handle_code_school()
 
 @app.route('/options_load', methods=['POST'])
 def options_route():

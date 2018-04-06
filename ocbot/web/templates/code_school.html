@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Code School Request</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='code_school.css') }}">
+</head>
+<body>
+
+
+<div class="container border rounded top-buffer">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <form class="form-horizontal" role="form">
+        <fieldset>
+
+          <!-- Form Name -->
+          <legend>Code School</legend>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-10 control-label" for="textinput">What is your schools Name?</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Name" class="form-control">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-10 control-label" for="textinput">What is your schools website?</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Url" class="form-control">
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-10 control-label" for="textinput">Is your school fulltime?</label>
+            <div class="col-sm-10">
+              <label class="radio-inline"><input type="radio" name="fulltime">No</label>
+              <label class="radio-inline"><input type="radio" name="fulltime">Yes</label>
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-10 control-label" for="textinput">Is hardware included?</label>
+            <div class="col-sm-10">
+              <label class="radio-inline"><input type="radio" name="hardware">No</label>
+              <label class="radio-inline"><input type="radio" name="hardware">Yes</label>
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-10 control-label" for="textinput">Do you offer online?</label>
+            <div class="col-sm-10">
+              <label class="radio-inline"><input type="radio" name="online">No</label>
+              <label class="radio-inline"><input type="radio" name="online">Yes</label>
+            </div>
+          </div>
+
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-10 control-label" for="textinput">Are you online only?</label>
+            <div class="col-sm-10">
+              <label class="radio-inline"><input type="radio" name="only_online">No</label>
+              <label class="radio-inline"><input type="radio" name="only_online">Yes</label>
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-10 control-label" for="textinput">Are you VA accredited?</label>
+            <div class="col-sm-10">
+              <label class="radio-inline"><input type="radio" name="va_approved">No</label>
+              <label class="radio-inline"><input type="radio" name="va_approved">Yes</label>
+            </div>
+          </div>
+
+
+        </fieldset>
+      </form>
+    </div>
+
+
+    <div class="col-md-4 col-md-offset-4">
+      <form class="form-horizontal" role="form">
+        <fieldset>
+
+          <!-- Form Name -->
+          <legend>Location Details</legend>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-10 control-label" for="textinput">Address Line 1</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Address Line 1" class="form-control">
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-10 control-label" for="textinput">Address Line 2</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Address Line 2" class="form-control">
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="textinput">City</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="City" class="form-control">
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="textinput">State</label>
+            <div class="col-sm-4">
+              <input type="text" placeholder="State" class="form-control">
+            </div>
+
+            <label class="col-sm-6 control-label" for="textinput">Postcode</label>
+            <div class="col-sm-6">
+              <input type="text" placeholder="Post Code" class="form-control">
+            </div>
+          </div>
+
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="textinput">Country</label>
+            <div class="col-sm-10">
+              <input type="text" placeholder="Country" class="form-control">
+            </div>
+          </div>
+
+
+        </fieldset>
+      </form>
+    </div>
+
+
+    <div class="col-md-4 col-md-offset-4">
+      <form class="form-horizontal" role="form">
+        <fieldset>
+          <legend>School Logo</legend>
+          <div class="panel-body">
+
+
+            <div class="form-inline" id="js-upload-div">
+              <div class="form-group">
+
+                <input type="file" name="school_logo" id="js-upload-file" accept="image/*" class="hidden_button">
+              </div>
+
+            </div>
+
+
+            <!-- Drop Zone -->
+            <p> Drag and drop </p>
+            <div class="upload-drop-zone" id="drop-zone">
+
+              <img src=""/>
+
+            </div>
+
+
+
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <div class="pull-right">
+
+                  <button type="submit" class="btn btn-primary">Submit Request</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+      </form>
+    </div>
+
+
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script>
+    'use strict';
+    (function() {
+        var dropZone = document.getElementById('drop-zone');
+        var preview = document.querySelector('img');
+        var uploadForm = document.getElementById('js-upload-div');
+
+
+        var startUpload = function (file_image) {
+
+            console.log(file_image);
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                preview.src = reader.result
+
+            };
+
+            reader.readAsDataURL(file_image);
+
+
+        };
+
+        {##}
+        {#                var img = new Image();#}
+        {#                img.src = window.URL.createObjectURL(file_image);#}
+        {##}
+        {##}
+        {#                // as soon as the image has been loaded#}
+        {#                img.onload = function () {#}
+        {#                    var width = img.naturalWidth,#}
+        {#                        height = img.naturalHeight;#}
+        {##}
+        {#                    // unload it#}
+        {#                    window.URL.revokeObjectURL(img.src);#}
+        {##}
+        {#                    // check its dimensions#}
+        {#                    if (width == 200 && height == 200) {#}
+        {#                        // it fits#}
+        {#                        console.log('it fits')#}
+        {#                    } else {#}
+        {#                        // it doesn't fit, unset the value#}
+        {#                        // post an error#}
+        {#                        fileInput.value = ""#}
+        {#                        alert("only 200x200 images")#}
+        {#                    }#}
+        {#                };#}
+
+
+        {#                console.log(image)#}
+        {#            };#}
+
+        dropZone.ondrop = function (ev) {
+            ev.preventDefault();
+            this.className = 'upload-drop-zone';
+
+            if (ev.dataTransfer.items) {
+                // Use DataTransferItemList interface to access the file(s)
+                for (var imageIndex = 0; imageIndex < ev.dataTransfer.items.length; imageIndex++) {
+                    // If dropped items aren't files, reject them
+                    if ((ev.dataTransfer.items[imageIndex].kind === 'file') &&
+                        (ev.dataTransfer.items[imageIndex].type.match('^image/'))) {
+                        var file = ev.dataTransfer.items[imageIndex].getAsFile();
+                        console.log(file);
+                        startUpload(file)
+                    }
+                    else {
+                        alert('not an image');
+                        return;
+                    }
+                }
+            } else {
+                // Use DataTransfer interface to access the file(s)
+                for (var imageIndex = 0; imageIndex < ev.dataTransfer.files.length; imageIndex++) {
+                    console.log('... file[' + imageIndex + '].name = ' + ev.dataTransfer.files[imageIndex].name);
+                }
+            }
+
+        };
+
+        dropZone.ondragover = function () {
+            this.className = 'upload-drop-zone drop';
+            return false;
+        };
+
+        dropZone.ondragleave = function () {
+            this.className = 'upload-drop-zone';
+            return false;
+        };
+
+
+    })();
+
+    // UPLOAD CLASS DEFINITION
+    // ======================
+
+
+</script>
+</body>
+</html>
