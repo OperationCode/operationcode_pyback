@@ -14,9 +14,10 @@
 
 
 <div class="container border rounded top-buffer">
-  <div class="row">
-    <div class="col-md-4 col-md-offset-4">
-      <form class="form-horizontal" role="form">
+  <form class="form-horizontal" role="form" id="new_school">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+
         <fieldset>
 
           <!-- Form Name -->
@@ -24,172 +25,176 @@
 
           <!-- Text input-->
           <div class="form-group">
-            <label class="col-sm-10 control-label" for="textinput">What is your schools Name?</label>
+            <label class="col-sm-10 control-label" for="school_name">What is your schools Name?</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="Name" class="form-control">
+              <input type="text" placeholder="Name" name="school_name" class="form-control" autocomplete="name">
             </div>
           </div>
           <div class="form-group">
-            <label class="col-sm-10 control-label" for="textinput">What is your schools website?</label>
+            <label class="col-sm-10 control-label" for="school_url">What is your schools website?</label>
             <div class="col-sm-10">
-              <input type="text" placeholder="Url" class="form-control">
-            </div>
-          </div>
-
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-10 control-label" for="textinput">Is your school fulltime?</label>
-            <div class="col-sm-10">
-              <label class="radio-inline"><input type="radio" name="fulltime">No</label>
-              <label class="radio-inline"><input type="radio" name="fulltime">Yes</label>
+              <input type="text" placeholder="Url" class="form-control" name="school_url">
             </div>
           </div>
 
           <!-- Text input-->
           <div class="form-group">
-            <label class="col-sm-10 control-label" for="textinput">Is hardware included?</label>
+            <label class="col-sm-10 control-label" for="school_fulltime">Is your school fulltime?</label>
             <div class="col-sm-10">
-              <label class="radio-inline"><input type="radio" name="hardware">No</label>
-              <label class="radio-inline"><input type="radio" name="hardware">Yes</label>
+              <label class="radio-inline"><input type="radio" name="school_fulltime">No</label>
+              <label class="radio-inline"><input type="radio" name="school_fulltime">Yes</label>
             </div>
           </div>
 
           <!-- Text input-->
           <div class="form-group">
-            <label class="col-sm-10 control-label" for="textinput">Do you offer online?</label>
+            <label class="col-sm-10 control-label" for="school_hardware">Is hardware included?</label>
             <div class="col-sm-10">
-              <label class="radio-inline"><input type="radio" name="online">No</label>
-              <label class="radio-inline"><input type="radio" name="online">Yes</label>
+              <label class="radio-inline"><input type="radio" name="school_hardware">No</label>
+              <label class="radio-inline"><input type="radio" name="school_hardware">Yes</label>
+            </div>
+          </div>
+
+          <!-- Text input-->
+          <div class="form-group">
+            <label class="col-sm-10 control-label" for="school_online">Do you offer online?</label>
+            <div class="col-sm-10">
+              <label class="radio-inline"><input type="radio" name="school_online">No</label>
+              <label class="radio-inline"><input type="radio" name="school_online">Yes</label>
             </div>
           </div>
 
 
           <!-- Text input-->
           <div class="form-group">
-            <label class="col-sm-10 control-label" for="textinput">Are you online only?</label>
+            <label class="col-sm-10 control-label" for="school_only_online">Are you online only?</label>
             <div class="col-sm-10">
-              <label class="radio-inline"><input type="radio" name="only_online">No</label>
-              <label class="radio-inline"><input type="radio" name="only_online">Yes</label>
+              <label class="radio-inline"><input type="radio" name="school_only_online">No</label>
+              <label class="radio-inline"><input type="radio" name="school_only_online">Yes</label>
             </div>
           </div>
 
           <!-- Text input-->
           <div class="form-group">
-            <label class="col-sm-10 control-label" for="textinput">Are you VA accredited?</label>
+            <label class="col-sm-10 control-label" for="school_va_approved">Are you VA accredited?</label>
             <div class="col-sm-10">
-              <label class="radio-inline"><input type="radio" name="va_approved">No</label>
-              <label class="radio-inline"><input type="radio" name="va_approved">Yes</label>
+              <label class="radio-inline"><input type="radio" name="school_va_approved">No</label>
+              <label class="radio-inline"><input type="radio" name="school_va_approved">Yes</label>
             </div>
           </div>
 
 
         </fieldset>
-      </form>
-    </div>
+
+      </div>
 
 
-    <div class="col-md-4 col-md-offset-4">
-      <form class="form-horizontal" role="form">
-        <fieldset>
+      <div class="col-md-4 col-md-offset-4">
+        <div class="form-horizontal" role="form">
+          <fieldset>
 
-          <!-- Form Name -->
-          <legend>Location Details</legend>
+            <!-- Form Name -->
+            <legend>Location Details</legend>
 
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-10 control-label" for="textinput">Address Line 1</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="Address Line 1" class="form-control">
-            </div>
-          </div>
-
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-10 control-label" for="textinput">Address Line 2</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="Address Line 2" class="form-control">
-            </div>
-          </div>
-
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">City</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="City" class="form-control">
-            </div>
-          </div>
-
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">State</label>
-            <div class="col-sm-4">
-              <input type="text" placeholder="State" class="form-control">
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-sm-10 control-label" for="address1">Address Line 1</label>
+              <div class="col-sm-10">
+                <input type="text" placeholder="Address Line 1" name=address1 class="form-control"
+                       autocomplete="address-line1">
+              </div>
             </div>
 
-            <label class="col-sm-6 control-label" for="textinput">Postcode</label>
-            <div class="col-sm-6">
-              <input type="text" placeholder="Post Code" class="form-control">
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-sm-10 control-label" for="address2">Address Line 2</label>
+              <div class="col-sm-10">
+                <input type="text" placeholder="Address Line 2" name="address2" class="form-control"
+                       autocomplete="address-line2">
+              </div>
             </div>
-          </div>
 
-
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-2 control-label" for="textinput">Country</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="Country" class="form-control">
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="city">City</label>
+              <div class="col-sm-10">
+                <input type="text" placeholder="City" name="city" class="form-control" autocomplete="address-level2">
+              </div>
             </div>
-          </div>
 
-
-        </fieldset>
-      </form>
-    </div>
-
-
-    <div class="col-md-4 col-md-offset-4">
-      <form class="form-horizontal" role="form">
-        <fieldset>
-          <legend>School Logo</legend>
-          <div class="panel-body">
-
-
-            <div class="form-inline" id="js-upload-div">
-              <div class="form-group">
-
-                <input type="file" name="school_logo" id="js-upload-file" accept="image/*" class="hidden_button">
+            <!-- Text input-->
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="state">State</label>
+              <div class="col-sm-4">
+                <input type="text" placeholder="State" name="state" class="form-control" autocomplete="address-level1">
               </div>
 
+              <label class="col-sm-6 control-label" for="zipcode">Postcode</label>
+              <div class="col-sm-6">
+                <input type="text" placeholder="Post Code" name="zipcode" class="form-control"
+                       autocomplete="postal-code">
+              </div>
             </div>
 
 
-            <!-- Drop Zone -->
-            <p> Drag and drop </p>
-            <div class="upload-drop-zone" id="drop-zone">
-
-              <img src=""/>
-
-            </div>
-
-
-
+            <!-- Text input-->
             <div class="form-group">
-              <div class="col-sm-offset-2 col-sm-10">
-                <div class="pull-right">
+              <label class="col-sm-2 control-label" for="country">Country</label>
+              <div class="col-sm-10">
+                <input type="text" placeholder="Country" name="country" class="form-control"
+                       autocomplete="country-name">
+              </div>
+            </div>
 
-                  <button type="submit" class="btn btn-primary">Submit Request</button>
+
+          </fieldset>
+        </div>
+      </div>
+
+
+      <div class="col-md-4 col-md-offset-4">
+        <div class="form-horizontal" role="form">
+          <fieldset>
+            <legend>School Logo</legend>
+            <div class="panel-body">
+
+
+              <div class="form-inline" id="js-upload-div">
+                <div class="form-group">
+
+                  <input type="file" name="school_logo" id="js-upload-file" accept="image/*" class="hidden_button">
+                </div>
+
+              </div>
+
+
+              <!-- Drop Zone -->
+              <p> Drag and drop </p>
+
+              <div class="upload-drop-zone" id="drop-zone">
+
+                <img src=""/>
+
+              </div>
+
+
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <div class="pull-right">
+
+                    <button type="submit" id="submitButton" class="btn btn-primary">Submit Request</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </fieldset>
+          </fieldset>
 
-      </form>
+        </div>
+      </div>
+
+
     </div>
-
-
-  </div>
-
+  </form>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
@@ -199,54 +204,51 @@
         crossorigin="anonymous"></script>
 <script>
     'use strict';
-    (function() {
+    (function () {
+        var data  = new FormData();
+
+
+        var submitButton = document.getElementById('submitButton');
+
+        var wholeForm = document.getElementById('new_school');
+        submitButton.onclick = function (e) {
+
+            e.preventDefault();
+            wholeForm.submit();
+            var self = this;
+            $('#toggleText').slideUp('fast', function () {
+
+            });
+        };
+
+
         var dropZone = document.getElementById('drop-zone');
         var preview = document.querySelector('img');
-        var uploadForm = document.getElementById('js-upload-div');
 
+        var inputImage = document.getElementById("js-upload-file");
 
         var startUpload = function (file_image) {
-
-            console.log(file_image);
             var reader = new FileReader();
             reader.onloadend = function () {
-                preview.src = reader.result
 
+                var image = new Image();
+                image.src = reader.result;
+                image.onload = function () {
+
+                    if ((image.width === 200) && (image.height === 200 )) {
+                        preview.src = reader.result;
+                        data.append(school_logo, image.src);
+
+                    }
+                    else {
+                        alert('Logo must be 200X200 px');
+                    }
+                };
             };
-
             reader.readAsDataURL(file_image);
-
 
         };
 
-        {##}
-        {#                var img = new Image();#}
-        {#                img.src = window.URL.createObjectURL(file_image);#}
-        {##}
-        {##}
-        {#                // as soon as the image has been loaded#}
-        {#                img.onload = function () {#}
-        {#                    var width = img.naturalWidth,#}
-        {#                        height = img.naturalHeight;#}
-        {##}
-        {#                    // unload it#}
-        {#                    window.URL.revokeObjectURL(img.src);#}
-        {##}
-        {#                    // check its dimensions#}
-        {#                    if (width == 200 && height == 200) {#}
-        {#                        // it fits#}
-        {#                        console.log('it fits')#}
-        {#                    } else {#}
-        {#                        // it doesn't fit, unset the value#}
-        {#                        // post an error#}
-        {#                        fileInput.value = ""#}
-        {#                        alert("only 200x200 images")#}
-        {#                    }#}
-        {#                };#}
-
-
-        {#                console.log(image)#}
-        {#            };#}
 
         dropZone.ondrop = function (ev) {
             ev.preventDefault();
@@ -263,14 +265,23 @@
                         startUpload(file)
                     }
                     else {
-                        alert('not an image');
+                        alert('File must be 200px X 200px image');
                         return;
                     }
                 }
             } else {
                 // Use DataTransfer interface to access the file(s)
                 for (var imageIndex = 0; imageIndex < ev.dataTransfer.files.length; imageIndex++) {
-                    console.log('... file[' + imageIndex + '].name = ' + ev.dataTransfer.files[imageIndex].name);
+                    if ((ev.dataTransfer.items[imageIndex].kind === 'file') &&
+                        (ev.dataTransfer.items[imageIndex].type.match('^image/'))) {
+                        var file = ev.dataTransfer.items[imageIndex].getAsFile();
+                        console.log(file);
+                        startUpload(file)
+                    }
+                    else {
+                        alert('not an image');
+                        return;
+                    }
                 }
             }
 

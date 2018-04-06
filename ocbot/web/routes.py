@@ -124,8 +124,17 @@ def random_lunch():
 def show_logs(variable):
     return handle_log_view(variable)
 
-@app.route("/new_school")
+@app.route("/new_school", methods=['POST', 'GET'])
 def show_new_school_route():
+    print('form')
+    print(request.form)
+    print('data')
+    print(request.data)
+    print('files')
+    print(request.files)
+    print('values')
+    print(request.values)
+
     return handle_code_school()
 
 @app.route('/options_load', methods=['POST'])
