@@ -1,6 +1,10 @@
-from flask import request, make_response, redirect, url_for, render_template, json
+from flask import request, make_response, redirect, url_for, render_template, json, jsonify
 import logging
 import threading
+from werkzeug.utils import secure_filename
+import os
+
+
 
 from ocbot.pipeline.slash_command_handlers.log_handlers import get_temporary_url, handle_log_view, can_view_logs
 from ocbot.pipeline.open_endpoints.handle_code_school import handle_code_school
@@ -124,16 +128,21 @@ def random_lunch():
 def show_logs(variable):
     return handle_log_view(variable)
 
-@app.route("/new_school", methods=['POST', 'GET'])
+@app.route("/add_code_school", methods=['POST'])
+def add_new_school():
+    try:
+        imagefile = request.files['school_logo']
+        if imagefile:
+            filename = 'test.png'
+            imagefile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+    except Exception as e:
+        print(e)
+    return jsonify({"redirect": 'https://github.com/OperationCode/operationcode_backend/issues', 'code':302})
+
+
+@app.route("/new_school", methods=['GET'])
 def show_new_school_route():
-    print('form')
-    print(request.form)
-    print('data')
-    print(request.data)
-    print('files')
-    print(request.files)
-    print('values')
-    print(request.values)
 
     return handle_code_school()
 

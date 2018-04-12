@@ -22,6 +22,8 @@ else:
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
+UPLOAD_FOLDER = r'C:\Users\wimo7\Desktop\code_con'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 if 'test-oc' not in os.environ:

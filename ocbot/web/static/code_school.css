@@ -26,3 +26,7 @@
 .hidden_button {
   opacity:0;
 }
+
+.checkbox {
+  border: 1px solid black;
+}

@@ -1,249 +1,280 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-  <meta charset="UTF-8">
-  <title>Code School Request</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Code School Request</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='code_school.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='code_school.css') }}">
+
 </head>
 <body>
 
 
 <div class="container border rounded top-buffer">
-  <form class="form-horizontal" role="form" id="new_school">
-    <div class="row">
-      <div class="col-md-4 col-md-offset-4">
+    <form class="form-horizontal" role="form" action="/add_code_school" method="post" id="new_school">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
 
-        <fieldset>
+                <fieldset>
 
-          <!-- Form Name -->
-          <legend>Code School</legend>
+                    <!-- Form Name -->
+                    <legend>Code School</legend>
 
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-10 control-label" for="school_name">What is your schools Name?</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="Name" name="school_name" class="form-control" autocomplete="name">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-10 control-label" for="school_url">What is your schools website?</label>
-            <div class="col-sm-10">
-              <input type="text" placeholder="Url" class="form-control" name="school_url">
-            </div>
-          </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="school_name">What is your schools Name?</label>
+                        <div class="col-sm-10">
+                            <input type="text" placeholder="Name" required name="school_name" class="form-control"
+                                   autocomplete="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="school_url">What is your schools website?</label>
+                        <div class="col-sm-10">
+                            <input placeholder="Url" required class="form-control" name="school_url">
+                        </div>
+                    </div>
 
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-10 control-label" for="school_fulltime">Is your school fulltime?</label>
-            <div class="col-sm-10">
-              <label class="radio-inline"><input type="radio" name="school_fulltime">No</label>
-              <label class="radio-inline"><input type="radio" name="school_fulltime">Yes</label>
-            </div>
-          </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="school_fulltime">Is your school fulltime?</label>
+                        <div class="col-sm-10">
 
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-10 control-label" for="school_hardware">Is hardware included?</label>
-            <div class="col-sm-10">
-              <label class="radio-inline"><input type="radio" name="school_hardware">No</label>
-              <label class="radio-inline"><input type="radio" name="school_hardware">Yes</label>
-            </div>
-          </div>
+                            <input type="checkbox" name="school_fulltime">
+                        </div>
+                    </div>
 
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-10 control-label" for="school_online">Do you offer online?</label>
-            <div class="col-sm-10">
-              <label class="radio-inline"><input type="radio" name="school_online">No</label>
-              <label class="radio-inline"><input type="radio" name="school_online">Yes</label>
-            </div>
-          </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="school_hardware">Is hardware included?</label>
+                        <div class="col-sm-10">
 
+                            <input type="checkbox" name="school_hardware">
+                        </div>
+                    </div>
 
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-10 control-label" for="school_only_online">Are you online only?</label>
-            <div class="col-sm-10">
-              <label class="radio-inline"><input type="radio" name="school_only_online">No</label>
-              <label class="radio-inline"><input type="radio" name="school_only_online">Yes</label>
-            </div>
-          </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="school_online">Do you offer online?</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" name="school_online">
 
-          <!-- Text input-->
-          <div class="form-group">
-            <label class="col-sm-10 control-label" for="school_va_approved">Are you VA accredited?</label>
-            <div class="col-sm-10">
-              <label class="radio-inline"><input type="radio" name="school_va_approved">No</label>
-              <label class="radio-inline"><input type="radio" name="school_va_approved">Yes</label>
-            </div>
-          </div>
+                        </div>
+                    </div>
 
 
-        </fieldset>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="school_only_online">Are you online only?</label>
+                        <div class="col-sm-10">
 
-      </div>
+                            <input type="checkbox" name="school_only_online">
+
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="school_va_approved">Are you VA accredited?</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" name="school_va_approved">
+
+                        </div>
+                    </div>
 
 
-      <div class="col-md-4 col-md-offset-4">
-        <div class="form-horizontal" role="form">
-          <fieldset>
+                </fieldset>
 
-            <!-- Form Name -->
-            <legend>Location Details</legend>
-
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="col-sm-10 control-label" for="address1">Address Line 1</label>
-              <div class="col-sm-10">
-                <input type="text" placeholder="Address Line 1" name=address1 class="form-control"
-                       autocomplete="address-line1">
-              </div>
-            </div>
-
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="col-sm-10 control-label" for="address2">Address Line 2</label>
-              <div class="col-sm-10">
-                <input type="text" placeholder="Address Line 2" name="address2" class="form-control"
-                       autocomplete="address-line2">
-              </div>
-            </div>
-
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="city">City</label>
-              <div class="col-sm-10">
-                <input type="text" placeholder="City" name="city" class="form-control" autocomplete="address-level2">
-              </div>
-            </div>
-
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="state">State</label>
-              <div class="col-sm-4">
-                <input type="text" placeholder="State" name="state" class="form-control" autocomplete="address-level1">
-              </div>
-
-              <label class="col-sm-6 control-label" for="zipcode">Postcode</label>
-              <div class="col-sm-6">
-                <input type="text" placeholder="Post Code" name="zipcode" class="form-control"
-                       autocomplete="postal-code">
-              </div>
             </div>
 
 
-            <!-- Text input-->
-            <div class="form-group">
-              <label class="col-sm-2 control-label" for="country">Country</label>
-              <div class="col-sm-10">
-                <input type="text" placeholder="Country" name="country" class="form-control"
-                       autocomplete="country-name">
-              </div>
-            </div>
+            <div class="col-md-4 col-md-offset-4">
+                <div class="form-horizontal" role="form">
+                    <fieldset>
+
+                        <!-- Form Name -->
+                        <legend>Contact Details</legend>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-10 control-label" for="rep_name">School Representative</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="name" name="rep_name" required class="form-control"
+                                       autocomplete="name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10 control-label" for="rep_email">Representative Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" placeholder="Email" name="rep_email" required class="form-control"
+                                       autocomplete="email">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10 control-label" for="address1">Address Line 1</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="Address Line 1" required name="address1"
+                                       class="form-control"
+                                       autocomplete="address-line1">
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-10 control-label" for="address2">Address Line 2</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="Address Line 2" name="address2" class="form-control"
+                                       autocomplete="address-line2">
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="city">City</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="City" required name="city" class="form-control"
+                                       autocomplete="address-level2">
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="state">State</label>
+                            <div class="col-sm-4">
+                                <input type="text" placeholder="State" name="state" class="form-control"
+                                       autocomplete="address-level1">
+                            </div>
+
+                            <label class="col-sm-6 control-label" for="zipcode">Postcode</label>
+                            <div class="col-sm-6">
+                                <input type="text" placeholder="Post Code" name="zipcode" class="form-control"
+                                       autocomplete="postal-code">
+                            </div>
+                        </div>
 
 
-          </fieldset>
-        </div>
-      </div>
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="country">Country</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="Country" name="country" class="form-control"
+                                       autocomplete="country-name">
+                            </div>
+                        </div>
 
 
-      <div class="col-md-4 col-md-offset-4">
-        <div class="form-horizontal" role="form">
-          <fieldset>
-            <legend>School Logo</legend>
-            <div class="panel-body">
-
-
-              <div class="form-inline" id="js-upload-div">
-                <div class="form-group">
-
-                  <input type="file" name="school_logo" id="js-upload-file" accept="image/*" class="hidden_button">
+                    </fieldset>
                 </div>
-
-              </div>
-
-
-              <!-- Drop Zone -->
-              <p> Drag and drop </p>
-
-              <div class="upload-drop-zone" id="drop-zone">
-
-                <img src=""/>
-
-              </div>
-
-
-              <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                  <div class="pull-right">
-
-                    <button type="submit" id="submitButton" class="btn btn-primary">Submit Request</button>
-                  </div>
-                </div>
-              </div>
             </div>
-          </fieldset>
+
+
+            <div class="col-md-4 col-md-offset-4">
+                <div class="form-horizontal" role="form">
+                    <fieldset>
+                        <legend>School Logo</legend>
+                        <div class="panel-body">
+
+
+                            <div class="form-inline" id="js-upload-div">
+                                <div class="form-group">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Drop Zone -->
+                            <p> Drag and drop </p>
+
+                            <div class="upload-drop-zone" id="drop-zone">
+
+                                <img src=""/>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <div class="pull-right">
+
+                                        <button type="submit" id="submitButton" class="btn btn-primary">Submit Request
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </div>
+            </div>
+
 
         </div>
-      </div>
-
-
-    </div>
-  </form>
+    </form>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-checkbox/1.5.0/js/bootstrap-checkbox.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-checkbox/1.5.0/js/bootstrap-checkbox.js"></script>
 <script>
     'use strict';
+
+
     (function () {
-        var data  = new FormData();
+
+        $(':checkbox').checkboxpicker();
+        $(':checkbox').prop('checked', true);
 
 
-        var submitButton = document.getElementById('submitButton');
-
-        var wholeForm = document.getElementById('new_school');
-        submitButton.onclick = function (e) {
-
-            e.preventDefault();
-            wholeForm.submit();
-            var self = this;
-            $('#toggleText').slideUp('fast', function () {
-
-            });
-        };
+        Array.from(document.querySelectorAll('form')).map(form => {
+            form.addEventListener('submit', submitViaAjax);
+            form.addEventListener('ajaxSubmitSuccess', (e) => console.log(e)
+            )
+        });
 
 
-        var dropZone = document.getElementById('drop-zone');
-        var preview = document.querySelector('img');
+        let data = new FormData();
+        let submitButton = document.getElementById('submitButton');
+        let dropZone = document.getElementById('drop-zone');
+        let preview = document.querySelector('img');
+        let inputImage = document.getElementById("js-upload-file");
 
-        var inputImage = document.getElementById("js-upload-file");
 
-        var startUpload = function (file_image) {
-            var reader = new FileReader();
+        let startUpload = function (file_image) {
+            let reader = new FileReader();
+
             reader.onloadend = function () {
 
-                var image = new Image();
+                let image = new Image();
                 image.src = reader.result;
+
+
                 image.onload = function () {
 
                     if ((image.width === 200) && (image.height === 200 )) {
                         preview.src = reader.result;
-                        data.append(school_logo, image.src);
+                        //data.append('school_logo', {uri: image.src, type: 'image', name: 'code_school'} );
+                        data.append('school_logo', file_image);
 
                     }
                     else {
                         alert('Logo must be 200X200 px');
                     }
+                    console.log(data.get('logo'))
                 };
+
+
             };
             reader.readAsDataURL(file_image);
 
@@ -256,12 +287,13 @@
 
             if (ev.dataTransfer.items) {
                 // Use DataTransferItemList interface to access the file(s)
-                for (var imageIndex = 0; imageIndex < ev.dataTransfer.items.length; imageIndex++) {
+                for (let imageIndex = 0; imageIndex < ev.dataTransfer.items.length; imageIndex++) {
                     // If dropped items aren't files, reject them
                     if ((ev.dataTransfer.items[imageIndex].kind === 'file') &&
                         (ev.dataTransfer.items[imageIndex].type.match('^image/'))) {
-                        var file = ev.dataTransfer.items[imageIndex].getAsFile();
-                        console.log(file);
+                        let file = ev.dataTransfer.items[imageIndex].getAsFile();
+
+
                         startUpload(file)
                     }
                     else {
@@ -271,11 +303,11 @@
                 }
             } else {
                 // Use DataTransfer interface to access the file(s)
-                for (var imageIndex = 0; imageIndex < ev.dataTransfer.files.length; imageIndex++) {
+                for (let imageIndex = 0; imageIndex < ev.dataTransfer.files.length; imageIndex++) {
                     if ((ev.dataTransfer.items[imageIndex].kind === 'file') &&
                         (ev.dataTransfer.items[imageIndex].type.match('^image/'))) {
-                        var file = ev.dataTransfer.items[imageIndex].getAsFile();
-                        console.log(file);
+                        let file = ev.dataTransfer.items[imageIndex].getAsFile();
+
                         startUpload(file)
                     }
                     else {
@@ -296,7 +328,25 @@
             this.className = 'upload-drop-zone';
             return false;
         };
+        function submitViaAjax(e) {
+            e.preventDefault();
+            const form = e.target;
 
+            {#            if#}
+            console.log('submitted');
+
+            let newForm = new FormData(form)
+            newForm.append('school_logo', data.get('school_logo'));
+            fetch(form.action, {
+                method: form.attributes.method.value,
+                body: newForm
+            }).then((response) => {
+                return response.json();
+            }).then((data)=>{
+
+                window.location.replace(data['redirect'])
+            })
+        }
 
     })();
 
