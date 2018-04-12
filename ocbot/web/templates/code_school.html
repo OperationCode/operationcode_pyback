@@ -147,13 +147,13 @@
                         <!-- Text input-->
                         <div class="form-group">
                             <label class="col-sm-2 control-label" for="state">State</label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-10">
                                 <input type="text" placeholder="State" name="state" class="form-control"
                                        autocomplete="address-level1">
                             </div>
 
                             <label class="col-sm-6 control-label" for="zipcode">Postcode</label>
-                            <div class="col-sm-6">
+                            <div class="col-sm-10">
                                 <input type="text" placeholder="Post Code" name="zipcode" class="form-control"
                                        autocomplete="postal-code">
                             </div>
@@ -233,14 +233,13 @@
 
     (function () {
 
-        $(':checkbox').checkboxpicker();
-        $(':checkbox').prop('checked', true);
+        $(':checkbox').checkboxpicker().prop('checked',true);
+
 
 
         Array.from(document.querySelectorAll('form')).map(form => {
             form.addEventListener('submit', submitViaAjax);
-            form.addEventListener('ajaxSubmitSuccess', (e) => console.log(e)
-            )
+
         });
 
 
@@ -248,7 +247,6 @@
         let submitButton = document.getElementById('submitButton');
         let dropZone = document.getElementById('drop-zone');
         let preview = document.querySelector('img');
-        let inputImage = document.getElementById("js-upload-file");
 
 
         let startUpload = function (file_image) {
@@ -258,8 +256,6 @@
 
                 let image = new Image();
                 image.src = reader.result;
-
-
                 image.onload = function () {
 
                     if ((image.width === 200) && (image.height === 200 )) {
@@ -273,8 +269,6 @@
                     }
                     console.log(data.get('logo'))
                 };
-
-
             };
             reader.readAsDataURL(file_image);
 
@@ -331,22 +325,46 @@
         function submitViaAjax(e) {
             e.preventDefault();
             const form = e.target;
-
-            {#            if#}
             console.log('submitted');
 
-            let newForm = new FormData(form)
+            let newForm = new FormData(form);
             newForm.append('school_logo', data.get('school_logo'));
             fetch(form.action, {
                 method: form.attributes.method.value,
                 body: newForm
             }).then((response) => {
                 return response.json();
-            }).then((data)=>{
-
+            }).then((data) => {
                 window.location.replace(data['redirect'])
             })
         }
+
+        let dropzoneId = "drop-zone";
+
+        window.addEventListener("dragenter", function (e) {
+            if (e.target.id !== dropzoneId) {
+                e.preventDefault();
+                e.dataTransfer.effectAllowed = "none";
+                e.dataTransfer.dropEffect = "none";
+            }
+        }, false);
+
+        window.addEventListener("dragover", function (e) {
+            if (e.target.id !== dropzoneId) {
+                e.preventDefault();
+                e.dataTransfer.effectAllowed = "none";
+                e.dataTransfer.dropEffect = "none";
+            }
+        });
+
+        window.addEventListener("drop", function (e) {
+            if (e.target.id !== dropzoneId) {
+                e.preventDefault();
+                e.dataTransfer.effectAllowed = "none";
+                e.dataTransfer.dropEffect = "none";
+            }
+        });
+
 
     })();
 
