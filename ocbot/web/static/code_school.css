@@ -4,29 +4,38 @@
 
 /* layout.css Style */
 .upload-drop-zone {
-  height: 205px;
-  width: 205px;
-  border-width: 2px;
-  margin-bottom: 20px;
+    height: 205px;
+    width: 205px;
+    border-width: 2px;
+    margin-bottom: 20px;
 }
 
 /* skin.css Style*/
 .upload-drop-zone {
-  color: #ccc;
-  border-style: dashed;
-  border-color: #ccc;
-  line-height: 200px;
-  text-align: center
+    color: #ccc;
+    border-style: dashed;
+    border-color: black;
+    line-height: 200px;
+    text-align: center
 }
+
 .upload-drop-zone.drop {
-  color: #222;
-  border-color: #222;
+    color: #222;
+    border-color: #222;
 }
 
 .hidden_button {
-  opacity:0;
+    opacity: 0;
 }
 
-.checkbox {
-  border: 1px solid black;
+.btn-group {
+    border: 1px solid black; border-radius: 4px;
+}
+
+.upload-drop-zone {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 }
