@@ -194,7 +194,7 @@
                             <p> Drag and drop </p>
 
                             <div class="upload-drop-zone" id="drop-zone">
-
+                                Drop here.
                                 <img src=""/>
 
                             </div>
@@ -259,13 +259,14 @@
                 image.onload = function () {
 
                     if ((image.width === 200) && (image.height === 200 )) {
+                        dropZone.firstChild.nodeValue = '';
                         preview.src = reader.result;
                         //data.append('school_logo', {uri: image.src, type: 'image', name: 'code_school'} );
                         data.append('school_logo', file_image);
 
                     }
                     else {
-                        alert('Logo must be 200X200 px');
+
                     }
                     console.log(data.get('logo'))
                 };
