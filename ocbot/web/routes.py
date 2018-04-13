@@ -1,5 +1,8 @@
 from flask import request, make_response, redirect, url_for, render_template, json, jsonify, send_file, \
     after_this_request
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
 import logging
 import threading
 import os
@@ -7,7 +10,7 @@ import os
 from werkzeug.datastructures import FileStorage
 
 from ocbot.pipeline.slash_command_handlers.log_handlers import get_temporary_url, handle_log_view, can_view_logs
-from ocbot.pipeline.web_api_handlers.handle_code_school import handle_code_school, create_issue
+from ocbot.pipeline.web_api_handlers.handle_code_school import handle_code_school, handle_recaptcha_and_errors
 from ocbot.pipeline.slash_command_handlers.lunch_handler import create_lunch_event
 from ocbot.pipeline.slash_command_handlers.testgreet_handler import can_test, create_testgreet_event
 from ocbot.web.route_decorators import validate_response, url_verification
@@ -20,6 +23,15 @@ VERIFICATION_TOKEN = configs['VERIFICATION_TOKEN']
 logger = logging.getLogger(__name__)
 logger.level = logging.DEBUG
 
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"]
+)
+
+@limiter.request_filter
+def ip_whitelist():
+    return request.remote_addr in [ "127.0.0.1", "localhost"]
 
 @app.route('/event_endpoint', methods=['POST'])
 @url_verification
@@ -135,6 +147,7 @@ def show_logs(variable):
 
 
 @app.route("/add_code_school", methods=['POST'])
+@limiter.limit("5/hour;1/minute")
 def add_new_school():
     imagefile: FileStorage
 
@@ -149,11 +162,10 @@ def add_new_school():
 
     if not imagefile:
         return ''
-    res = create_issue(request.form, imagefile.filename, url_root=request.url_root)
-    if res.status_code == 201:
-        print(res.url)
-        return jsonify({"redirect": 'https://github.com/AllenAnthes/Database-Project-Front-end/issues', 'code': 302})
-    return ''
+
+    return handle_recaptcha_and_errors(request, imagefile)
+
+
 
 
 @app.route('/images/<filename>')
