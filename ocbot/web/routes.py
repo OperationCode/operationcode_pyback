@@ -1,13 +1,13 @@
-from flask import request, make_response, redirect, url_for, render_template, json, jsonify
+from flask import request, make_response, redirect, url_for, render_template, json, jsonify, send_file, \
+    after_this_request
 import logging
 import threading
-from werkzeug.utils import secure_filename
 import os
 
-
+from werkzeug.datastructures import FileStorage
 
 from ocbot.pipeline.slash_command_handlers.log_handlers import get_temporary_url, handle_log_view, can_view_logs
-from ocbot.pipeline.open_endpoints.handle_code_school import handle_code_school
+from ocbot.pipeline.web_api_handlers.handle_code_school import handle_code_school, create_issue
 from ocbot.pipeline.slash_command_handlers.lunch_handler import create_lunch_event
 from ocbot.pipeline.slash_command_handlers.testgreet_handler import can_test, create_testgreet_event
 from ocbot.web.route_decorators import validate_response, url_verification
@@ -69,6 +69,11 @@ def zap_endpoint():
     return make_response('', 200)
 
 
+@app.route("/new_code_school")
+def new_code_school():
+    data = request.get_json()
+
+
 @app.route('/test/testgreet', methods=['POST'])
 @validate_response('token', VERIFICATION_TOKEN, 'values')
 def test_greet():
@@ -128,23 +133,50 @@ def random_lunch():
 def show_logs(variable):
     return handle_log_view(variable)
 
+
 @app.route("/add_code_school", methods=['POST'])
 def add_new_school():
+    imagefile: FileStorage
+
     try:
         imagefile = request.files['school_logo']
         if imagefile:
-            filename = 'test.png'
-            imagefile.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            filename = os.path.join(app.config['UPLOAD_FOLDER'], imagefile.filename)
+            imagefile.save(filename)
 
     except Exception as e:
         print(e)
-    return jsonify({"redirect": 'https://github.com/OperationCode/operationcode_backend/issues', 'code':302})
+
+    if not imagefile:
+        return ''
+    res = create_issue(request.form, imagefile.filename, url_root=request.url_root)
+    if res.status_code == 201:
+        print(res.url)
+        return jsonify({"redirect": 'https://github.com/AllenAnthes/Database-Project-Front-end/issues', 'code': 302})
+    return ''
+
+
+@app.route('/images/<filename>')
+def get_image(filename):
+    filepath = os.path.join('web', 'imageStore', filename)
+    file_handle = open(os.path.join('ocbot', filepath), 'r')
+
+    @after_this_request
+    def remove_file(response):
+        try:
+            os.remove(os.path.join('ocbot', filepath))
+            file_handle.close()
+        except Exception as error:
+            app.logger.error("Error removing or closing downloaded file handle", error)
+        return response
+
+    return send_file(filepath)
 
 
 @app.route("/new_school", methods=['GET'])
 def show_new_school_route():
-
     return handle_code_school()
+
 
 @app.route('/options_load', methods=['POST'])
 def options_route():
