@@ -7,6 +7,8 @@ from config.configs import configs
 
 
 recaptcha_secret = configs['recaptcha_secret']
+github_jwt = configs['github_jwt']
+
 
 def handle_code_school():
     return render_template("code_school.html")
@@ -39,7 +41,7 @@ def handle_recaptcha_and_errors(request, imagefile):
 
 def create_issue(request_dict, logo, url_root):
     url = 'https://api.github.com/repos/AllenAnthes/Database-Project-Front-end/issues'
-    headers = {"Authorization": "Bearer 8328d8749e5a0ff817f60e97ee05c895e4e270a8"}
+    headers = {"Authorization": f"Bearer {github_jwt}"}
 
     params = make_params(**request_dict, url_root=url_root, school_logo=logo)
     pprint.pprint(params)
