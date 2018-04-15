@@ -21,4 +21,3 @@ ocbot/resources/help_menu.json
 !.elasticbeanstalk/*.global.yml
 .elasticbeanstalk/
 migrations/
-logs/*
