@@ -1,7 +1,7 @@
 container_commands:
  00fix_permissions_dirs:
-  command: "find . -type d -exec chmod 755 {}"
+  command: "find . -type d -exec chmod 777 {}"
   ignoreErrors: true
  01fix_permissions_files:
-  command: "find . -type f -exec chmod 644 {}"
+  command: "find . -type f -exec chmod 777 {}"
   ignoreErrors: true
