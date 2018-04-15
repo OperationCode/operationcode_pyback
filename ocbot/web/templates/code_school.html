@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Code School Request</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='code_school.css') }}">
+<script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+<body>
+
+
+<div class="container border rounded top-buffer">
+    <form class="form-horizontal" role="form" action="/add_code_school" method="post" id="new_school">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+
+                <fieldset>
+
+                    <!-- Form Name -->
+                    <legend>Code School</legend>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="name">What is your schools Name?</label>
+                        <div class="col-sm-10">
+                            <input type="text" placeholder="Name" required name="name" class="form-control"
+                                   autocomplete="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="url">What is your schools website?</label>
+                        <div class="col-sm-10">
+                            <input placeholder="Url" required class="form-control" name="url">
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="fulltime">Is your school fulltime?</label>
+                        <div class="col-sm-10">
+
+                            <input type="checkbox" name="fulltime">
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="hardware">Is hardware included?</label>
+                        <div class="col-sm-10">
+
+                            <input type="checkbox" name="hardware">
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="has_online">Do you offer online?</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" name="has_online">
+
+                        </div>
+                    </div>
+
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="online_only">Are you online only?</label>
+                        <div class="col-sm-10">
+
+                            <input type="checkbox" name="online_only">
+
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="va_accepted">Are you VA accredited?</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" name="va_accepted">
+
+                        </div>
+                    </div>
+
+
+                </fieldset>
+
+            </div>
+
+
+            <div class="col-md-4 col-md-offset-4">
+                <div class="form-horizontal" role="form">
+                    <fieldset>
+
+                        <!-- Form Name -->
+                        <legend>Contact Details</legend>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-10 control-label" for="rep_name">School Representative</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="name" name="rep_name" required class="form-control"
+                                       autocomplete="name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10 control-label" for="rep_email">Representative Email</label>
+                            <div class="col-sm-10">
+                                <input type="email" placeholder="Email" name="rep_email" required class="form-control"
+                                       autocomplete="email">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-10 control-label" for="address1">Address Line 1</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="Address Line 1" required name="address1"
+                                       class="form-control"
+                                       autocomplete="address-line1">
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-10 control-label" for="address2">Address Line 2</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="Address Line 2" name="address2" class="form-control"
+                                       autocomplete="address-line2">
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="city">City</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="City" required name="city" class="form-control"
+                                       autocomplete="address-level2">
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="state">State</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="State" name="state" class="form-control"
+                                       autocomplete="address-level1">
+                            </div>
+
+                            <label class="col-sm-6 control-label" for="zipcode">Postcode</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="Post Code" name="zipcode" class="form-control"
+                                       autocomplete="postal-code">
+                            </div>
+                        </div>
+
+
+                        <!-- Text input-->
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="country">Country</label>
+                            <div class="col-sm-10">
+                                <input type="text" placeholder="Country" name="country" class="form-control"
+                                       autocomplete="country-name">
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+                </div>
+            </div>
+
+
+            <div class="col-md-4 col-md-offset-4">
+                <div class="form-horizontal" role="form">
+                    <fieldset>
+                        <legend>School Logo</legend>
+                        <div class="panel-body">
+
+
+                            <div class="form-inline" id="js-upload-div">
+                                <div class="form-group">
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Drop Zone -->
+                            <p> Drag and drop </p>
+
+                            <div class="upload-drop-zone" id="drop-zone">
+
+                                <img src=""/>
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <div class="pull-right">
+
+                                        <button type="submit" id="submitButton" class="btn btn-primary">Submit Request
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+<div class="g-recaptcha" data-sitekey="6LdU8VIUAAAAAHAUlr8_NveDjk7sKWWsvcAYhMVm"></div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.5/umd/popper.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-checkbox/1.5.0/js/bootstrap-checkbox.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-checkbox/1.5.0/js/bootstrap-checkbox.js"></script>
+<script>
+    'use strict';
+
+
+    (function () {
+
+        $(':checkbox').checkboxpicker().prop('checked',true);
+
+
+
+        Array.from(document.querySelectorAll('form')).map(form => {
+            form.addEventListener('submit', submitViaAjax);
+
+        });
+
+
+        let data = new FormData();
+        let submitButton = document.getElementById('submitButton');
+        let dropZone = document.getElementById('drop-zone');
+        let preview = document.querySelector('img');
+
+
+        let startUpload = function (file_image) {
+            let reader = new FileReader();
+
+            reader.onloadend = function () {
+
+                let image = new Image();
+                image.src = reader.result;
+                image.onload = function () {
+
+                    if ((image.width === 200) && (image.height === 200 )) {
+                        preview.src = reader.result;
+                        //data.append('school_logo', {uri: image.src, type: 'image', name: 'code_school'} );
+                        data.append('school_logo', file_image);
+
+                    }
+                    else {
+                        alert('Logo must be 200X200 px');
+                    }
+                    console.log(data.get('logo'))
+                };
+            };
+            reader.readAsDataURL(file_image);
+
+        };
+
+
+        dropZone.ondrop = function (ev) {
+            ev.preventDefault();
+            this.className = 'upload-drop-zone';
+
+            if (ev.dataTransfer.items) {
+                // Use DataTransferItemList interface to access the file(s)
+                for (let imageIndex = 0; imageIndex < ev.dataTransfer.items.length; imageIndex++) {
+                    // If dropped items aren't files, reject them
+                    if ((ev.dataTransfer.items[imageIndex].kind === 'file') &&
+                        (ev.dataTransfer.items[imageIndex].type.match('^image/'))) {
+                        let file = ev.dataTransfer.items[imageIndex].getAsFile();
+
+
+                        startUpload(file)
+                    }
+                    else {
+                        alert('File must be 200px X 200px image');
+                        return;
+                    }
+                }
+            } else {
+                // Use DataTransfer interface to access the file(s)
+                for (let imageIndex = 0; imageIndex < ev.dataTransfer.files.length; imageIndex++) {
+                    if ((ev.dataTransfer.items[imageIndex].kind === 'file') &&
+                        (ev.dataTransfer.items[imageIndex].type.match('^image/'))) {
+                        let file = ev.dataTransfer.items[imageIndex].getAsFile();
+
+                        startUpload(file)
+                    }
+                    else {
+                        alert('not an image');
+                        return;
+                    }
+                }
+            }
+
+        };
+
+        dropZone.ondragover = function () {
+            this.className = 'upload-drop-zone drop';
+            return false;
+        };
+
+        dropZone.ondragleave = function () {
+            this.className = 'upload-drop-zone';
+            return false;
+        };
+        function submitViaAjax(e) {
+            e.preventDefault();
+            const form = e.target;
+            console.log('submitted');
+
+            let newForm = new FormData(form);
+            newForm.append('school_logo', data.get('school_logo'));
+            fetch(form.action, {
+                method: form.attributes.method.value,
+                body: newForm
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                window.location.replace(data['redirect'])
+            })
+        }
+
+        let dropzoneId = "drop-zone";
+
+        window.addEventListener("dragenter", function (e) {
+            if (e.target.id !== dropzoneId) {
+                e.preventDefault();
+                e.dataTransfer.effectAllowed = "none";
+                e.dataTransfer.dropEffect = "none";
+            }
+        }, false);
+
+        window.addEventListener("dragover", function (e) {
+            if (e.target.id !== dropzoneId) {
+                e.preventDefault();
+                e.dataTransfer.effectAllowed = "none";
+                e.dataTransfer.dropEffect = "none";
+            }
+        });
+
+        window.addEventListener("drop", function (e) {
+            if (e.target.id !== dropzoneId) {
+                e.preventDefault();
+                e.dataTransfer.effectAllowed = "none";
+                e.dataTransfer.dropEffect = "none";
+            }
+        });
+
+
+    })();
+
+    // UPLOAD CLASS DEFINITION
+    // ======================
+
+
+</script>
+</body>
+</html>

@@ -1,8 +1,16 @@
-from flask import request, make_response, redirect, url_for, render_template, json
+from flask import request, make_response, redirect, url_for, render_template, json, jsonify, send_file, \
+    after_this_request
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
 import logging
 import threading
+import os
+
+from werkzeug.datastructures import FileStorage
 
 from ocbot.pipeline.slash_command_handlers.log_handlers import get_temporary_url, handle_log_view, can_view_logs
+from ocbot.pipeline.web_api_handlers.handle_code_school import handle_code_school, handle_recaptcha_and_errors
 from ocbot.pipeline.slash_command_handlers.lunch_handler import create_lunch_event
 from ocbot.pipeline.slash_command_handlers.testgreet_handler import can_test, create_testgreet_event
 from ocbot.web.route_decorators import validate_response, url_verification
@@ -14,6 +22,17 @@ VERIFICATION_TOKEN = configs['VERIFICATION_TOKEN']
 
 logger = logging.getLogger(__name__)
 logger.level = logging.DEBUG
+
+limiter = Limiter(
+    app,
+    key_func=get_remote_address,
+    default_limits=["200 per day", "50 per hour"]
+)
+
+
+@limiter.request_filter
+def ip_whitelist():
+    return request.remote_addr in ["127.0.0.1", "localhost"]
 
 
 @app.route('/event_endpoint', methods=['POST'])
@@ -62,6 +81,11 @@ def zap_endpoint():
                      kwargs={'json_data': data, 'route_id': 'new_airtable_request'}).start()
     # RoutingHandler(data, route_id="new_airtable_request")
     return make_response('', 200)
+
+
+@app.route("/new_code_school")
+def new_code_school():
+    data = request.get_json()
 
 
 @app.route('/test/testgreet', methods=['POST'])
@@ -122,6 +146,49 @@ def random_lunch():
 @app.route("/logs/<variable>")
 def show_logs(variable):
     return handle_log_view(variable)
+
+
+@app.route("/add_code_school", methods=['POST'])
+@limiter.limit("5/hour;1/minute")
+def add_new_school():
+    imagefile: FileStorage
+
+    try:
+        imagefile = request.files['school_logo']
+        if imagefile:
+            filename = os.path.join(app.config['UPLOAD_FOLDER'], imagefile.filename)
+            imagefile.save(filename)
+
+    except Exception as e:
+        print(e)
+
+    if not imagefile:
+        return ''
+
+    return handle_recaptcha_and_errors(request, imagefile)
+
+
+@app.route('/images/<filename>')
+def get_image(filename):
+    filepath = os.path.join('web', 'imageStore', filename)
+    file_handle = open(os.path.join('ocbot', filepath), 'r')
+
+    @after_this_request
+    def remove_file(response):
+        try:
+            os.remove(os.path.join('ocbot', filepath))
+            file_handle.close()
+
+        except Exception as error:
+            app.logger.error("Error removing or closing downloaded file handle", error)
+        return response
+
+    return send_file(filepath)
+
+
+@app.route("/new_school", methods=['GET'])
+def show_new_school_route():
+    return handle_code_school()
 
 
 @app.route('/options_load', methods=['POST'])
