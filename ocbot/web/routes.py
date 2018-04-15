@@ -29,9 +29,11 @@ limiter = Limiter(
     default_limits=["200 per day", "50 per hour"]
 )
 
+
 @limiter.request_filter
 def ip_whitelist():
-    return request.remote_addr in [ "127.0.0.1", "localhost"]
+    return request.remote_addr in ["127.0.0.1", "localhost"]
+
 
 @app.route('/event_endpoint', methods=['POST'])
 @url_verification
@@ -166,8 +168,6 @@ def add_new_school():
     return handle_recaptcha_and_errors(request, imagefile)
 
 
-
-
 @app.route('/images/<filename>')
 def get_image(filename):
     filepath = os.path.join('web', 'imageStore', filename)
@@ -178,6 +178,7 @@ def get_image(filename):
         try:
             os.remove(os.path.join('ocbot', filepath))
             file_handle.close()
+
         except Exception as error:
             app.logger.error("Error removing or closing downloaded file handle", error)
         return response

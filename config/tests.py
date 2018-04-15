@@ -17,9 +17,11 @@ DB_DIALECT = config('DEV_DB_DIALECT', default='sqlite')
 DB_ADDR = config('DEV_DB_ADDR', default='dev.db')
 DB_NAME = config('DEV_DB_NAME', default='')
 
-
 PA_SSH_USERNAME = config('PA_SSH_USERNAME', default=None)
 PA_SSH_PASSWORD = config('PA_SSH_PASSWORD', default=None)
 PA_SSH_URL = config('PA_SSH_URL', default=None)
 PA_SSH_REMOTE_BIND_ADDR = config('PA_PG_IP_ADDR', cast=str, default=None)
 PA_SSH_REMOTE_BIND_PORT = config('PA_PG_PORT', cast=int, default=0)
+
+RECAPTCHA_SECRET = 'secret'
+GITHUB_JWT = 'jwt'

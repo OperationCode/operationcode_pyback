@@ -5,9 +5,8 @@ from flask import render_template, jsonify
 import requests
 from config.configs import configs
 
-
-recaptcha_secret = configs['recaptcha_secret']
-github_jwt = configs['github_jwt']
+recaptcha_secret = configs['RECAPTCHA_SECRET']
+github_jwt = configs['GITHUB_JWT']
 
 
 def handle_code_school():
@@ -15,15 +14,12 @@ def handle_code_school():
 
 
 def verify_recaptcha(ip_value, recaptcha_value):
-
     req = requests.post('https://www.google.com/recaptcha/api/siteverify',
                         data={'secret': recaptcha_secret,
                               'response': recaptcha_value,
                               'remoteip': ip_value})
 
     return req.json().get('success', False)
-
-
 
 
 def handle_recaptcha_and_errors(request, imagefile):

@@ -23,3 +23,6 @@ PA_SSH_PASSWORD = config('PA_SSH_PASSWORD', default=None)
 PA_SSH_URL = config('PA_SSH_URL', default=None)
 PA_SSH_REMOTE_BIND_ADDR = config('PA_PG_IP_ADDR', cast=str, default=None)
 PA_SSH_REMOTE_BIND_PORT = config('PA_PG_PORT', cast=int, default=0)
+
+RECAPTCHA_SECRET = config('RECAPTCHA_SECRET')
+GITHUB_JWT = config('GITHUB_JWT')

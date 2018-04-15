@@ -56,10 +56,10 @@ def build_response_text(loc_dict):
 
 
 def create_lunch_event(request):
-    param_dict = create_lunch_eventt = split_params(request.get('text'))
+    param_dict = split_params(request.get('text'))
     params = (
-        ('zip', f'{param_dict["location"]}^'),
-        ('query', 'lunch^'),
+        ('zip', f'{param_dict["location"]}'),
+        ('query', 'lunch'),
         ('radius', f'{param_dict["range"]}'),
     )
     response = requests.get('https://wheelof.com/lunch/yelpProxyJSON.php', params=params)
