@@ -36,7 +36,5 @@ if os.environ['CONFIG_FILE'] == 'development.py':
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-
-
 from ocbot.web import routes
 from ocbot.database import models_flask
