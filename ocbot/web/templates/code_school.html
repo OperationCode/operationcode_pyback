@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='code_school.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/code_school.css') }}">
     <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
@@ -88,11 +88,20 @@
                         </div>
                     </div>
 
-                         <!-- Text input-->
+                    <!-- Text input-->
                     <div class="form-group">
                         <label class="col-sm-10 control-label" for="with_housing">Do you include housing?</label>
                         <div class="col-sm-10">
                             <input type="checkbox" name="with_housing">
+
+                        </div>
+                    </div>
+
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="is_mooc">Is your school MOOC only?</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" name="is_mooc">
 
                         </div>
                     </div>
@@ -203,8 +212,8 @@
                             <p> Drag and drop </p>
 
                             <div class="upload-drop-zone" id="drop-zone">
-                                Drop here.
-                                <img src=""/>
+                                <div id="drop-text">Drop Image here.</div>
+                                <img id="drop-image" src=""/>
 
                             </div>
 
@@ -241,4 +250,3 @@
 </body>
 </html>
 
-href="{{ url_for('static', filename='code_school.css') }}"

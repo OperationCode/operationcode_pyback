@@ -11,32 +11,48 @@
 
     });
 
+    function submitViaAjax(e) {
+        e.preventDefault();
+        const form = e.target;
 
-    let data = new FormData();
-    let submitButton = document.getElementById('submitButton');
-    let dropZone = document.getElementById('drop-zone');
-    let preview = document.querySelector('img');
+
+        let newForm = new FormData(form);
+        newForm.append('school_logo', data.get('school_logo'));
+        fetch(form.action, {
+            method: form.attributes.method.value,
+            body: newForm
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            window.location.replace(data['redirect'])
+        })
+    }
+
+    const data = new FormData();
+    const submitButton = document.getElementById('submitButton');
+    const dropZone = document.getElementById('drop-zone');
+    const preview = document.querySelector('img');
 
 
     let startUpload = function (file_image) {
         let reader = new FileReader();
 
-        reader.onloadend = function () {
-
+        reader.onloadend = () => {
             let image = new Image();
             image.src = reader.result;
             image.onload = function () {
 
+
                 if ((image.width === 200) && (image.height === 200 )) {
                     preview.src = reader.result;
-                    //data.append('school_logo', {uri: image.src, type: 'image', name: 'code_school'} );
                     data.append('school_logo', file_image);
-
+                    adjustDropText('', 'hidden');
                 }
                 else {
-                    alert('Logo must be 200X200 px');
+                    preview.src = '';
+
+                    adjustDropText('Logo must be 200x200 px and less than 500kb', 'errorClass');
                 }
-                console.log(data.get('logo'))
             };
         };
         reader.readAsDataURL(file_image);
@@ -44,10 +60,33 @@
     };
 
 
+    const adjustDropText = (newText, newClass) => {
+
+
+        let dropTextElement = document.getElementById("drop-text");
+
+
+        dropTextElement.innerHTML = newText;
+        if (newClass === 'hidden') {
+
+
+            dropTextElement.classList.add('visuallyhidden');
+            preview.classList.remove('visuallyhidden');
+
+        }
+        else {
+            dropTextElement.classList.remove('visuallyhidden');
+            preview.classList.add('visuallyhidden');
+            dropTextElement.classList.add(newClass);
+
+        }
+    };
+
+
     dropZone.ondrop = function (ev) {
         ev.preventDefault();
         this.className = 'upload-drop-zone';
-
+        console.log('dropped even handler')
         if (ev.dataTransfer.items) {
             // Use DataTransferItemList interface to access the file(s)
             for (let imageIndex = 0; imageIndex < ev.dataTransfer.items.length; imageIndex++) {
@@ -55,13 +94,10 @@
                 if ((ev.dataTransfer.items[imageIndex].kind === 'file') &&
                     (ev.dataTransfer.items[imageIndex].type.match('^image/'))) {
                     let file = ev.dataTransfer.items[imageIndex].getAsFile();
-
-
                     startUpload(file)
                 }
                 else {
-                    alert('File must be 200px X 200px image');
-                    return;
+                    adjustDropText('Logo must be 200x200 px and less than 500kb', 'errorClass');
                 }
             }
         } else {
@@ -74,8 +110,7 @@
                     startUpload(file)
                 }
                 else {
-                    alert('not an image');
-                    return;
+                    adjustDropText('Logo must be 200x200 px and less than 500kb', 'errorClass');
                 }
             }
         }
@@ -91,27 +126,11 @@
         this.className = 'upload-drop-zone';
         return false;
     };
-    function submitViaAjax(e) {
-        e.preventDefault();
-        const form = e.target;
-        console.log('submitted');
 
-        let newForm = new FormData(form);
-        newForm.append('school_logo', data.get('school_logo'));
-        fetch(form.action, {
-            method: form.attributes.method.value,
-            body: newForm
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            window.location.replace(data['redirect'])
-        })
-    }
-
-    let dropzoneId = "drop-zone";
+    const dropableDomElements = ['drop-text', 'drop-zone', 'drop-image']
 
     window.addEventListener("dragenter", function (e) {
-        if (e.target.id !== dropzoneId) {
+        if (!dropableDomElements.includes(e.target.id)) {
             e.preventDefault();
             e.dataTransfer.effectAllowed = "none";
             e.dataTransfer.dropEffect = "none";
@@ -119,7 +138,7 @@
     }, false);
 
     window.addEventListener("dragover", function (e) {
-        if (e.target.id !== dropzoneId) {
+        if (!dropableDomElements.includes(e.target.id)) {
             e.preventDefault();
             e.dataTransfer.effectAllowed = "none";
             e.dataTransfer.dropEffect = "none";
@@ -127,7 +146,7 @@
     });
 
     window.addEventListener("drop", function (e) {
-        if (e.target.id !== dropzoneId) {
+        if (!dropableDomElements.includes(e.target.id)) {
             e.preventDefault();
             e.dataTransfer.effectAllowed = "none";
             e.dataTransfer.dropEffect = "none";
