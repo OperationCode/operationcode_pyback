@@ -80,6 +80,8 @@ def make_params(name, url, address1, address2, city, state, zipcode, country, re
             f"rep name: {rep_name}\n"
             f"rep email: {rep_email}\n"
             f"logo:\n ![school-logo]({url_root}images/{school_logo})\n"
+            
+            'This code school is ready to be added/updated:\n'
             # f"logo: ![school-logo](https://pybot.ngrok.io/images/{school_logo})\n"
             f"{notify_users}\n"
 
