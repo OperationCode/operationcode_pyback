@@ -1,6 +1,10 @@
 # remove pycharm ide files
 .idea/
 
+# remove virtualenv folders
+
+venv/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
