@@ -86,7 +86,7 @@
     dropZone.ondrop = function (ev) {
         ev.preventDefault();
         this.className = 'upload-drop-zone';
-        console.log('dropped even handler')
+
         if (ev.dataTransfer.items) {
             // Use DataTransferItemList interface to access the file(s)
             for (let imageIndex = 0; imageIndex < ev.dataTransfer.items.length; imageIndex++) {
