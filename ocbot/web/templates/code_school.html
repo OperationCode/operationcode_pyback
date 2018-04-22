@@ -10,7 +10,7 @@
 
 
     <link rel="stylesheet" href="{{ url_for('static', filename='code_school.css') }}">
-<script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
 
@@ -18,6 +18,7 @@
 <div class="container border rounded top-buffer">
     <form class="form-horizontal" role="form" action="/add_code_school" method="post" id="new_school">
         <div class="row">
+            {#            code school status and representative contact information #}
             <div class="col-md-4 col-md-offset-4">
 
                 <fieldset>
@@ -87,12 +88,20 @@
                         </div>
                     </div>
 
+                         <!-- Text input-->
+                    <div class="form-group">
+                        <label class="col-sm-10 control-label" for="with_housing">Do you include housing?</label>
+                        <div class="col-sm-10">
+                            <input type="checkbox" name="with_housing">
+
+                        </div>
+                    </div>
 
                 </fieldset>
 
             </div>
 
-
+            {#School contact details section #}
             <div class="col-md-4 col-md-offset-4">
                 <div class="form-horizontal" role="form">
                     <fieldset>
@@ -165,7 +174,7 @@
                             <label class="col-sm-2 control-label" for="country">Country</label>
                             <div class="col-sm-10">
                                 <input type="text" placeholder="Country" name="country" class="form-control"
-                                       autocomplete="country-name">
+                                       autocomplete="country">
                             </div>
                         </div>
 
@@ -174,7 +183,7 @@
                 </div>
             </div>
 
-
+            {# School Logo, submit and reCaptcha #}
             <div class="col-md-4 col-md-offset-4">
                 <div class="form-horizontal" role="form">
                     <fieldset>
@@ -211,7 +220,7 @@
                             </div>
                         </div>
                     </fieldset>
-<div class="g-recaptcha" data-sitekey="6LdU8VIUAAAAAHAUlr8_NveDjk7sKWWsvcAYhMVm"></div>
+                    <div class="g-recaptcha" data-sitekey="6LdU8VIUAAAAAHAUlr8_NveDjk7sKWWsvcAYhMVm"></div>
                 </div>
 
             </div>
@@ -228,152 +237,8 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-checkbox/1.5.0/js/bootstrap-checkbox.js"></script>
-<script>
-    'use strict';
-
-
-    (function () {
-
-        $(':checkbox').checkboxpicker().prop('checked',true);
-
-
-
-        Array.from(document.querySelectorAll('form')).map(form => {
-            form.addEventListener('submit', submitViaAjax);
-
-        });
-
-
-        let data = new FormData();
-        let submitButton = document.getElementById('submitButton');
-        let dropZone = document.getElementById('drop-zone');
-        let preview = document.querySelector('img');
-
-
-        let startUpload = function (file_image) {
-            let reader = new FileReader();
-
-            reader.onloadend = function () {
-
-                let image = new Image();
-                image.src = reader.result;
-                image.onload = function () {
-
-                    if ((image.width === 200) && (image.height === 200 )) {
-                        dropZone.firstChild.nodeValue = '';
-                        preview.src = reader.result;
-                        //data.append('school_logo', {uri: image.src, type: 'image', name: 'code_school'} );
-                        data.append('school_logo', file_image);
-
-                    }
-                    else {
-
-                    }
-                    console.log(data.get('logo'))
-                };
-            };
-            reader.readAsDataURL(file_image);
-
-        };
-
-
-        dropZone.ondrop = function (ev) {
-            ev.preventDefault();
-            this.className = 'upload-drop-zone';
-
-            if (ev.dataTransfer.items) {
-                // Use DataTransferItemList interface to access the file(s)
-                for (let imageIndex = 0; imageIndex < ev.dataTransfer.items.length; imageIndex++) {
-                    // If dropped items aren't files, reject them
-                    if ((ev.dataTransfer.items[imageIndex].kind === 'file') &&
-                        (ev.dataTransfer.items[imageIndex].type.match('^image/'))) {
-                        let file = ev.dataTransfer.items[imageIndex].getAsFile();
-
-
-                        startUpload(file)
-                    }
-                    else {
-                        alert('File must be 200px X 200px image');
-                        return;
-                    }
-                }
-            } else {
-                // Use DataTransfer interface to access the file(s)
-                for (let imageIndex = 0; imageIndex < ev.dataTransfer.files.length; imageIndex++) {
-                    if ((ev.dataTransfer.items[imageIndex].kind === 'file') &&
-                        (ev.dataTransfer.items[imageIndex].type.match('^image/'))) {
-                        let file = ev.dataTransfer.items[imageIndex].getAsFile();
-
-                        startUpload(file)
-                    }
-                    else {
-                        alert('not an image');
-                        return;
-                    }
-                }
-            }
-
-        };
-
-        dropZone.ondragover = function () {
-            this.className = 'upload-drop-zone drop';
-            return false;
-        };
-
-        dropZone.ondragleave = function () {
-            this.className = 'upload-drop-zone';
-            return false;
-        };
-        function submitViaAjax(e) {
-            e.preventDefault();
-            const form = e.target;
-            console.log('submitted');
-
-            let newForm = new FormData(form);
-            newForm.append('school_logo', data.get('school_logo'));
-            fetch(form.action, {
-                method: form.attributes.method.value,
-                body: newForm
-            }).then((response) => {
-                return response.json();
-            }).then((data) => {
-                window.location.replace(data['redirect'])
-            })
-        }
-
-        let dropzoneId = "drop-zone";
-
-        window.addEventListener("dragenter", function (e) {
-            if (e.target.id !== dropzoneId) {
-                e.preventDefault();
-                e.dataTransfer.effectAllowed = "none";
-                e.dataTransfer.dropEffect = "none";
-            }
-        }, false);
-
-        window.addEventListener("dragover", function (e) {
-            if (e.target.id !== dropzoneId) {
-                e.preventDefault();
-                e.dataTransfer.effectAllowed = "none";
-                e.dataTransfer.dropEffect = "none";
-            }
-        });
-
-        window.addEventListener("drop", function (e) {
-            if (e.target.id !== dropzoneId) {
-                e.preventDefault();
-                e.dataTransfer.effectAllowed = "none";
-                e.dataTransfer.dropEffect = "none";
-            }
-        });
-
-
-    })();
-
-    // UPLOAD CLASS DEFINITION
-    // ======================
-
-
-</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/code_school.js') }}"></script>
 </body>
 </html>
+
+href="{{ url_for('static', filename='code_school.css') }}"

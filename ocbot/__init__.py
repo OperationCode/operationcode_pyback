@@ -26,8 +26,17 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 if 'test-oc' not in os.environ:
     setup_logging()
+
+
+if os.environ['CONFIG_FILE'] == 'development.py':
+    from flask_debug import Debug
+    Debug(app)
+
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
+
 
 from ocbot.web import routes
 from ocbot.database import models_flask
