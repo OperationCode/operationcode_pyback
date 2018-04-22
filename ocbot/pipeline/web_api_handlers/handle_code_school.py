@@ -1,8 +1,9 @@
 import json
 import pprint
 
-from flask import render_template, jsonify
 import requests
+from flask import render_template, jsonify
+
 from config.configs import configs
 
 recaptcha_secret = configs['RECAPTCHA_SECRET']
@@ -48,14 +49,16 @@ def create_issue(request_dict, logo, url_root):
 
 def make_params(name, url, address1, address2, city, state, zipcode, country, rep_name,
                 rep_email, school_logo, url_root, fulltime=False, hardware=False, has_online=False, online_only=False,
-                va_accepted=False, g_captcha_response=False):
+                va_accepted=False, is_mooc=False, with_housing=False, g_captcha_response=False):
     fulltime = False if not fulltime else True
     hardware = False if not hardware else True
     has_online = False if not has_online else True
     online_only = False if not online_only else True
     va_accepted = False if not va_accepted else True
+    is_mooc = False if not is_mooc  else True
+    with_housing = False if not with_housing else True
 
-    return ({
+    data_values = ({
         'title': f'New Code School Request: {name}',
         'body': (
             f"Name: {name}\n"
@@ -65,14 +68,18 @@ def make_params(name, url, address1, address2, city, state, zipcode, country, re
             f"has_online: {has_online}\n"
             f"online_only: {online_only}\n"
             f"va_accepted: {va_accepted}\n"
-            f"address: {address1} {address2}\n"
+            f"mooc: {is_mooc}\n"
+            f"with_housing: {with_housing}\n"
+            f"address1: {address2}\n"
+            f"address2: {address2}\n"
             f"city: {city}\n"
             f"state: {state}\n"
             f"country: {country}\n"
             f"zip: {zipcode}\n\n"
             f"rep name: {rep_name}\n"
             f"rep email: {rep_email}\n"
-            f"logo: ![school-logo]({url_root}images/{school_logo})\n"
+            f"logo:\n ![school-logo]({url_root}images/{school_logo})\n"
             # f"logo: ![school-logo](https://pybot.ngrok.io/images/{school_logo})\n"
         )
     })
+    return data_values
