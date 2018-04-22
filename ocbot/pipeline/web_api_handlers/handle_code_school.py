@@ -2,16 +2,14 @@ import json
 import pprint
 
 import requests
-from flask import render_template, jsonify
+from flask import jsonify
 
 from config.configs import configs
 
 recaptcha_secret = configs['RECAPTCHA_SECRET']
 github_jwt = configs['GITHUB_JWT']
+repo_path = configs['GITHUB_REPO_PATH']
 
-
-def handle_code_school():
-    return render_template("code_school.html")
 
 
 def verify_recaptcha(ip_value, recaptcha_value):
@@ -30,14 +28,15 @@ def handle_recaptcha_and_errors(request, imagefile):
     ip_value = request.remote_addr
     if verify_recaptcha(ip_value, recaptcha_val):
         res = create_issue(request_dict, imagefile.filename, url_root=request.url_root)
+        print(res.__dict__)
         if res.status_code == 201:
             return jsonify(
-                {"redirect": 'https://github.com/AllenAnthes/Database-Project-Front-end/issues', 'code': 302})
+                {"redirect": f'https://github.com/{repo_path}/issues', 'code': 302})
     return ''
 
 
 def create_issue(request_dict, logo, url_root):
-    url = 'https://api.github.com/repos/AllenAnthes/Database-Project-Front-end/issues'
+    url = f'https://api.github.com/repos/{repo_path}/issues'
     headers = {"Authorization": f"Bearer {github_jwt}"}
 
     params = make_params(**request_dict, url_root=url_root, school_logo=logo)
@@ -58,6 +57,8 @@ def make_params(name, url, address1, address2, city, state, zipcode, country, re
     is_mooc = False if not is_mooc  else True
     with_housing = False if not with_housing else True
 
+    users_to_notify = ['hpjaj', 'wimo7083', 'jhampton', 'kylemh', 'davidmolina','nellshamrell','hollomancer','maggi-oc']
+    notify_users = ''.join([f'@{user} ,' for user in users_to_notify])
     data_values = ({
         'title': f'New Code School Request: {name}',
         'body': (
@@ -80,6 +81,8 @@ def make_params(name, url, address1, address2, city, state, zipcode, country, re
             f"rep email: {rep_email}\n"
             f"logo:\n ![school-logo]({url_root}images/{school_logo})\n"
             # f"logo: ![school-logo](https://pybot.ngrok.io/images/{school_logo})\n"
+            f"{notify_users}\n"
+
         )
     })
     return data_values
