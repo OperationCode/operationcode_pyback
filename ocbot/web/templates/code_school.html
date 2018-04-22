@@ -10,7 +10,7 @@
 
 
     <link rel="stylesheet" href="{{ url_for('static', filename='code_school.css') }}">
-
+<script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
 
@@ -27,42 +27,42 @@
 
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-sm-10 control-label" for="school_name">What is your schools Name?</label>
+                        <label class="col-sm-10 control-label" for="name">What is your schools Name?</label>
                         <div class="col-sm-10">
-                            <input type="text" placeholder="Name" required name="school_name" class="form-control"
+                            <input type="text" placeholder="Name" required name="name" class="form-control"
                                    autocomplete="name">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-10 control-label" for="school_url">What is your schools website?</label>
+                        <label class="col-sm-10 control-label" for="url">What is your schools website?</label>
                         <div class="col-sm-10">
-                            <input placeholder="Url" required class="form-control" name="school_url">
+                            <input placeholder="Url" required class="form-control" name="url">
                         </div>
                     </div>
 
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-sm-10 control-label" for="school_fulltime">Is your school fulltime?</label>
+                        <label class="col-sm-10 control-label" for="fulltime">Is your school fulltime?</label>
                         <div class="col-sm-10">
 
-                            <input type="checkbox" name="school_fulltime">
+                            <input type="checkbox" name="fulltime">
                         </div>
                     </div>
 
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-sm-10 control-label" for="school_hardware">Is hardware included?</label>
+                        <label class="col-sm-10 control-label" for="hardware">Is hardware included?</label>
                         <div class="col-sm-10">
 
-                            <input type="checkbox" name="school_hardware">
+                            <input type="checkbox" name="hardware">
                         </div>
                     </div>
 
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-sm-10 control-label" for="school_online">Do you offer online?</label>
+                        <label class="col-sm-10 control-label" for="has_online">Do you offer online?</label>
                         <div class="col-sm-10">
-                            <input type="checkbox" name="school_online">
+                            <input type="checkbox" name="has_online">
 
                         </div>
                     </div>
@@ -70,19 +70,19 @@
 
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-sm-10 control-label" for="school_only_online">Are you online only?</label>
+                        <label class="col-sm-10 control-label" for="online_only">Are you online only?</label>
                         <div class="col-sm-10">
 
-                            <input type="checkbox" name="school_only_online">
+                            <input type="checkbox" name="online_only">
 
                         </div>
                     </div>
 
                     <!-- Text input-->
                     <div class="form-group">
-                        <label class="col-sm-10 control-label" for="school_va_approved">Are you VA accredited?</label>
+                        <label class="col-sm-10 control-label" for="va_accepted">Are you VA accredited?</label>
                         <div class="col-sm-10">
-                            <input type="checkbox" name="school_va_approved">
+                            <input type="checkbox" name="va_accepted">
 
                         </div>
                     </div>
@@ -211,8 +211,9 @@
                             </div>
                         </div>
                     </fieldset>
-
+<div class="g-recaptcha" data-sitekey="6LdU8VIUAAAAAHAUlr8_NveDjk7sKWWsvcAYhMVm"></div>
                 </div>
+
             </div>
 
 

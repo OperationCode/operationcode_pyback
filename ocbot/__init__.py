@@ -21,10 +21,8 @@ else:
         f"{configs['DB_DIALECT']}://{configs['DB_USERNAME']}:{configs['DB_PASSWORD']}@{configs['DB_ADDR']}/{configs['DB_NAME']}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-
-UPLOAD_FOLDER = r'C:\Users\wimo7\Desktop\code_con'
+UPLOAD_FOLDER = os.path.join('ocbot', 'web', 'imageStore')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
 
 if 'test-oc' not in os.environ:
     setup_logging()

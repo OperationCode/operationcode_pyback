@@ -1,5 +1,0 @@
-[2018-03-20 11:52:33,343] - ERROR - root - 'user'
-Traceback (most recent call last):
-  File "C:\Users\Allen\_code\Python\operationcode_pyback\ocbot\external\route_slack.py", line 100, in user_name_from_id
-    if response['user']['real_name']:
-KeyError: 'user'

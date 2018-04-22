@@ -16,3 +16,6 @@ DB_PASSWORD = config('PROD_DB_PASSWORD', default='')
 DB_DIALECT = config('PROD_DB_DIALECT', default='sqlite')
 DB_ADDR = config('PROD_DB_ADDR', default='dev.db')
 DB_NAME = config('PROD_DB_NAME', default='')
+
+RECAPTCHA_SECRET = config('RECAPTCHA_SECRET')
+GITHUB_JWT = config('GITHUB_JWT')
