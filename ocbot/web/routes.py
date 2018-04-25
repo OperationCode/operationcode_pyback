@@ -10,7 +10,7 @@ import os
 from werkzeug.datastructures import FileStorage
 
 from ocbot.pipeline.slash_command_handlers.log_handlers import get_temporary_url, handle_log_view, can_view_logs
-from ocbot.pipeline.web_api_handlers.handle_code_school import handle_code_school, handle_recaptcha_and_errors
+from ocbot.pipeline.web_api_handlers.handle_code_school import handle_recaptcha_and_errors
 from ocbot.pipeline.slash_command_handlers.lunch_handler import create_lunch_event
 from ocbot.pipeline.slash_command_handlers.testgreet_handler import can_test, create_testgreet_event
 from ocbot.web.route_decorators import validate_response, url_verification
@@ -151,6 +151,10 @@ def show_logs(variable):
 @app.route("/add_code_school", methods=['POST'])
 @limiter.limit("5/hour;1/minute")
 def add_new_school():
+    '''
+    This route recieves the post from the /new_school form
+    :return:
+    '''
     imagefile: FileStorage
 
     try:
@@ -187,8 +191,12 @@ def get_image(filename):
 
 
 @app.route("/new_school", methods=['GET'])
-def show_new_school_route():
-    return handle_code_school()
+def code_school_form():
+    """
+    This is the route to render the new codeschool form.
+    :return:
+    """
+    return render_template("code_school.html")
 
 
 @app.route('/options_load', methods=['POST'])
