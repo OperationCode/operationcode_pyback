@@ -11,7 +11,6 @@ github_jwt = configs['GITHUB_JWT']
 repo_path = configs['GITHUB_REPO_PATH']
 
 
-
 def verify_recaptcha(ip_value, recaptcha_value):
     req = requests.post('https://www.google.com/recaptcha/api/siteverify',
                         data={'secret': recaptcha_secret,
@@ -54,10 +53,12 @@ def make_params(name, url, address1, address2, city, state, zipcode, country, re
     has_online = False if not has_online else True
     online_only = False if not online_only else True
     va_accepted = False if not va_accepted else True
-    is_mooc = False if not is_mooc  else True
+    is_mooc = False if not is_mooc else True
     with_housing = False if not with_housing else True
 
-    users_to_notify = ['hpjaj', 'wimo7083', 'jhampton', 'kylemh', 'davidmolina','nellshamrell','hollomancer','maggi-oc']
+    # users_to_notify = ['hpjaj', 'wimo7083', 'jhampton', 'kylemh', 'davidmolina', 'nellshamrell', 'hollomancer',
+    #                    'maggi-oc']
+    users_to_notify = ['wimo7083', 'AllenAnthes']
     notify_users = ''.join([f'@{user} ,' for user in users_to_notify])
     data_values = ({
         'title': f'New Code School Request: {name}',
@@ -71,7 +72,7 @@ def make_params(name, url, address1, address2, city, state, zipcode, country, re
             f"va_accepted: {va_accepted}\n"
             f"mooc: {is_mooc}\n"
             f"with_housing: {with_housing}\n"
-            f"address1: {address2}\n"
+            f"address1: {address1}\n"
             f"address2: {address2}\n"
             f"city: {city}\n"
             f"state: {state}\n"
@@ -80,10 +81,11 @@ def make_params(name, url, address1, address2, city, state, zipcode, country, re
             f"rep name: {rep_name}\n"
             f"rep email: {rep_email}\n"
             f"logo:\n ![school-logo]({url_root}images/{school_logo})\n"
-            
-            'This code school is ready to be added/updated:\n'
             # f"logo: ![school-logo](https://pybot.ngrok.io/images/{school_logo})\n"
+
+            'This code school is ready to be added/updated:\n'
             f"{notify_users}\n"
+            "Please close this issue once you've added/updated the code school."
 
         )
     })

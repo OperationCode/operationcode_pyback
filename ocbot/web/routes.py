@@ -83,11 +83,6 @@ def zap_endpoint():
     return make_response('', 200)
 
 
-@app.route("/new_code_school")
-def new_code_school():
-    data = request.get_json()
-
-
 @app.route('/test/testgreet', methods=['POST'])
 @validate_response('token', VERIFICATION_TOKEN, 'values')
 def test_greet():
@@ -151,10 +146,9 @@ def show_logs(variable):
 @app.route("/add_code_school", methods=['POST'])
 @limiter.limit("5/hour;1/minute")
 def add_new_school():
-    '''
-    This route recieves the post from the /new_school form
-    :return:
-    '''
+    """
+    This route receives the post from the /new_school form
+    """
     imagefile: FileStorage
 
     try:
