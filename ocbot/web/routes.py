@@ -80,7 +80,7 @@ def zap_endpoint():
     threading.Thread(target=RoutingHandler,
                      kwargs={'json_data': data, 'route_id': 'new_airtable_request'}).start()
     # RoutingHandler(data, route_id="new_airtable_request")
-    return make_response('', 200)
+    return make_response((json.dumps({'status': 'ok'}), 200))
 
 
 @app.route('/test/testgreet', methods=['POST'])
