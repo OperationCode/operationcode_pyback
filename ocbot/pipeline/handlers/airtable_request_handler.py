@@ -38,7 +38,11 @@ class NewAirtableRequestHandler(RouteHandler):
         self.text_dict['message'] = f"User {self.api_dict['user']} has requested a mentor for {service}\n\n" \
                                     f"Requested Skillset(s): {self._event['Skillsets'].replace(',', ', ')}"
         self.text_dict['attachment'] = initial_claim_button(self._event['Record'])
-        self.text_dict['details'] = f"Additional details: {self._event['Details']}"
+        if 'Details' in self._event:
+            self.text_dict['details'] = f"Additional details: {self._event['Details']}"
+        else:
+            self.text_dict['details'] = f"Additional details: None Given"
+
 
     def build_responses(self):
         message_text = self.text_dict['message']
