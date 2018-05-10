@@ -24,7 +24,11 @@ NEW_AIRTABLE_REQUEST_JSON = {
 
 USER_ID_FROM_EMAIL_RESPONSE = {'ok': True, 'user': {'id': 'AGF2354'}}
 
-TEXT_DICT_MESSAGE = "User <@AGF2354> has requested a mentor for General Guidance - Slack Chat Given Skillset(s): C / " \
+SLACK_USER_ID = "<@AGF2354>"
+
+TEXT_DICT_MATCHES = f"Mentors matching all or some of the requested skillsets: {SLACK_USER_ID}"
+
+TEXT_DICT_MESSAGE = f"User {SLACK_USER_ID} has requested a mentor for General Guidance - Slack Chat Given Skillset(s): C / " \
                     "C++,Web (Frontend Development),Mobile (iOS),Java,DevOps View requests: " \
                     "<https://airtable.com/tbl9uQEE8VeMdNCey/viwYzYa4J9aytVB4B|Airtable> Please reply to the channel " \
                     "if you'd like to be assigned to this request."

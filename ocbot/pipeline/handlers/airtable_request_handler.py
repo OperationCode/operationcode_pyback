@@ -1,3 +1,4 @@
+from functools import lru_cache
 from typing import List
 
 from ocbot.external.route_airtable import AirTableBuilder, Airtable
@@ -27,11 +28,10 @@ class NewAirtableRequestHandler(RouteHandler):
         else:
             self.api_dict['user'] = self._event['Slack User']
 
-        complete_match, partial_match = Airtable.find_mentors_with_matching_skillsets(self._event['Skillsets'])
-        complete_ids, partial_ids = self.get_mentor_slack_ids(complete_match, partial_match)
+        matches = Airtable.find_mentors_with_matching_skillsets(self._event['Skillsets'])
+        ids = self.get_mentor_slack_ids(matches)
 
-        self.api_dict['complete_matches'] = complete_ids
-        self.api_dict['partial_matches'] = partial_ids
+        self.api_dict['matches'] = ids
 
     def database_calls(self):
         pass
@@ -45,37 +45,33 @@ class NewAirtableRequestHandler(RouteHandler):
                                     f"Requested Skillset(s): {self._event['Skillsets'].replace(',', ', ')}"
         self.text_dict['attachment'] = initial_claim_button(self._event['Record'])
         self.text_dict['details'] = f"Additional details: {self._event['Details']}"
-        self.text_dict['complete_matches'] = "Mentors matching all requested skillsets: " + ' '.join(
-            self.api_dict['complete_matches'])
-        self.text_dict['partial_matches'] = "Mentors matching some of the requested skillsets: " + ' '.join(
-            self.api_dict['partial_matches'])
+        self.text_dict['matches'] = "Mentors matching all or some of the requested skillsets: " + ' '.join(
+            self.api_dict['matches'])
 
     def build_responses(self):
         message_text = self.text_dict['message']
         attachment = self.text_dict['attachment']
         details_text = self.text_dict['details']
-        complete = self.text_dict['complete_matches']
-        partial = self.text_dict['partial_matches']
+        matches = self.text_dict['matches']
 
         self.include_resp(SlackBuilder.mentor_request, MENTORS_INTERNAL_CHANNEL, details=details_text,
                           attachment=attachment,
-                          complete=complete,
-                          partial=partial,
+                          matches=matches,
                           text=message_text)
 
     @staticmethod
-    def get_mentor_slack_ids(complete_match, partial_match):
-        complete_ids = []
-        partial_ids = []
-        for mentor in complete_match:
-            res = Slack().user_id_from_email(mentor['Email'])
+    def get_mentor_slack_ids(matches: list) -> list:
+        ids = []
+        for mentor in matches:
+            res = NewAirtableRequestHandler.check_user_id_cache(mentor['Email'])
             if res['ok']:
-                complete_ids.append(f"<@{res['user']['id']}>")
-        for mentor in partial_match:
-            res = Slack().user_id_from_email(mentor['Email'])
-            if res['ok']:
-                partial_ids.append(f"<@{res['user']['id']}>")
-        return complete_ids, partial_ids
+                ids.append(f"<@{res['user']['id']}>")
+        return ids
+
+    @staticmethod
+    @lru_cache(64)
+    def check_user_id_cache(email):
+        return Slack().user_id_from_email(email)
 
 
 def initial_claim_button(record) -> List[dict]:
