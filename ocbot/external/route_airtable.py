@@ -1,7 +1,6 @@
 import logging
 
 from .utils import ResponseContainer
-from .utils import verify_module_variable
 from requests import post, get, patch
 from functools import partial
 from config.configs import configs
@@ -9,7 +8,6 @@ from config.configs import configs
 logger = logging.getLogger(__name__)
 
 
-# @verify_module_variable(['API_KEY', 'TABLE_NAME', 'TABLE_KEY'], _airtableconfig, 'airtable')
 class AirTableBuilder:
     BASE = configs['AIRTABLE_BASE_KEY']
     API_KEY = configs['AIRTABLE_API_KEY']
@@ -108,6 +106,26 @@ class Airtable:
                 return ''
         else:
             return ''
+
+    @staticmethod
+    def find_mentors_with_matching_skillsets(skillsetStr: str) -> list:
+        url = AirTableBuilder.build_url("Mentors") + "?fields=Email&fields=Skillsets"
+        headers = AirTableBuilder.build_auth_header()
+        skillsets = skillsetStr.split(',')
+        mentors = get(url, headers=headers).json()['records']
+        partial_match = []
+        complete_match = []
+        try:
+            for mentor in mentors:
+                if all(skillset in mentor['fields']['Skillsets'] for skillset in skillsets):
+                    complete_match.append(mentor['fields'])
+                if any(mentor['fields'] not in complete_match and
+                       skillset in mentor['fields']['Skillsets'] for skillset in skillsets):
+                    partial_match.append(mentor['fields'])
+        except Exception as e:
+            logger.warning("Exception occurred while attempting to get matching mentors for skillsets : ", e)
+
+        return complete_match or partial_match
 
     @staticmethod
     def mentor_id_from_slack_email(email: str) -> str:
