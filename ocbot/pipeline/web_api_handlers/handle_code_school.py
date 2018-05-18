@@ -56,9 +56,9 @@ def make_params(name, url, address1, address2, city, state, zipcode, country, re
     is_mooc = False if not is_mooc else True
     with_housing = False if not with_housing else True
 
-    # users_to_notify = ['hpjaj', 'wimo7083', 'jhampton', 'kylemh', 'davidmolina', 'nellshamrell', 'hollomancer',
-    #                    'maggi-oc']
-    users_to_notify = ['wimo7083', 'AllenAnthes']
+    users_to_notify = ['hpjaj', 'wimo7083', 'jhampton', 'kylemh', 'davidmolina', 'nellshamrell', 'hollomancer',
+                       'maggi-oc']
+    # users_to_notify = ['wimo7083', 'AllenAnthes']
     notify_users = ''.join([f'@{user} ,' for user in users_to_notify])
     data_values = ({
         'title': f'New Code School Request: {name}',
