@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from ocbot.database.models_flask import User
+from ocbot.database.models import User
 
 
 def create_testgreet_event(request):

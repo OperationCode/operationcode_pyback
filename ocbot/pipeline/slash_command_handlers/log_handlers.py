@@ -5,7 +5,7 @@ from functools import lru_cache
 from flask import url_for, redirect, render_template
 
 from ocbot import db
-from ocbot.database.models_flask import TemporaryUrl, User
+from ocbot.database.models import TemporaryUrl, User
 import logging
 
 logger = logging.getLogger(__name__)
