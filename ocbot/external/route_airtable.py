@@ -1,6 +1,6 @@
 import logging
 
-from .utils import ResponseContainer
+from ocbot.external import ResponseContainer
 from requests import post, get, patch
 from functools import partial
 from config.configs import configs

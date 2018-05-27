@@ -6,7 +6,7 @@ from uuid import UUID
 from slackclient import SlackClient
 
 from config.configs import configs
-from ocbot.external.utils import ResponseContainer
+from ocbot.external import ResponseContainer
 
 VERIFICATION_TOKEN = configs['VERIFICATION_TOKEN']
 TOKEN = configs['TOKEN']
@@ -14,7 +14,6 @@ TOKEN = configs['TOKEN']
 logger = logging.getLogger(__name__)
 
 
-# @verify_module_variable(['VERIFICATION_TOKEN', 'API_KEY'], Slack, 'slack')
 class SlackBuilder:
     """
     user_id and flattened dict get passed

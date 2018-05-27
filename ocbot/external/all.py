@@ -1,5 +1,5 @@
 from typing import List
-from .utils import ResponseContainer
+from ocbot.external import ResponseContainer
 from .route_airtable import Airtable
 from .route_slack import Slack
 import sys

@@ -1,4 +1,4 @@
-from ocbot.external.utils import ResponseContainer
+from ocbot.external import ResponseContainer
 
 GREETED_EVENT = {'type': 'interactive_message', 'actions': [{'name': 'greeted', 'type': 'button', 'value': 'greeted'}],
                  'callback_id': 'greeted', 'team': {'id': 'T8M8SQEN7', 'domain': 'test-domain'},
