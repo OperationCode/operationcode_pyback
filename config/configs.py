@@ -1,6 +1,7 @@
 import os
+import logging
 
-from flask import Config, logging
+from flask import Config
 
 logger = logging.getLogger(__name__)
 

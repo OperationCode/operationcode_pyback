@@ -1,0 +1,28 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+Flask = "*"
+Flask-Cors = "*"
+Flask-Debug = "*"
+Flask-Limiter = "*"
+Flask-Migrate = "*"
+Flask-Script = "*"
+Flask-SQLAlchemy = "*"
+fuzzywuzzy = "*"
+pg8000 = "*"
+psycopg2 = "*"
+pytest-flask = "*"
+pytest-mock = "*"
+python-decouple = "*"
+slackclient = "*"
+sqlalchemy-utils = "*"
+"testing.common.database" = "*"
+zipcodes = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
