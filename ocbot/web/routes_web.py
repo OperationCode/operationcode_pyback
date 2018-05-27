@@ -100,17 +100,17 @@ def HTTP410():
 
 
 @app.errorhandler(404)
-def page_not_found():
+def page_not_found(error):
     return redirect(url_for('HTTP404'))
 
 
 @app.errorhandler(403)
-def page_forbidden():
+def page_forbidden(error):
     return redirect(url_for('HTTP403'))
 
 
 @app.errorhandler(410)
-def page_gone():
+def page_gone(error):
     return redirect(url_for('HTTP410'))
 
 
