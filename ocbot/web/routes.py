@@ -49,7 +49,6 @@ def events_route():
     route_id = response_data['event']['type']
     threading.Thread(target=RoutingHandler,
                      kwargs={"json_data": response_data, 'route_id': route_id}).start()
-    # RoutingHandler(response_data, route_id=route_id)
     return make_response('', 200)
 
 
@@ -65,7 +64,6 @@ def interaction_route():
     route_id = data['callback_id']
     threading.Thread(target=RoutingHandler,
                      kwargs={'json_data': data, 'route_id': route_id}).start()
-    # RoutingHandler(data, route_id=route_id)
     return make_response('', 200)
 
 
@@ -79,7 +77,6 @@ def zap_endpoint():
     logger.info(f'Zapier event received: {data}')
     threading.Thread(target=RoutingHandler,
                      kwargs={'json_data': data, 'route_id': 'new_airtable_request'}).start()
-    # RoutingHandler(data, route_id="new_airtable_request")
     return make_response((json.dumps({'status': 'ok'}), 200))
 
 
@@ -100,7 +97,6 @@ def test_greet():
     event = create_testgreet_event(req)
     threading.Thread(target=RoutingHandler,
                      kwargs={'json_data': event, 'route_id': 'team_join'}).start()
-    # RoutingHandler(event, route_id='team_join')
     return make_response('Test completed.', 200)
 
 
