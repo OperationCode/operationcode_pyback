@@ -32,6 +32,9 @@ limiter = Limiter(
 
 @limiter.request_filter
 def ip_whitelist():
+    """
+    Whitelists localhost for limiter for development
+    """
     return request.remote_addr in ["127.0.0.1", "localhost"]
 
 
@@ -136,6 +139,10 @@ def random_lunch():
 
 @app.route("/logs/<variable>")
 def show_logs(variable):
+    """
+    Routes user to log
+    :param variable:  Randomly generated string
+    """
     return handle_log_view(variable)
 
 
@@ -164,6 +171,9 @@ def add_new_school():
 
 @app.route('/images/<filename>')
 def get_image(filename):
+    """
+    Fetches stored image.  Used for codeschool icons.
+    """
     filepath = os.path.join('web', 'imageStore', filename)
     file_handle = open(os.path.join('ocbot', filepath), 'r')
 
@@ -184,7 +194,6 @@ def get_image(filename):
 def code_school_form():
     """
     This is the route to render the new codeschool form.
-    :return:
     """
     return render_template("code_school.html")
 
