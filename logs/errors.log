@@ -1,0 +1,93 @@
+[2018-05-27 12:19:44,188] - ERROR - flask.app - Exception on /favicon.ico [GET]
+Traceback (most recent call last):
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1791, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1774, in raise_routing_exception
+    raise request.routing_exception
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\ctx.py", line 336, in match_request
+    self.url_adapter.match(return_rule=True)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\werkzeug\routing.py", line 1581, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1713, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1644, in handle_http_exception
+    return handler(e)
+TypeError: page_not_found() takes 0 positional arguments but 1 was given
+[2018-05-27 12:19:44,214] - ERROR - flask.app - Exception on /favicon.ico [GET]
+Traceback (most recent call last):
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1791, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1774, in raise_routing_exception
+    raise request.routing_exception
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\ctx.py", line 336, in match_request
+    self.url_adapter.match(return_rule=True)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\werkzeug\routing.py", line 1581, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1713, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1644, in handle_http_exception
+    return handler(e)
+TypeError: page_not_found() takes 0 positional arguments but 1 was given
+[2018-05-27 12:19:44,216] - ERROR - flask.app - Exception on /favicon.ico [GET]
+Traceback (most recent call last):
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1791, in dispatch_request
+    self.raise_routing_exception(req)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1774, in raise_routing_exception
+    raise request.routing_exception
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\ctx.py", line 336, in match_request
+    self.url_adapter.match(return_rule=True)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\werkzeug\routing.py", line 1581, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1713, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1644, in handle_http_exception
+    return handler(e)
+TypeError: page_not_found() takes 0 positional arguments but 1 was given
+[2018-05-27 12:23:01,575] - ERROR - flask.app - Exception on /403 [GET]
+Traceback (most recent call last):
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\_compat.py", line 35, in reraise
+    raise value
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\Allen\.virtualenvs\operationcode_pyback-UQifm_yg\lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+TypeError: HTTP403() missing 1 required positional argument: 'error'
