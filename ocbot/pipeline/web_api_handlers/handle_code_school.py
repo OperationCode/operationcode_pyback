@@ -1,5 +1,6 @@
 import json
 import pprint
+import urllib.parse
 
 import requests
 from flask import jsonify
@@ -56,9 +57,11 @@ def make_params(name, url, address1, address2, city, state, zipcode, country, re
     is_mooc = False if not is_mooc else True
     with_housing = False if not with_housing else True
 
-    # users_to_notify = ['hpjaj', 'wimo7083', 'jhampton', 'kylemh', 'davidmolina', 'nellshamrell', 'hollomancer',
-    #                    'maggi-oc']
-    users_to_notify = ['wimo7083', 'AllenAnthes']
+    urlified_logo_url = urllib.parse.quote(school_logo)
+
+    users_to_notify = ['hpjaj', 'wimo7083', 'jhampton', 'kylemh', 'davidmolina', 'nellshamrell', 'hollomancer',
+                       'maggi-oc']
+    # users_to_notify = ['wimo7083', 'AllenAnthes']
     notify_users = ''.join([f'@{user} ,' for user in users_to_notify])
     data_values = ({
         'title': f'New Code School Request: {name}',
@@ -80,8 +83,8 @@ def make_params(name, url, address1, address2, city, state, zipcode, country, re
             f"zip: {zipcode}\n\n"
             f"rep name: {rep_name}\n"
             f"rep email: {rep_email}\n"
-            # f"logo:\n ![school-logo]({url_root}images/{school_logo})\n"
-            f"logo: ![school-logo](https://pybot.ngrok.io/images/{school_logo})\n"
+            f"logo:\n ![school-logo]({url_root}images/{urlified_logo_url})\n"
+            # f"logo: ![school-logo](https://pybot.ngrok.io/images/{urlified_logo_url})\n"
 
             'This code school is ready to be added/updated:\n'
             f"{notify_users}\n"
