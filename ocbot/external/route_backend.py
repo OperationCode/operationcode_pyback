@@ -1,6 +1,6 @@
 import logging
 
-from requests import get as req_get
+import requests
 
 from config.configs import configs
 
@@ -25,7 +25,7 @@ class OCBackend:
     def check_health(self):
         route_url = self.build_url('access')
 
-        response = req_get(route_url, headers={"Authorization": self._bearer_token})
+        response = self.do_get(route_url)
 
         if not response.ok:
             val = response.json()
@@ -33,12 +33,15 @@ class OCBackend:
 
         return True
 
+    def do_get(self, route_url):
+        return requests.get(route_url, headers={"Authorization": self._bearer_token})
+
 
 class OCException(Exception):
     def __init__(selfself, message, status_code):
-        bad_response_dict = {'Invalid auth token': ExpiredTokenException,
-                             'Auth token has expired': InvalidTokenException,
-                             'Auth token is invalid': UndecodableTokenException,
+        bad_response_dict = {'Invalid auth token': UndecodableTokenException,
+                             'Auth token has expired': ExpiredTokenException,
+                             'Auth token is invalid': InvalidTokenException,
                              }
 
         raise bad_response_dict[message]()

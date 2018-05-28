@@ -1,12 +1,13 @@
 import logging
 
 import pytest
-
+import pytest_mock
 
 from config.configs import configs
-from ocbot.external.route_backend import OCBackend, ExpiredTokenException, InvalidTokenException, UndecodableTokenException
-
+from ocbot.external.route_backend import OCBackend, ExpiredTokenException, InvalidTokenException, \
+    UndecodableTokenException
 from tests.external_tests.test_route_backend_data import *
+
 logger = logging.getLogger(__name__)
 
 CORRECT_TOKEN = configs['BACK_JWT_TOKEN']
@@ -28,21 +29,36 @@ def test_good_health():
 
 
 def test_invalid_token(mocker):
-    mocker.patch('ocbot.external.route_backend.OCBackend.req_get.response.json', return_value=incorrect_token)
+    mock = mocker.Mock
+    mock.ok = False
+    mock.json = lambda: invalid_token
+    mock.status_code = 400
+    mocker.patch('requests.get', return_value=mock)
     client = OCBackend(jwt_token=BAD_TOKEN)
     with pytest.raises(InvalidTokenException) as e_info:
         resp = client.check_health()
 
 
+
+
 def test_expired_token(mocker):
-    mocker.patch('ocbot.external.route_backend.OCBackend.req_get.response.json', return_value=expired_token)
+    mock = mocker.Mock
+    mock.ok = False
+    mock.json = lambda: expired_token
+    mock.status_code = 400
+    mocker.patch('requests.get', return_value=mock)
     client = OCBackend(jwt_token=BAD_TOKEN)
     with pytest.raises(ExpiredTokenException) as e_info:
         resp = client.check_health()
 
 
+
 def test_nondecodable_token(mocker):
-    mocker.patch('ocbot.external.route_backend.OCBackend.req_get.response.json', return_value=non_decodeable_token)
+    mock = mocker.Mock
+    mock.ok = False
+    mock.json = lambda: non_decodeable_token
+    mock.status_code = 400
+    mocker.patch('requests.get', return_value=mock)
     client = OCBackend(jwt_token=SHORT_TOKEN)
     with pytest.raises(UndecodableTokenException) as e_info:
         resp = client.check_health()

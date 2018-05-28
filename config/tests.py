@@ -26,3 +26,7 @@ PA_SSH_REMOTE_BIND_PORT = config('PA_PG_PORT', cast=int, default=0)
 RECAPTCHA_SECRET = 'secret'
 GITHUB_JWT = 'jwt'
 GITHUB_REPO_PATH = config('DEV_GITHUB_REPO_PATH')
+
+BACK_JWT_TOKEN = config('BACK_JWT_TOKEN')
+OC_URL = config('OC_URL')
+DEV_GITHUB_REPO_PATH = ''
