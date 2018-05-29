@@ -1,29 +1,28 @@
+
+
 DEBUG = True
 
-VERIFICATION_TOKEN = 'token'
-TOKEN = 'token'
-COMMUNITY_CHANNEL = 'community_channel'
-MENTORS_INTERNAL_CHANNEL = 'mentor_channel'
+PORT = 5000
 
-AIRTABLE_BASE_KEY = 'fake_airtable_base'
-AIRTABLE_API_KEY = 'fake_airtable_key'
-AIRTABLE_TABLE_NAME = 'Mentor Request'
+SLACK_VERIFICATION_TOKEN = 'default_verification_token'
+SLACK_TOKEN = 'default_token'
+SLACK_COMMUNITY_CHANNEL = 'default_community_channel'
+SLACK_MENTORS_INTERNAL_CHANNEL = 'default_mentor_channel'
 
-# database stuff
-DB_USERNAME = ''
-DB_PASSWORD = ''
-DB_DIALECT = 'sqlite'
-DB_ADDR = 'dev.db'
-DB_NAME = ''
+AIRTABLE_BASE_KEY = 'default_fake_airtable_base'
+AIRTABLE_API_KEY = 'default_fake_airtable_key'
+AIRTABLE_TABLE_NAME = 'default Mentor Request'
 
-# PythonAnywhere SSH Tunnel Configurations
-PA_SSH_USERNAME = 'username'
-PA_SSH_PASSWORD = 'password'
-PA_SSH_URL = 'url'
-PA_SSH_REMOTE_BIND_ADDR = 'addr'
-PA_SSH_REMOTE_BIND_PORT = 'port'
+DB_USERNAME = 'default_db_username'
+DB_PASSWORD = 'default_db_password'
+DB_DIALECT = 'defaultsqlite_dialect'
+DB_ADDR = 'default_dev.db'
+DB_NAME = 'default_db_name'
 
+RECAPTCHA_SECRET = 'default'
 
-BACK_JWT_TOKEN = ''
-OC_URL = ''
-DEV_GITHUB_REPO_PATH = ''
+GITHUB_JWT = 'default'
+GITHUB_REPO_PATH = 'default'
+
+OC_BACKEND_JWT_TOKEN = 'default_jwt_token'
+OC_BACKEND_URL = 'default_oc_url'

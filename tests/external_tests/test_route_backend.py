@@ -3,14 +3,14 @@ import logging
 import pytest
 import pytest_mock
 
-from config.configs import configs
+from config.all_config_loader import configs
 from ocbot.external.route_backend import OCBackend, ExpiredTokenException, InvalidTokenException, \
     UndecodableTokenException
 from tests.external_tests.test_route_backend_data import *
 
 logger = logging.getLogger(__name__)
 
-CORRECT_TOKEN = configs['BACK_JWT_TOKEN']
+CORRECT_TOKEN = configs['OC_BACKEND_JWT_TOKEN']
 # NOT A REAL TOKEN DONT TRY BITCHES
 BAD_TOKEN = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJrZXkiOiJzb21lIHJhbmRvbSBrZXkiLCJleHAiOjE4ODc1MjQ5Mzh9.cKikBK-AkMoIyAopLh1JjYi9cKyorkYE9FCX5LQHLy8'
 SHORT_TOKEN = 'a'

@@ -5,7 +5,7 @@ import urllib.parse
 import requests
 from flask import jsonify
 
-from config.configs import configs
+from config.all_config_loader import configs
 
 recaptcha_secret = configs['RECAPTCHA_SECRET']
 github_jwt = configs['GITHUB_JWT']

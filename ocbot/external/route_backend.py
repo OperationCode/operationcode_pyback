@@ -2,11 +2,11 @@ import logging
 
 import requests
 
-from config.configs import configs
+from config.all_config_loader import configs
 
 logger = logging.getLogger(__name__)
-JWT_BACKEND_TOKEN = configs['BACK_JWT_TOKEN']
-OC_BACKEND_URL = configs['OC_URL']
+JWT_BACKEND_TOKEN = configs['OC_BACKEND_JWT_TOKEN']
+OC_BACKEND_URL = configs['OC_BACKEND_URL']
 
 
 class OCBackend:
