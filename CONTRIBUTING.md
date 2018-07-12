@@ -1,4 +1,19 @@
-## Quick Start Guide
+# Quick Start Guide
+
+First off, thank you for considering contributing to our Slackbot! It's people like you that make Operation Code such a great community.
+
+Following these guidelines helps to communicate that you respect the time of the developers managing and developing this open source project. In return, they should reciprocate that respect in addressing your issue, assessing changes, and helping you finalize your pull requests.
+
+We're an open source project and we love to receive contributions from our community — you! There are many ways to contribute, from writing tutorials or blog posts, improving the documentation, submitting bug reports and feature requests or writing code which can be incorporated into the Slackbot itself.
+
+# Your First Contribution
+
+Working on your first Pull Request? You can learn how from this *free* series, [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github).
+
+Feel free to ask for help; everyone is a beginner at first :smile_cat:
+If a maintainer asks you to "rebase" your PR, they're saying that a lot of code has changed, and that you need to update your branch so it's easier to merge.
+
+# Getting started
 
 #### Installation
 ##### Python
@@ -72,3 +87,9 @@ Our app is listening for events at the `/event_endpoint` url, so our request URL
 Similarly for the interactive components, our app is listening at `/user_interaction` and `/options_load`
 
 ![interactive](/images/interactive.png)
+
+# Other Notes
+
+If you find yourself wishing for a feature that doesn't exist, you are probably not alone! There are bound to be others out there with similar needs. Many of the features that we have today were added because our users saw the need. Open an issue on our issues list on GitHub which describes the feature you would like to see, why you need it, and how it should work.
+
+For any other questions, you can chat with our team on the operationcode.org Slack, in #oc-projects.
