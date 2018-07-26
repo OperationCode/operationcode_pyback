@@ -2433,13 +2433,6 @@
   paid: false
   notes:
 
-- name:
-  url:
-  category: Veterans
-  language:
-  paid: false
-  notes:
-
 - name: AWS Educate
   url: https://aws.amazon.com/education/awseducate/veterans/
   category: Veterans
@@ -10556,6 +10549,34 @@
 - name: Talking Code 
   url: http://talkingcode.com/
   category: Podcasts
+  language:
+  paid: false
+  notes:
+
+- name: App Academy Prep Work (Step 1)
+  url: https://app-academy.gitbooks.io/prep-step-1/content/
+  category: Web Dev
+  language: Ruby
+  paid: false
+  notes:
+
+- name: App Academy Prep Work (Step 2)
+  url: https://app-academy.gitbooks.io/prep-step-2/content/
+  category: Web Dev
+  language: Ruby
+  paid: false
+  notes:
+
+- name: Free Computer Science Textbooks
+  url: http://www.openculture.com/free-computer-science-textbooks
+  category: Computer Science
+  language:
+  paid: false
+  notes:
+
+- name: Free Professional Grade Training - On Demand
+  url: https://mapr.com/training/courses/#On-Demand
+  category: Data Science
   language:
   paid: false
   notes:
