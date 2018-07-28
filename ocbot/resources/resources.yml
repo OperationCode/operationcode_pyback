@@ -557,13 +557,6 @@
   paid: true
   notes: Free trials available
 
-- name: Data Camp
-  url: https://www.datacamp.com/courses
-  category: Online Courses
-  language: multiple
-  paid: true
-  notes: Free Trial available
-
 - name: Learn.co
   url: https://learn.co/
   category: Online Courses
@@ -1320,13 +1313,6 @@
   paid: false
   notes:
 
-- name: Bento
-  url: https://bento.io/
-  category: Front End Dev
-  language: multiple
-  paid: false
-  notes:
-
 - name: Front End Masters
   url: https://frontendmasters.com/sale/trial/
   category: Front End Dev
@@ -1406,13 +1392,6 @@
 
 - name: JavaScript Koans
   url: https://github.com/mrdavidlaing/javascript-koans
-  category: Front End Dev
-  language: JavaScript
-  paid: false
-  notes:
-
-- name: Eloquent JavaScript
-  url: http://eloquentjavascript.net
   category: Front End Dev
   language: JavaScript
   paid: false
@@ -1560,13 +1539,6 @@
 
 - name: edX Microsoft Courses
   url: https://www.edx.org/school/microsoft
-  category: Microsoft
-  language: multiple
-  paid: false
-  notes:
-
-- name: Microsoft Virtual Academy
-  url: https://mva.microsoft.com/
   category: Microsoft
   language: multiple
   paid: false
@@ -2160,13 +2132,6 @@
   paid: false
   notes: CTF (Capture the Flag)
 
-- name: Net Garage
-  url: http://io.netgarage.org/
-  category: Information Security
-  language:
-  paid: false
-  notes: CTF (Capture the Flag)
-
 - name: Pico CTF
   url: https://picoctf.com/
   category: Information Security
@@ -2391,13 +2356,6 @@
   paid: false
   notes:
 
-- name: Learn AWS for Free from Amazon
-  url: https://aws.amazon.com/education/awseducate/veterans/
-  category: Veterans
-  language: multiple
-  paid: false
-  notes:
-
 - name: Shift.org
   url: http://www.shift.org/veterans
   category: Veterans
@@ -2598,13 +2556,6 @@
   url: http://ludumdare.com/compo/about-ludum-dare/
   category: Game Dev
   language:
-  paid: false
-  notes:
-
-- name: Scratch
-  url: https://scratch.mit.edu/
-  category: Programming for Kids
-  language: Scratch
   paid: false
   notes:
 
@@ -3070,13 +3021,6 @@
   paid: false
   notes: HTML Currency Symbols, Currency Entities and ASCII Currency Character Code Reference
 
-- name: Flaws.cloud
-  url: http://flaws.cloud/
-  category: Information Security
-  language:
-  paid: false
-  notes: Vulnerable Apps
-
 - name: Glitch
   url: https://glitch.com/
   category: Online Courses
@@ -3172,13 +3116,6 @@
   url: http://awaxman11.github.io/blog/2013/08/05/what-is-the-difference-between-a-block/
   category: Back End Dev
   language: Ruby
-  paid: false
-  notes: Blog Post
-
-- name: Don't Call Yourself A Programmer, And Other Career Advice
-  url: http://www.kalzumeus.com/2011/10/28/dont-call-yourself-a-programmer/
-  category: Jobs
-  language:
   paid: false
   notes: Blog Post
 
@@ -3300,13 +3237,6 @@
   language:
   paid: true
   notes: Information Security
-
-- name: Leet Code
-  url: https://leetcode.com/
-  category: Jobs
-  language: multiple
-  paid: false
-  notes: LeetCode is a platform for preparing technical coding interviews.
 
 - name: Interview Cake
   url: https://www.interviewcake.com/
@@ -3538,13 +3468,6 @@
   language:
   paid: false
   notes: Business Accelerator (New Orleans LA)
-
-- name: Algorithms, 4th ed
-  url: http://algs4.cs.princeton.edu/home/
-  category: Books
-  language: multiple
-  paid: false
-  notes:
 
 - name: Introduction to Programming in Java
   url: http://introcs.cs.princeton.edu/java/home/
@@ -3784,13 +3707,6 @@
   paid: false
   notes: CyberSeek provides detailed, actionable data about supply and demand in the cybersecurity job market
 
-- name: The Twelve Factor App
-  url: https://12factor.net/
-  category: Web Dev
-  language:
-  paid: false
-  notes: The twelve-factor app is a methodology for building software-as-a-service apps
-
 - name: React Express
   url: http://www.react.express/
   category: Front End Dev
@@ -3875,13 +3791,6 @@
   paid: false
   notes: CTF
 
-- name: Secure Set
-  url: https://secureset.com/
-  category: Information Security
-  language:
-  paid: true
-  notes: Cyber Security Boot Camp
-
 - name: Why Learning to Code is So Hard
   url: http://lifehacker.com/why-learning-to-code-is-so-hard-and-what-you-can-do-ab-1685229278
   category: Getting Started
@@ -3916,13 +3825,6 @@
   language:
   paid: false
   notes:
-
-- name: Go Remote Jobs
-  url: https://goremotejobs.com/
-  category: Jobs
-  language:
-  paid: false
-  notes: Remote Job Board
 
 - name: WFH.io
   url: http://wfh.io
@@ -4981,13 +4883,6 @@
   paid: false
   notes:
 
-- name: What is Functional Programming All About
-  url: http://www.lihaoyi.com/post/WhatsFunctionalProgrammingAllAbout.html
-  category: Functional Programming
-  language: multiple
-  paid: false
-  notes:
-
 - name: Understanding the Linux Kernel
   url: https://www.amazon.com/Understanding-Linux-Kernel-Third-Daniel/dp/0596005652
   category: Books
@@ -5057,13 +4952,6 @@
   language: JavaScript
   paid: false
   notes: Curated tutorial and resource links I've collected on React, Redux, ES6, and more
-
-- name: Salary Negotiation
-  url: http://www.kalzumeus.com/2012/01/23/salary-negotiation/
-  category: Jobs
-  language:
-  paid: false
-  notes:
 
 - name: Adversarial Learning
   url: http://adversariallearning.com/
@@ -6073,13 +5961,6 @@
   paid: false
   notes:
 
-- name: US Military Veterans
-  url: https://www.upwork.com/groups/us-military-veterans
-  category: Veterans
-  language:
-  paid: false
-  notes: Upwork Group
-
 - name: Learn the basics of Chef
   url: https://learn.chef.io/modules/learn-the-basics/rhel#/
   category: Tutorials
@@ -6422,13 +6303,6 @@
   language:
   paid: false
   notes:
-
-- name: Sean Allen
-  url: https://www.youtube.com/channel/UCbTw29mcP12YlTt1EpUaVJw
-  category: Mobile Dev
-  language: iOS
-  paid: false
-  notes: 3 iOS dev videos per week
 
 - name: Rico's Cheat Sheets
   url: http://devhints.io
@@ -6969,13 +6843,6 @@
   paid: false
   notes: An Information Security Reference That Doesn't Suck https://rmusser.net/docs
 
-- name: Web App Sec class
-  url: https://www.youtube.com/playlist?list=PL-giMT7sGCVI9T4rKhuiTG4EDmUz-arBo
-  category: Information Security
-  language:
-  paid: false
-  notes:
-
 - name: Exploring Information Security podcast
   url: http://www.timothydeblock.com/eis/
   category: Podcasts
@@ -7045,13 +6912,6 @@
   language: JavaScript
   paid: false
   notes: Just for future reference, when you're drinking bag-in-box wine and have a bit too much time on your hands, don't buy domain names. I did that, and it kind of ballooned into this huge Christmas calendar adventure. Oh well.
-
-- name: Vue.js 2 The complete guide
-  url: https://www.udemy.com/vuejs-2-the-complete-guide/
-  category: Front End Dev
-  language: JavaScript
-  paid: true
-  notes:
 
 - name: The Magic of Learning
   url: https://bitvijays.github.io/
@@ -7185,13 +7045,6 @@
   language:
   paid: true
   notes: Information Security
-
-- name: Pico CTF
-  url: https://picoctf.com/
-  category: Information Security
-  language:
-  paid: false
-  notes:
 
 - name: Flaws
   url: http://flaws.cloud/
@@ -10126,13 +9979,6 @@
   paid: false
   notes: This channel is focused on creating tutorials and walkthroughs for software developers, programmers, and engineers.
 
-- name: The Flask Mega-Tutorial
-  url: https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
-  category: Back End Dev
-  language: Python
-  paid: false
-  notes:
-
 - name: Talk Python Training
   url: https://training.talkpython.fm/courses/all
   category: Online Courses
@@ -10158,13 +10004,6 @@
   url: https://kubernetes.io/docs/tutorials/kubernetes-basics/
   category: Tutorials
   language:
-  paid: false
-  notes:
-
-- name: Violent Python
-  url: https://7chan.org/pr/src/Violent_Python_A_Cookbook_for_Hackers_Forensic_Ana.pdf
-  category: Books
-  language: Python
   paid: false
   notes:
 
@@ -10223,13 +10062,6 @@
   language:
   paid: true
   notes: Find and prevent zero-days and other critical bugs, with customizable alerts and automated code review.
-
-- name: WebAppSec Class
-  url: https://www.youtube.com/playlist?list=PL-giMT7sGCVI9T4rKhuiTG4EDmUz-arBo
-  category: Information Security
-  language:
-  paid: false
-  notes:
 
 - name: Information Security Learning Resources
   url: https://docs.google.com/spreadsheets/d/12bT8APhWsL-P8mBtWCYu4MLftwG1cPmIL25AEBtXDno/edit#gid=944164995
@@ -10507,13 +10339,6 @@
 - name: Free Security Resources
   url: https://www.auditscripts.com/free-resources/
   category: Information Security
-  language:
-  paid: false
-  notes:
-
-- name: Android Courses @ Udacity
-  url: https://github.com/Enteleform/-RES-/blob/master/%5BLinks%5D/%5BAndroid%5D%20Udacity%20Curriculum.md
-  category: Mobile Dev
   language:
   paid: false
   notes:
