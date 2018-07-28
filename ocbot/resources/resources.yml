@@ -9265,7 +9265,7 @@
   paid: false
   notes:
 
-- name: Smashing Security 
+- name: Smashing Security
   url: https://www.smashingsecurity.com/
   category: Podcasts
   language:
@@ -9286,14 +9286,14 @@
   paid: false
   notes:
 
-- name: Rally Security 
+- name: Rally Security
   url: https://rallysecurity.com
   category: Podcasts
   language:
   paid: false
   notes:
 
-- name: Social-engineer Podcast 
+- name: Social-engineer Podcast
   url: https://www.social-engineer.org/category/podcast
   category: Podcasts
   language:
@@ -9307,7 +9307,7 @@
   paid: false
   notes:
 
-- name: Open Source Security 
+- name: Open Source Security
   url: https://www.opensourcesecuritypodcast.com/
   category: Podcasts
   language:
@@ -9328,7 +9328,7 @@
   paid: false
   notes: A podcast about the internet that is actually an unfailingly original exploration of modern life and how to survive it
 
-- name: Packet Pushers 
+- name: Packet Pushers
   url: http://packetpushers.net/
   category: Podcasts
   language:
@@ -9377,7 +9377,7 @@
   paid: false
   notes:
 
-- name: Career Tools 
+- name: Career Tools
   url: https://player.fm/series/career-tools
   category: Podcasts
   language:
@@ -9470,7 +9470,7 @@
 
 - name: Cloud Security - Quick Reference
   url: https://binarymist.io/publication/cloud-security/
-  category: Books 
+  category: Books
   language:
   paid: true
   notes: Information Security
@@ -9505,7 +9505,7 @@
 
 - name: Tynker
   url: https://www.tynker.com/
-  category: Programming for Kids 
+  category: Programming for Kids
   language: multiple
   paid: true
   notes: Coding for Kids
@@ -9547,8 +9547,8 @@
 
 - name: .Net Rocks!
   url: https://www.dotnetrocks.com/
-  category: Podcasts 
-  language: dot net 
+  category: Podcasts
+  language: dot net
   paid: false
   notes:
 
@@ -9557,7 +9557,7 @@
   category: Web Development
   language:
   paid: false
-  notes: A collective list of free APIs for use in web development. 
+  notes: A collective list of free APIs for use in web development.
 
 - name: How to prepare for an infosec interview
   url: http://www.timothydeblock.com/eis/135
@@ -9622,7 +9622,7 @@
   paid: true
   notes: OpenSOC is a blue team defense simulation that is as close to "the real thing" as it gets
 
-- name: Front-End Developer Handbook 2018 
+- name: Front-End Developer Handbook 2018
   url: https://frontendmasters.com/books/front-end-handbook/2018/
   category: Front End Dev
   language:
@@ -9631,8 +9631,8 @@
 
 - name: Shell Scripting Tutorial
   url: https://www.shellscript.sh/
-  category: Tutorials 
-  language: Bourne Shell 
+  category: Tutorials
+  language: Bourne Shell
   paid: false
   notes:
 
@@ -9641,10 +9641,10 @@
   category: Books
   language:
   paid: true
-  notes: 
+  notes:
 
 - name: PoC || GTFO
-  url: https://nostarch.com/gtfo 
+  url: https://nostarch.com/gtfo
   category: Books
   language:
   paid: true
@@ -9683,7 +9683,7 @@
   category: Veterans
   language:
   paid: false
-  notes: Military veterans - Get a scholarship to learn programming. 
+  notes: Military veterans - Get a scholarship to learn programming.
 
 - name: Google’s Grasshopper app teaches you how to code
   url: https://www.engadget.com/2018/04/19/google-grasshopper-app-learn-code-javascript/
@@ -9741,7 +9741,7 @@
   paid: false
   notes: Information Security
 
-- name: Lockboxx Blog 
+- name: Lockboxx Blog
   url: http://lockboxx.blogspot.com/
   category: Information Security
   language:
@@ -9752,7 +9752,7 @@
   url: https://www.elearnsecurity.com/course/penetration_testing_student/
   category: Information Security
   language:
-  paid: true 
+  paid: true
   notes:
 
 - name: Malware Analysis Challenge to Strengthen Your Skills
@@ -9839,7 +9839,7 @@
   paid: false
   notes:
 
-- name: Warrior JS 
+- name: Warrior JS
   url: https://warrior.js.org/
   category: Front End Dev
   language: JavaScript
@@ -9909,7 +9909,7 @@
   paid: false
   notes:
 
-- name: Functional Programming in JavaScript 
+- name: Functional Programming in JavaScript
   url: https://www.manning.com/books/functional-programming-in-javascript
   category: Functional Programming
   language: JavaScript
@@ -9988,7 +9988,7 @@
 
 - name: Raspberry Pi Education Manual
   url: http://pi.cs.man.ac.uk/download/Raspberry_Pi_Education_Manual.pdf
-  category: Books 
+  category: Books
   language:
   paid: false
   notes:
@@ -10240,7 +10240,7 @@
 
 - name: Awesome Talks
   url: https://awesometalks.party/
-  category: News 
+  category: News
   language:
   paid: false
   notes:
@@ -10287,7 +10287,7 @@
   paid: false
   notes: A collection of open source and commercial tools that aid in red team operations
 
-- name: THE ELITE MICROSOFT HACKER TEAM THAT KEEPS WINDOWS PCS SAFE 
+- name: THE ELITE MICROSOFT HACKER TEAM THAT KEEPS WINDOWS PCS SAFE
   url: https://www.wired.com/story/microsoft-windows-red-team/
   category: Information Security
   language:
@@ -10357,7 +10357,7 @@
   paid: false
   notes: Information Security
 
-- name: UNIX Tutorial for Beginners 
+- name: UNIX Tutorial for Beginners
   url: http://www.ee.surrey.ac.uk/Teaching/Unix/
   category: Tutorials
   language:
@@ -10371,7 +10371,7 @@
   paid: false
   notes:
 
-- name: Talking Code 
+- name: Talking Code
   url: http://talkingcode.com/
   category: Podcasts
   language:
@@ -10405,3 +10405,24 @@
   language:
   paid: false
   notes:
+
+- name: Security for the Masses
+  url: https://rmccurdy.com/
+  category: Information Security
+  language:
+  paid: false
+  notes: The site of a leading InfoSec professional. Has Scripts, Videos and Comics
+
+- name: Federal And State Technology Partnership Program
+  url: https://www.sbir.gov/about-fast
+  category: Entrepreneurship
+  language:
+  paid: false
+  notes: outreach, financial support, and technical assistance to small businesses
+
+- name: How I got 7 Job Offers in 8 Weeks
+  url: https://blog.usejournal.com/how-i-got-7-job-offers-in-8-weeks-part-1-please-interview-me-21e6f4ded106
+  category: Jobs
+  language:
+  paid: false
+  notes: Blog Post
