@@ -28,8 +28,11 @@ class NewAirtableRequestHandler(RouteHandler):
         else:
             self.api_dict['user'] = self._event['Slack User']
 
-        matches = Airtable.find_mentors_with_matching_skillsets(self._event['Skillsets'])
-        ids = self.get_mentor_slack_ids(matches)
+        if 'Skillsets' in self._event:
+            matches = Airtable.find_mentors_with_matching_skillsets(self._event['Skillsets'])
+            ids = self.get_mentor_slack_ids(matches)
+        else:
+            ids = ['No Skillset Given']
 
         self.api_dict['matches'] = ids
 
@@ -49,7 +52,6 @@ class NewAirtableRequestHandler(RouteHandler):
         else:
             self.text_dict['details'] = f"Additional details: None Given"
 
-        self.text_dict['details'] = f"Additional details: {self._event['Details']}"
         self.text_dict['matches'] = "Mentors matching all or some of the requested skillsets: " + ' '.join(
             self.api_dict['matches'])
 
