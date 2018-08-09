@@ -23,6 +23,7 @@ sqlalchemy-utils = "*"
 zipcodes = "*"
 
 [dev-packages]
+awsebcli = "*"
 
 [requires]
 python_version = "3.6"
