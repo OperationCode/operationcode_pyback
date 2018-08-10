@@ -36,4 +36,4 @@ def RoutingHandler(json_data: dict, route_id: str=None) -> None:
         handler.event_route()
 
     except KeyError as error:
-        logger.log(logging.WARN, f'Key Error.  Error: {error}.  Executing class: {class_route}')
+        logger.exception(error)
