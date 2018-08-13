@@ -7,7 +7,7 @@ from flask import jsonify
 
 from config.all_config_loader import configs
 
-recaptcha_secret = configs['RECAPTCHA_SECRET']
+recaptcha_secret = configs['GOOGLE_RECAPTCHA_SECRET']
 github_jwt = configs['GITHUB_JWT']
 repo_path = configs['GITHUB_REPO_PATH']
 
