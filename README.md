@@ -1,3 +1,15 @@
+# This REPO IS DEPRECATED
+
+The replacement repositories can be viewed:
+
+[pybot](https://github.com/OperationCode/operationcode-pybot)
+[pyback](https://github.com/OperationCode/operationcode-pyback)
+
+Last bit of work here is to transfer [issues over](https://github.com/OperationCode/operationcode_pyback/issues/70)
+
+
+
+
 # [OperationCodePyBot](https://github.com/OperationCode/operation_code_pybot)
 
 [![Build Status](https://travis-ci.org/OperationCode/operationcode_pyback.svg?branch=master)](https://travis-ci.org/OperationCode/operationcode_pyback)
